@@ -2,8 +2,9 @@
   "name": "@8x-flow/yaml-script",
   "version": "1.0.0",
   "description": "A YAML DSL for 8X flow business object models",
-  "main": "src/main.js",
+  "main": "lib/main.js",
   "scripts": {
+    "prepack": "babel src -d lib",
     "test": "jest --coverage"
   },
   "author": "Vincent Xu",
@@ -16,6 +17,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
-    "js-yaml": "^3.14.0"
+    "js-yaml": "^3.14.0",
+    "yargs": "^15.4.0"
   }
 }
