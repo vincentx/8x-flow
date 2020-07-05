@@ -5,14 +5,17 @@ const yaml = {
     required: {
         timestamp: (entity) =>
             commaSeparated(
-                arrayOnly(`${entity.id} must have timestamps`, json.attr.timestamp))(entity.key_timestamps)
+                arrayOnly(`${entity.id} must have timestamps`,
+                    json.attr.timestamp))(entity.key_timestamps)
     },
     optional: {
         desc: (entity) => optional('', _ => _.toString())(entity.desc),
-        timestamp: (entity) => acceptBlank(entity.key_timestamps, [], _ => yaml.required.timestamp(entity)),
-        data: (entity) => acceptBlank(entity.key_data, [], _1 =>
-            acceptCommaSeparated(_1, _2 =>
-                onlyAcceptArray(_2, `${entity.id} have malformed data declaration`, json.attr.data))),
+        timestamp: (entity) => optional( [], _ => yaml.required.timestamp(entity))(entity.key_timestamps),
+        data: (entity) =>
+            optional([],
+                commaSeparated(
+                    arrayOnly(`${entity.id} have malformed data declaration`,
+                        json.attr.data)))(entity.key_data),
         details: (entity, f) => hasMany(entity.details, f),
         fulfillment: (entity, f) => hasMany(entity.fulfillment, f),
     }
