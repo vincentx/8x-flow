@@ -2,9 +2,9 @@
   "name": "@8x-flow/yaml-script",
   "version": "1.0.0",
   "description": "A YAML DSL for 8X flow business object models",
-  "main": "index.js",
+  "main": "src/main.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "author": "Vincent Xu",
   "license": "MIT",

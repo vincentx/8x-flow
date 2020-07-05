@@ -167,7 +167,7 @@ describe('Contract Declaration', () => {
 
         test('should throw exception if detail with malformed data', () => {
             expect(() => parse(yml('contract/details/with-malformed')))
-                .toThrow('Order/Order Item has malformed declaration');
+                .toThrow('Order details has malformed declaration');
         });
     });
 });
