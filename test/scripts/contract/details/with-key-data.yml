@@ -1,0 +1,7 @@
+contract: Order
+key_timestamp:
+  - created_at
+details:
+  - Order Item:
+      key_data: amount
+

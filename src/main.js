@@ -35,19 +35,31 @@ function parseContract(context, model) {
 function parseContractDetails(context, contract, details) {
     acceptCommaSeparated(details, _1 =>
         acceptArray(_1, _2 =>
-            _2.forEach(_3 => parseContractDetail(context, contract, _3))
-        ));
+            _2.forEach(_3 => parseContractDetail(context, contract, _3))));
 }
 
 function parseContractDetail(context, contract, detail) {
-    context.result.models.push({
-        id: detail,
-        attributes: []
-    });
+    function createDetail() {
+        if (typeof detail === 'string' || detail instanceof String)
+            return {id: detail, attributes: []};
+        let keys = Object.keys(detail);
+        if (keys.length === 1) {
+            let name = keys[0];
+            let declaration = detail[name];
+            return {
+                id: name,
+                attributes: parseDetailTimestamp(`${contract.id}/${name}`, declaration.key_timestamp).concat(
+                    parseData(`${contract.id}/${name}`, declaration.key_data))
+            };
+        }
+    }
 
+    let contractDetail = createDetail();
+
+    context.result.models.push(contractDetail);
     context.result.relationships.push({
         source: contract.id,
-        target: detail,
+        target: contractDetail.id,
         type: 'details'
     });
 }
@@ -56,6 +68,11 @@ function parseTimestamp(contract, attributes) {
     return acceptCommaSeparated(attributes, _1 =>
         onlyAcceptArray(_1, `Contract ${contract} must have timestamps`, _2 =>
             _2.map(toTimestamp)));
+}
+
+function parseDetailTimestamp(contract, attributes) {
+    return acceptBlank(attributes, [], _1 =>
+        parseTimestamp(contract, _1));
 }
 
 function parseData(contract, data) {

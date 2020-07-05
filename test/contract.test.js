@@ -119,6 +119,48 @@ describe('Contract Declaration', () => {
             expect(manufacture_order_recipe.type).toBe('details');
 
         });
+
+        test('should define details with key_data', () => {
+            let result = parse(yml('contract/details/with-key-data'));
+
+            let models = result.models;
+            let relationships = result.relationships;
+
+            expect(models.length).toBe(2);
+            expect(relationships.length).toBe(1);
+
+            let order_item = result.models[1];
+            expect(order_item.id).toBe('Order Item');
+            expect(order_item.attributes.length).toBe(1);
+            expect(order_item.attributes[0].name).toBe('amount');
+            expect(order_item.attributes[0].type).toBe('data');
+
+            let order_order_item = relationships[0];
+            expect(order_order_item.source).toBe('Order');
+            expect(order_order_item.target).toBe('Order Item');
+            expect(order_order_item.type).toBe('details');
+        });
+
+        test('should define details with key_timestamp', () => {
+            let result = parse(yml('contract/details/with-key-timestamp'));
+
+            let models = result.models;
+            let relationships = result.relationships;
+
+            expect(models.length).toBe(2);
+            expect(relationships.length).toBe(1);
+
+            let order_item = result.models[1];
+            expect(order_item.id).toBe('Order Item');
+            expect(order_item.attributes.length).toBe(1);
+            expect(order_item.attributes[0].name).toBe('add_to_cart_at');
+            expect(order_item.attributes[0].type).toBe('timestamp');
+
+            let order_order_item = relationships[0];
+            expect(order_order_item.source).toBe('Order');
+            expect(order_order_item.target).toBe('Order Item');
+            expect(order_order_item.type).toBe('details');
+        })
     });
 });
 
