@@ -1,5 +1,5 @@
 contract: Order
 key_data:
   - total_price
-key_timestamp:
+key_timestamps:
   - created_at

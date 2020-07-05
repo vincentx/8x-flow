@@ -1,7 +1,7 @@
 contract: Order
-key_timestamp:
+key_timestamps:
   - created_at
 details:
   - Order Item:
-      key_timestamp: add_to_cart_at
+      key_timestamps: add_to_cart_at
 

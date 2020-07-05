@@ -24,7 +24,7 @@ function parseModel(context, model) {
 function parseContract(context, model) {
     let contract = {
         id: model.contract,
-        attributes: parseTimestamp(model.contract, model.key_timestamp).concat(parseData(model.contract, model.key_data))
+        attributes: parseTimestamp(model.contract, model.key_timestamps).concat(parseData(model.contract, model.key_data))
     }
 
     context.result.models.push(contract);
@@ -48,7 +48,7 @@ function parseContractDetail(context, contract, detail) {
             let declaration = detail[name];
             return {
                 id: name,
-                attributes: parseDetailTimestamp(`${contract.id}/${name}`, declaration.key_timestamp).concat(
+                attributes: parseDetailTimestamp(`${contract.id}/${name}`, declaration.key_timestamps).concat(
                     parseData(`${contract.id}/${name}`, declaration.key_data))
             };
         }

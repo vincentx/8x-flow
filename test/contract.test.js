@@ -5,7 +5,7 @@ import {describe, expect, test} from "@jest/globals";
 describe('Contract Declaration', () => {
     describe('Basic', () => {
         test('should be defined with key timestamp', () => {
-            let result = parse(yml('contract/basic/with-key-timestamp')).models;
+            let result = parse(yml('contract/basic/with-key-timestamps')).models;
 
             expect(result.length).toBe(1);
 
@@ -19,7 +19,7 @@ describe('Contract Declaration', () => {
         });
 
         test('should accept comma separated timestamps', () => {
-            let result = parse(yml('contract/basic/with-comma-separated-timestamp')).models;
+            let result = parse(yml('contract/basic/with-comma-separated-timestamps')).models;
 
             expect(result.length).toBe(1);
 
@@ -141,8 +141,8 @@ describe('Contract Declaration', () => {
             expect(order_order_item.type).toBe('details');
         });
 
-        test('should define details with key_timestamp', () => {
-            let result = parse(yml('contract/details/with-key-timestamp'));
+        test('should define details with key_timestamps', () => {
+            let result = parse(yml('contract/details/with-key-timestamps'));
 
             let models = result.models;
             let relationships = result.relationships;
