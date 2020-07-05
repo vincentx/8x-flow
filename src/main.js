@@ -68,12 +68,16 @@ function createFulfillment(context, contract, fulfillment) {
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
     } else if (Object.keys(fulfillment).length === 1) {
-        let name = Object.keys(fulfillment)[0].split(COMMA_SEPARATED);
+        let name = Object.keys(fulfillment)[0];
+
         if (notObject(fulfillment[name])) throw `${contract.id} fulfillment has malformed declaration`;
+
         let declaration = withId(fulfillment[name], name);
 
-        let request = context.model(json.model.fulfillmentRequest(name.concat('Request').join(' ')));
-        let confirmation = context.model(json.model.fulfillmentConfirmation(name.concat('Confirmation').join(' ')));
+        let request = context.model(json.model.fulfillmentRequest(name.split(COMMA_SEPARATED).concat('Request').join(' '),
+            yaml.optional.desc(declaration)));
+        let confirmation = context.model(json.model.fulfillmentConfirmation(name.split(COMMA_SEPARATED)
+            .concat('Confirmation').join(' ')));
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));

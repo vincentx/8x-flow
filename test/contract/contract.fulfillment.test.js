@@ -79,4 +79,20 @@ describe('Contract Fulfillment Declaration', () => {
         expect(() => parse(yml('contract/fulfillment/with-malformed-map-num')))
             .toThrow('Order fulfillment has malformed declaration');
     });
+
+    test('should append fulfillment desc to request', () => {
+        let result = parse(yml('contract/fulfillment/with-fulfillment-desc'));
+
+        expect(result.models.length).toBe(3);
+        let order_payment_request = result.models[1];
+        expect(order_payment_request.id).toBe('Order Payment Request');
+        expect(order_payment_request.desc).toBe('Order Payment');
+        expect(order_payment_request.archetype).toBe('fulfillment');
+
+        let order_payment_confirmation = result.models[2];
+        expect(order_payment_confirmation.id).toBe('Order Payment Confirmation');
+        expect(order_payment_confirmation.archetype).toBe('fulfillment');
+        expect(order_payment_confirmation.desc).toBe('');
+
+    });
 });

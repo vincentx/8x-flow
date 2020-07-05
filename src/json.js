@@ -6,7 +6,7 @@ export default {
     model: {
         contract: (name, desc, ...attributes) => model(name, desc, 'contract', ...attributes),
         contractDetails: (name, desc, ...attributes) => model(name, desc || '', 'contract-details', ...attributes),
-        fulfillmentRequest: (name) => model(name, '', 'fulfillment'),
+        fulfillmentRequest: (name, desc) => model(name, desc || '', 'fulfillment'),
         fulfillmentConfirmation: (name) => model(name, '', 'fulfillment')
     },
     rel: {
