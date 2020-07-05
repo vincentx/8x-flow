@@ -1,7 +1,7 @@
 import jsyaml from 'js-yaml';
 import json from './json';
 import yaml from "./yaml";
-import {isString, withId} from "./utils";
+import {COMMA_SEPARATED, isString, withId} from "./utils";
 
 export function parse(script) {
     let models = jsyaml.load(script);
@@ -59,7 +59,18 @@ function createContractDetail(contract, detail) {
 
 function createFulfillment(context, contract, fulfillment) {
     if (isString(fulfillment)) {
-        let name = fulfillment.split(/[ ,]+/);
+        let name = fulfillment.split(COMMA_SEPARATED);
+
+        let request = context.model(json.model.fulfillmentRequest(name.concat('Request').join(' ')));
+        let confirmation = context.model(json.model.fulfillmentConfirmation(name.concat('Confirmation').join(' ')));
+
+        context.rel(json.rel.fulfillment(contract, request));
+        context.rel(json.rel.confirmation(request, confirmation));
+    }
+
+    if (Object.keys(fulfillment).length === 1) {
+        let name = Object.keys(fulfillment)[0].split(COMMA_SEPARATED);
+        let declaration = withId(fulfillment[name], name);
 
         let request = context.model(json.model.fulfillmentRequest(name.concat('Request').join(' ')));
         let confirmation = context.model(json.model.fulfillmentConfirmation(name.concat('Confirmation').join(' ')));

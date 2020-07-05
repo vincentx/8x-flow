@@ -1,5 +1,5 @@
 import json from "./json";
-import {isString} from "./utils";
+import {COMMA_SEPARATED, isString} from "./utils";
 
 const yaml = {
     required: {
@@ -35,7 +35,7 @@ function acceptBlank(data, result, next) {
 }
 
 function acceptCommaSeparated(data, next) {
-    return next(isString(data) ? data.split(/[ ]*,[ ]*/) : data);
+    return next(isString(data) ? data.split(COMMA_SEPARATED) : data);
 }
 
 function onlyAcceptArray(data, message, next) {

@@ -3,6 +3,9 @@ export function isString(o) {
 }
 
 export function withId(o, id) {
+    if (!o) return {};
     o.id = id;
     return o;
 }
+
+export const COMMA_SEPARATED = /[ ]*,[ ]*/;
