@@ -160,7 +160,12 @@ describe('Contract Declaration', () => {
             expect(order_order_item.source).toBe('Order');
             expect(order_order_item.target).toBe('Order Item');
             expect(order_order_item.type).toBe('details');
-        })
+        });
+
+        test('should throw exception if detail with malformed data', () => {
+            expect(() => parse(yml('contract/details/with-malformed')))
+                .toThrow('Order/Order Item has malformed declaration');
+        });
     });
 });
 

@@ -39,19 +39,20 @@ function parseContractDetails(context, contract, details) {
 }
 
 function parseContractDetail(context, contract, detail) {
+    function from(name, declaration) {
+        return {
+            id: name,
+            attributes: parseDetailTimestamp(`${contract.id}/${name}`, declaration.key_timestamps).concat(
+                parseData(`${contract.id}/${name}`, declaration.key_data))
+        };
+    }
+
     function createDetail() {
         if (typeof detail === 'string' || detail instanceof String)
             return {id: detail, attributes: []};
         let keys = Object.keys(detail);
-        if (keys.length === 1) {
-            let name = keys[0];
-            let declaration = detail[name];
-            return {
-                id: name,
-                attributes: parseDetailTimestamp(`${contract.id}/${name}`, declaration.key_timestamps).concat(
-                    parseData(`${contract.id}/${name}`, declaration.key_data))
-            };
-        }
+        if (keys.length !== 1) throw `${contract.id}/${keys[0]} has malformed declaration`;
+        return from(keys[0], detail[keys[0]]);
     }
 
     let contractDetail = createDetail();
