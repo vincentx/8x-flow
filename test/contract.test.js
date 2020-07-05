@@ -144,6 +144,28 @@ describe('Contract Declaration', () => {
             expect(order_order_item.type).toBe('details');
         });
 
+        test('should define details with map', () => {
+            let result = parse(yml('contract/details/with-map-details'));
+
+            let models = result.models;
+            let relationships = result.relationships;
+
+            expect(models.length).toBe(2);
+            expect(relationships.length).toBe(1);
+
+            let order_item = result.models[1];
+            expect(order_item.id).toBe('Order Item');
+            expect(order_item.archetype).toBe('contract-details');
+            expect(order_item.attributes.length).toBe(1);
+            expect(order_item.attributes[0].name).toBe('amount');
+            expect(order_item.attributes[0].type).toBe('data');
+
+            let order_order_item = relationships[0];
+            expect(order_order_item.source).toBe('Order');
+            expect(order_order_item.target).toBe('Order Item');
+            expect(order_order_item.type).toBe('details');
+        });
+
         test('should define details with key_timestamps', () => {
             let result = parse(yml('contract/details/with-key-timestamps'));
 

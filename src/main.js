@@ -58,7 +58,8 @@ function parseContractDetails(context, contract, details) {
     }
 
     acceptCommaSeparated(details, _1 =>
-        acceptArray(_1, _2 => _2.forEach(parseContractDetail)));
+        acceptArray(_1, _2 => _2.forEach(parseContractDetail), _3 =>
+            acceptMap(_3, _4 => _4.forEach(parseContractDetail))));
 }
 
 
@@ -98,6 +99,15 @@ function acceptArray(data, handle, next) {
     if (Array.isArray(data)) return handle(data);
     return next(data);
 }
+
+function acceptMap(data, next) {
+    next(Object.keys(data).map(function (key) {
+        let result = {};
+        result[key] = data[key];
+        return result;
+    }));
+}
+
 
 function isString(o) {
     return typeof o === 'string' || o instanceof String

@@ -7,6 +7,9 @@
     "prepack": "babel src -d lib",
     "test": "jest --coverage"
   },
+  "bin" : {
+    "8xscript": "./bin/8xscript"
+  },
   "author": "Vincent Xu",
   "license": "MIT",
   "devDependencies": {
