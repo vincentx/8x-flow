@@ -11,6 +11,7 @@ describe('Contract Declaration', () => {
 
             let order = result[0];
             expect(order.id).toBe('Order');
+            expect(order.archetype).toBe('contract');
             expect(order.attributes.length).toBe(1);
 
             let created_at = order.attributes[0];
@@ -84,6 +85,7 @@ describe('Contract Declaration', () => {
 
             let order_item = result.models[1];
             expect(order_item.id).toBe('Order Item');
+            expect(order_item.archetype).toBe('contract-details');
             expect(order_item.attributes.length).toBe(0);
 
             let order_order_item = relationships[0];
@@ -131,6 +133,7 @@ describe('Contract Declaration', () => {
 
             let order_item = result.models[1];
             expect(order_item.id).toBe('Order Item');
+            expect(order_item.archetype).toBe('contract-details');
             expect(order_item.attributes.length).toBe(1);
             expect(order_item.attributes[0].name).toBe('amount');
             expect(order_item.attributes[0].type).toBe('data');
