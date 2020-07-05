@@ -35,7 +35,7 @@ function acceptBlank(data, result, next) {
 }
 
 function acceptCommaSeparated(data, next) {
-    return next(isString(data) ? data.split(/[ ,]+/) : data);
+    return next(isString(data) ? data.split(/[ ]*,[ ]*/) : data);
 }
 
 function onlyAcceptArray(data, message, next) {
