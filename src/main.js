@@ -10,8 +10,10 @@ export function parse(script) {
         }
     }
 
-    if (!Array.isArray(models)) parseModel(context, models);
+    if (models === undefined) return context.result;
 
+    if (!Array.isArray(models)) parseModel(context, models);
+    
     return context.result;
 }
 
@@ -29,9 +31,9 @@ function parseContract(context, model) {
 }
 
 function parseTimestamp(contract, attributes) {
-    if (Array.isArray(attributes)) return attributes.map(a => Object.create({name: a, type: 'timestamp'}));
-    if (typeof attributes === 'string' || attributes instanceof String)
-        return attributes.split(/[ ,]+/).map(a => Object.create({name: a, type: 'timestamp'}));
-    throw `Contract ${contract} must have timestamps`;
+    if (typeof attributes === 'string' || attributes instanceof String) attributes = attributes.split(/[ ,]+/);
+    if (!Array.isArray(attributes)) throw `Contract ${contract} must have timestamps`;
+
+    return attributes.map(_ => Object.create({name: _, type: 'timestamp'}))
 }
 
