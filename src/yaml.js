@@ -3,20 +3,16 @@ import {COMMA_SEPARATED, isString} from "./utils";
 
 const yaml = {
     required: {
-        timestamp: function (entity) {
-            return acceptCommaSeparated(entity.key_timestamps, _1 =>
-                onlyAcceptArray(_1, `${entity.id} must have timestamps`, _2 =>
-                    _2.map(json.attr.timestamp)));
-
-        }
+        timestamp: (entity) =>
+            commaSeparated(
+                arrayOnly(`${entity.id} must have timestamps`, json.attr.timestamp))(entity.key_timestamps)
     },
     optional: {
-        desc: (entity) => acceptBlank(entity.desc, '', _ => _),
+        desc: (entity) => optional('', _ => _.toString())(entity.desc),
         timestamp: (entity) => acceptBlank(entity.key_timestamps, [], _ => yaml.required.timestamp(entity)),
         data: (entity) => acceptBlank(entity.key_data, [], _1 =>
             acceptCommaSeparated(_1, _2 =>
-                onlyAcceptArray(_2, `${entity.id} have malformed data declaration`, _3 =>
-                    _3.map(json.attr.data)))),
+                onlyAcceptArray(_2, `${entity.id} have malformed data declaration`, json.attr.data))),
         details: (entity, f) => hasMany(entity.details, f),
         fulfillment: (entity, f) => hasMany(entity.fulfillment, f),
     }
@@ -29,18 +25,35 @@ function hasMany(value, f) {
                 acceptMap(_4, _5 => _5.forEach(f)))));
 }
 
+function optional(result, next) {
+    return (data) => {
+        if (!data) return result;
+        return next(data);
+    };
+}
+
 function acceptBlank(data, result, next) {
     if (!data) return result;
     return next(data);
+}
+
+function commaSeparated(next) {
+    return (data) => acceptCommaSeparated(data, next);
 }
 
 function acceptCommaSeparated(data, next) {
     return next(isString(data) ? data.split(COMMA_SEPARATED) : data);
 }
 
-function onlyAcceptArray(data, message, next) {
+function arrayOnly(message, f) {
+    return (data) => {
+        return onlyAcceptArray(data, message, f);
+    }
+}
+
+function onlyAcceptArray(data, message, f) {
     if (!Array.isArray(data)) throw message;
-    return next(data);
+    return data.map(f);
 }
 
 function acceptArray(data, handle, next) {
