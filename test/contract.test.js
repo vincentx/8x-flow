@@ -204,6 +204,19 @@ describe('Contract Declaration', () => {
             expect(() => parse(yml('contract/details/with-malformed')))
                 .toThrow('Order details has malformed declaration');
         });
+
+        test('should define details with desc', () => {
+            let result = parse(yml('contract/details/with-desc'));
+
+            let models = result.models;
+            let relationships = result.relationships;
+
+            expect(models.length).toBe(2);
+            expect(relationships.length).toBe(1);
+
+            let order_item = result.models[1];
+            expect(order_item.desc).toBe('Order Items');
+        });
     });
 });
 

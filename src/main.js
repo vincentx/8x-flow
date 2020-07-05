@@ -39,12 +39,13 @@ function parseContract(context, model) {
 function parseContractDetails(context, contract, details) {
     function parseContractDetail(detail) {
         function createDetail() {
-            if (isString(detail)) return json.model.contractDetails(detail);
+            if (isString(detail)) return json.model.contractDetails(detail, '');
 
             if (Object.keys(detail).length === 1) {
                 let name = Object.keys(detail)[0];
                 let declaration = withId(detail[name], name);
                 return json.model.contractDetails(name,
+                    parseDesc(declaration),
                     parseDetailTimestamp(declaration),
                     parseData(declaration))
             }

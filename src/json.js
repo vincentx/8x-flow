@@ -5,7 +5,7 @@ export default {
     },
     model: {
         contract: (name, desc, ...attributes) => model(name, desc, 'contract', ...attributes),
-        contractDetails: (name, ...attributes) => model(name, '', 'contract-details', ...attributes)
+        contractDetails: (name,desc, ...attributes) => model(name, desc, 'contract-details', ...attributes)
     },
     rel: {
         details: (source, target) => relationship(source, target, 'details')
