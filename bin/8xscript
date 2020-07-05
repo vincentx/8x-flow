@@ -3,11 +3,19 @@
 const script = require('../lib/main.js');
 const fs = require('fs');
 
-const argv = require('yargs').argv;
+const argv = require('yargs')
+                .usage('Usage: $0 -js [file]')
+                .describe('js', 'Convert YAML model to javascript file which can be loaded to web page')
+                .boolean(['js'])
+                .demandCommand(1)
+                .help('h')
+                .argv;
 
 if (argv._.length === 1) {
     let file = argv._[0];
     let yml = fs.readFileSync(`${process.cwd()}/${file}`).toString();
     let result = script.parse(yml);
+    if (argv.js) console.log('let data = ');
     console.log(JSON.stringify(result, null, 2));
+    if (argv.js) console.log(';');
 };
