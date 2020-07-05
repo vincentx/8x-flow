@@ -34,6 +34,11 @@ describe('Contract Declaration', () => {
             expect(expired_at.name).toBe('expired_at');
             expect(expired_at.type).toBe('timestamp');
         });
+
+        test('should throw exception if no timestamp defined for contract', () => {
+            let script = yml('contract/basic/no-timestamps');
+            expect(() => parse(script)).toThrow('Contract Order must have timestamps');
+        });
     });
 
 });

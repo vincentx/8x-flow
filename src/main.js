@@ -22,16 +22,16 @@ function parseModel(context, model) {
 function parseContract(context, model) {
     let contract = {
         id: model.contract,
-        attributes: parseTimestamp(model.key_timestamp)
+        attributes: parseTimestamp(model.contract, model.key_timestamp)
     }
 
     context.result.models.push(contract);
 }
 
-function parseTimestamp(attributes) {
+function parseTimestamp(contract, attributes) {
     if (Array.isArray(attributes)) return attributes.map(a => Object.create({name: a, type: 'timestamp'}));
     if (typeof attributes === 'string' || attributes instanceof String)
         return attributes.split(/[ ,]+/).map(a => Object.create({name: a, type: 'timestamp'}));
-    return [];
+    throw `Contract ${contract} must have timestamps`;
 }
 
