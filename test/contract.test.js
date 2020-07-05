@@ -1,5 +1,7 @@
 import {parse} from "../src/main";
 import fs from 'fs'
+import {describe, expect, test} from "@jest/globals";
+import jsyaml from 'js-yaml';
 
 describe('Contract Declaration', () => {
     describe('Basic', () => {
@@ -71,6 +73,25 @@ describe('Contract Declaration', () => {
         });
     });
 
+    describe('Details', () => {
+        test('should define details as separated model', () => {
+            let result = parse(yml('contract/details/with-details'));
+
+            let models = result.models;
+            let relationships = result.relationships;
+            expect(models.length).toBe(2);
+            expect(relationships.length).toBe(1);
+
+            let order_item = result.models[1];
+            expect(order_item.id).toBe('Order Item');
+            expect(order_item.attributes.length).toBe(0);
+
+            let order_order_item = relationships[0];
+            expect(order_order_item.source).toBe('Order');
+            expect(order_order_item.target).toBe('Order Item');
+            expect(order_order_item.type).toBe('details');
+        });
+    });
 });
 
 function yml(name) {

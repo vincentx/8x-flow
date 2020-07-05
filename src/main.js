@@ -28,6 +28,25 @@ function parseContract(context, model) {
     }
 
     context.result.models.push(contract);
+
+    if (model.details) parseContractDetails(context, contract, model.details);
+}
+
+function parseContractDetails(context, contract, details) {
+    if (Array.isArray(details)) details.forEach(_ => parseContractDetail(context, contract, _));
+}
+
+function parseContractDetail(context, contract, detail) {
+    context.result.models.push({
+        id: detail,
+        attributes: []
+    });
+
+    context.result.relationships.push({
+        source: contract.id,
+        target: detail,
+        type: 'details'
+    });
 }
 
 function parseTimestamp(contract, attributes) {
