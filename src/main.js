@@ -33,8 +33,10 @@ function parseContract(context, model) {
 }
 
 function parseContractDetails(context, contract, details) {
-    if (typeof details === 'string' || details instanceof String) details = details.split(/[ ,]+/);
-    if (Array.isArray(details)) details.forEach(_ => parseContractDetail(context, contract, _));
+    acceptCommaSeparated(details, _1 =>
+        acceptArray(_1, _2 =>
+            _2.forEach(_3 => parseContractDetail(context, contract, _3))
+        ));
 }
 
 function parseContractDetail(context, contract, detail) {
@@ -51,17 +53,42 @@ function parseContractDetail(context, contract, detail) {
 }
 
 function parseTimestamp(contract, attributes) {
-    if (typeof attributes === 'string' || attributes instanceof String) attributes = attributes.split(/[ ,]+/);
-    if (!Array.isArray(attributes)) throw `Contract ${contract} must have timestamps`;
-
-    return attributes.map(_ => Object.create({name: _, type: 'timestamp'}));
+    return acceptCommaSeparated(attributes, _1 =>
+        onlyAcceptArray(_1, `Contract ${contract} must have timestamps`, _2 =>
+            _2.map(toTimestamp)));
 }
 
 function parseData(contract, data) {
-    if (!data) return [];
-    if (typeof data === 'string' || data instanceof String) data = data.split(/[ ,]+/);
-    if (!Array.isArray(data)) throw `Contract ${contract} have malformed data declaration`;
+    return acceptBlank(data, [], _1 =>
+        acceptCommaSeparated(_1, _2 =>
+            onlyAcceptArray(_2, `Contract ${contract} have malformed data declaration`, _3 =>
+                _3.map(toData))));
+}
 
-    return data.map(_ => Object.create({name: _, type: 'data'}));
+function toData(name) {
+    return {name: name, type: 'data'};
+}
+
+function toTimestamp(name) {
+    return {name: name, type: 'timestamp'};
+}
+
+function acceptBlank(data, result, next) {
+    if (!data) return result;
+    return next(data);
+}
+
+function acceptCommaSeparated(data, next) {
+    return next(typeof data === 'string' || data instanceof String ? data.split(/[ ,]+/) : data);
+}
+
+function onlyAcceptArray(data, message, next) {
+    if (!Array.isArray(data)) throw message;
+    return next(data);
+}
+
+function acceptArray(data, handle, next) {
+    if (Array.isArray(data)) return handle(data);
+    if (next) return next(data);
 }
 

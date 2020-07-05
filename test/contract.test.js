@@ -1,7 +1,6 @@
 import {parse} from "../src/main";
 import fs from 'fs'
 import {describe, expect, test} from "@jest/globals";
-import jsyaml from 'js-yaml';
 
 describe('Contract Declaration', () => {
     describe('Basic', () => {
