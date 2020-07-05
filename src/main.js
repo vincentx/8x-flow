@@ -21,13 +21,13 @@ export function parse(script) {
 
     if (models === undefined) return context.result;
 
-    if (!Array.isArray(models)) parseModel(context, models);
+    parseModel(context, models);
 
     return context.result;
 }
 
 function parseModel(context, model) {
-    if ('contract' in model) parseContract(context, withId(model, model.contract));
+    parseContract(context, withId(model, model.contract));
 }
 
 function parseContract(context, model) {
