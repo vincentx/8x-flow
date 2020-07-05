@@ -121,6 +121,12 @@ describe('Contract Details Declaration', () => {
     test('should throw exception if detail with malformed data', () => {
         expect(() => parse(yml('contract/details/with-malformed')))
             .toThrow('Order details has malformed declaration');
+        expect(() => parse(yml('contract/details/with-malformed-map')))
+            .toThrow('Order details has malformed declaration');
+        expect(() => parse(yml('contract/details/with-malformed-map-list')))
+            .toThrow('Order details has malformed declaration');
+        expect(() => parse(yml('contract/details/with-malformed-map-num')))
+            .toThrow('Order details has malformed declaration');
     });
 
     test('should define details with desc', () => {

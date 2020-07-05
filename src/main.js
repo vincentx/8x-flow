@@ -1,7 +1,7 @@
 import jsyaml from 'js-yaml';
 import json from './json';
 import yaml from "./yaml";
-import {COMMA_SEPARATED, isString, withId} from "./utils";
+import {COMMA_SEPARATED, isString, notObject, withId} from "./utils";
 
 export function parse(script) {
     let models = jsyaml.load(script);
@@ -47,6 +47,7 @@ function createContractDetail(contract, detail) {
 
     if (Object.keys(detail).length === 1) {
         let name = Object.keys(detail)[0];
+        if (notObject(detail[name])) throw `${contract.id} details has malformed declaration`;
         let declaration = withId(detail[name], name);
         return json.model.contractDetails(name,
             yaml.optional.desc(declaration),
@@ -68,6 +69,7 @@ function createFulfillment(context, contract, fulfillment) {
         context.rel(json.rel.confirmation(request, confirmation));
     } else if (Object.keys(fulfillment).length === 1) {
         let name = Object.keys(fulfillment)[0].split(COMMA_SEPARATED);
+        if (notObject(fulfillment[name])) throw `${contract.id} fulfillment has malformed declaration`;
         let declaration = withId(fulfillment[name], name);
 
         let request = context.model(json.model.fulfillmentRequest(name.concat('Request').join(' ')));
