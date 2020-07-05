@@ -22,13 +22,14 @@ export function parse(script) {
 }
 
 function parseModel(context, model) {
-    if ('contract' in model) parseContract(context, model);
+    if ('contract' in model) parseContract(context, withId(model, model.contract));
 }
 
 function parseContract(context, model) {
     let contract = json.model.contract(model.contract,
-        parseTimestamp(model.contract, model.key_timestamps),
-        parseData(model.contract, model.key_data));
+        parseDesc(model),
+        parseTimestamp(model),
+        parseData(model));
 
     context.model(contract);
 
@@ -42,10 +43,10 @@ function parseContractDetails(context, contract, details) {
 
             if (Object.keys(detail).length === 1) {
                 let name = Object.keys(detail)[0];
-                let declaration = detail[name];
+                let declaration = withId(detail[name], name);
                 return json.model.contractDetails(name,
-                    parseDetailTimestamp(`${contract.id}/${name}`, declaration.key_timestamps),
-                    parseData(`${contract.id}/${name}`, declaration.key_data));
+                    parseDetailTimestamp(declaration),
+                    parseData(declaration))
             }
 
             throw `${contract.id} details has malformed declaration`;
@@ -63,21 +64,24 @@ function parseContractDetails(context, contract, details) {
 }
 
 
-function parseTimestamp(contract, attributes) {
-    return acceptCommaSeparated(attributes, _1 =>
-        onlyAcceptArray(_1, `Contract ${contract} must have timestamps`, _2 =>
+function parseTimestamp(entity) {
+    return acceptCommaSeparated(entity.key_timestamps, _1 =>
+        onlyAcceptArray(_1, `${entity.id} must have timestamps`, _2 =>
             _2.map(json.attr.timestamp)));
 }
 
-function parseDetailTimestamp(contract, attributes) {
-    return acceptBlank(attributes, [], _1 =>
-        parseTimestamp(contract, _1));
+function parseDetailTimestamp(entity) {
+    return acceptBlank(entity.key_timestamps, [], _ =>parseTimestamp(entity));
 }
 
-function parseData(contract, data) {
-    return acceptBlank(data, [], _1 =>
+function parseDesc(entity) {
+    return acceptBlank(entity.desc, '', _ => _);
+}
+
+function parseData(entity) {
+    return acceptBlank(entity.key_data, [], _1 =>
         acceptCommaSeparated(_1, _2 =>
-            onlyAcceptArray(_2, `Contract ${contract} have malformed data declaration`, _3 =>
+            onlyAcceptArray(_2, `${entity.id} have malformed data declaration`, _3 =>
                 _3.map(json.attr.data))));
 }
 
@@ -108,6 +112,10 @@ function acceptMap(data, next) {
     }));
 }
 
+function withId(o, id) {
+    o.id = id;
+    return o;
+}
 
 function isString(o) {
     return typeof o === 'string' || o instanceof String

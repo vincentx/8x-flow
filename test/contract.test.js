@@ -36,7 +36,7 @@ describe('Contract Declaration', () => {
         });
 
         test('should throw exception if no timestamp defined for contract', () => {
-            expect(() => parse(yml('contract/basic/no-timestamps'))).toThrow('Contract Order must have timestamps');
+            expect(() => parse(yml('contract/basic/no-timestamps'))).toThrow('Order must have timestamps');
         });
 
         test('should be defined with key data', () => {
@@ -69,6 +69,19 @@ describe('Contract Declaration', () => {
             let type = order.attributes[2];
             expect(type.name).toBe('type');
             expect(type.type).toBe('data');
+
+        });
+
+        test('should be defined with description', () => {
+            let result = parse(yml('contract/basic/with-desc')).models;
+
+            expect(result.length).toBe(1);
+
+            let order = result[0];
+            expect(order.id).toBe('Order');
+            expect(order.archetype).toBe('contract');
+            expect(order.desc).toBe('Purchard Order Contract');
+            expect(order.attributes.length).toBe(1);
 
         });
     });
