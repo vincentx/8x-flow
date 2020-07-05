@@ -17,12 +17,16 @@ const yaml = {
             acceptCommaSeparated(_1, _2 =>
                 onlyAcceptArray(_2, `${entity.id} have malformed data declaration`, _3 =>
                     _3.map(json.attr.data)))),
-        details: (entity, f) =>
-            acceptBlank(entity.details, [], _1 =>
-                acceptCommaSeparated(_1, _2 =>
-                    acceptArray(_2, _3 => _3.forEach(f), _4 =>
-                        acceptMap(_4, _5 => _5.forEach(f)))))
+        details: (entity, f) => hasMany(entity.details, f),
+        fulfillment: (entity, f) => hasMany(entity.fulfillment, f),
     }
+}
+
+function hasMany(value, f) {
+    return acceptBlank(value, [], _1 =>
+        acceptCommaSeparated(_1, _2 =>
+            acceptArray(_2, _3 => _3.forEach(f), _4 =>
+                acceptMap(_4, _5 => _5.forEach(f)))));
 }
 
 function acceptBlank(data, result, next) {

@@ -5,10 +5,14 @@ export default {
     },
     model: {
         contract: (name, desc, ...attributes) => model(name, desc, 'contract', ...attributes),
-        contractDetails: (name,desc, ...attributes) => model(name, desc, 'contract-details', ...attributes)
+        contractDetails: (name, desc, ...attributes) => model(name, desc || '', 'contract-details', ...attributes),
+        fulfillmentRequest: (name) => model(name, '', 'fulfillment'),
+        fulfillmentConfirmation: (name) => model(name, '', 'fulfillment')
     },
     rel: {
-        details: (source, target) => relationship(source, target, 'details')
+        details: (source, target) => relationship(source.id, target.id, 'details'),
+        fulfillment: (source, target) => relationship(source.id, target.id, 'fulfillment'),
+        confirmation: (source, target) => relationship(source.id, target.id, 'confirmation'),
     }
 };
 

@@ -30,18 +30,20 @@ function parseModel(context, model) {
     parseContract(context, withId(model, model.contract));
 }
 
-function parseContract(context, model) {
-    context.model(json.model.contract(model.id,
-        yaml.optional.desc(model),
-        yaml.required.timestamp(model),
-        yaml.optional.data(model)));
+function parseContract(context, contract) {
+    context.model(json.model.contract(contract.id,
+        yaml.optional.desc(contract),
+        yaml.required.timestamp(contract),
+        yaml.optional.data(contract)));
 
-    yaml.optional.details(model, (detail) =>
-        context.rel(json.rel.details(model.id, context.model(createContractDetail(model, detail)).id)));
+    yaml.optional.details(contract, (detail) =>
+        context.rel(json.rel.details(contract, context.model(createContractDetail(contract, detail)))));
+
+    yaml.optional.fulfillment(contract, (fulfillment) => createFulfillment(context, contract, fulfillment));
 }
 
 function createContractDetail(contract, detail) {
-    if (isString(detail)) return json.model.contractDetails(detail, '');
+    if (isString(detail)) return json.model.contractDetails(detail);
 
     if (Object.keys(detail).length === 1) {
         let name = Object.keys(detail)[0];
@@ -54,3 +56,16 @@ function createContractDetail(contract, detail) {
 
     throw `${contract.id} details has malformed declaration`;
 }
+
+function createFulfillment(context, contract, fulfillment) {
+    if (isString(fulfillment)) {
+        let name = fulfillment.split(/[ ,]+/);
+
+        let request = context.model(json.model.fulfillmentRequest(name.concat('Request').join(' ')));
+        let confirmation = context.model(json.model.fulfillmentConfirmation(name.concat('Confirmation').join(' ')));
+
+        context.rel(json.rel.fulfillment(contract, request));
+        context.rel(json.rel.confirmation(request, confirmation));
+    }
+}
+
