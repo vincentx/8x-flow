@@ -3,23 +3,27 @@ import {COMMA_SEPARATED, isString} from "./utils";
 
 const yaml = {
     required: {
-        timestamp: (entity) => stringList(array(json.attr.timestamp, `${entity.id} must have timestamps`))(entity.key_timestamps)
+        timestamp: (entity) => timestamps(entity.id)(entity.key_timestamps)
     },
     optional: {
-        desc: (entity) => optional(toString, '')(entity.desc),
-        timestamp: (entity) => optional(_ => yaml.required.timestamp(entity), [])(entity.key_timestamps),
+        desc: (entity) => optional(text, '')(entity.desc),
+        timestamp: (entity) => optional(timestamps(entity.id), [])(entity.key_timestamps),
         data: (entity) => optional(stringList(array(json.attr.data, `${entity.id} have malformed data declaration`)), [])(entity.key_data),
-        details: (entity, f) => hasMany(entity.details, f),
-        fulfillment: (entity, f) => hasMany(entity.fulfillment, f),
+        details: (entity, f) => many(entity.details, f),
+        fulfillment: (entity, f) => many(entity.fulfillment, f),
     }
 }
 
-function toString(o) {
-    return o.toString();
+function many(value, f) {
+    return optional(stringList(arrayOrMap(f)), [])(value);
 }
 
-function hasMany(value, f) {
-    return optional(stringList(arrayOrMap(f)), [])(value);
+function timestamps(id) {
+    return (data) => stringList(array(json.attr.timestamp, `${id} must have timestamps`))(data);
+}
+
+function text(o) {
+    return o.toString();
 }
 
 function optional(next, result) {
