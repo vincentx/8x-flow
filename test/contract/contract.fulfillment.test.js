@@ -69,6 +69,9 @@ describe('Contract Fulfillment Declaration', () => {
         expect(result.relationships.length).toBe(2);
     });
 
-    
+    test('should throw exception if fulfillment with malformed data',() => {
+        expect(() => parse(yml('contract/fulfillment/with-malformed')))
+            .toThrow('Order fulfillment has malformed declaration');
+    });
 
 });

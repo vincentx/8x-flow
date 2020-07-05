@@ -66,9 +66,7 @@ function createFulfillment(context, contract, fulfillment) {
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
-    }
-
-    if (Object.keys(fulfillment).length === 1) {
+    } else if (Object.keys(fulfillment).length === 1) {
         let name = Object.keys(fulfillment)[0].split(COMMA_SEPARATED);
         let declaration = withId(fulfillment[name], name);
 
@@ -77,6 +75,6 @@ function createFulfillment(context, contract, fulfillment) {
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
-    }
+    } else throw `${contract.id} fulfillment has malformed declaration`;
 }
 
