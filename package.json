@@ -1,0 +1,21 @@
+{
+  "name": "@8x-flow/yaml-script",
+  "version": "1.0.0",
+  "description": "A YAML DSL for 8X flow business object models",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Vincent Xu",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "jest": "^26.1.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.10.4",
+    "js-yaml": "^3.14.0"
+  }
+}
