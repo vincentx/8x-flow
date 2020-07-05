@@ -3,68 +3,53 @@ import {COMMA_SEPARATED, isString} from "./utils";
 
 const yaml = {
     required: {
-        timestamp: (entity) =>
-            commaSeparated(
-                arrayOnly(`${entity.id} must have timestamps`,
-                    json.attr.timestamp))(entity.key_timestamps)
+        timestamp: (entity) => stringList(array(json.attr.timestamp, `${entity.id} must have timestamps`))(entity.key_timestamps)
     },
     optional: {
-        desc: (entity) => optional('', _ => _.toString())(entity.desc),
-        timestamp: (entity) => optional([], _ => yaml.required.timestamp(entity))(entity.key_timestamps),
-        data: (entity) => optional([],
-            commaSeparated(
-                arrayOnly(`${entity.id} have malformed data declaration`,
-                    json.attr.data)))(entity.key_data),
+        desc: (entity) => optional(toString, '')(entity.desc),
+        timestamp: (entity) => optional(_ => yaml.required.timestamp(entity), [])(entity.key_timestamps),
+        data: (entity) => optional(stringList(array(json.attr.data, `${entity.id} have malformed data declaration`)), [])(entity.key_data),
         details: (entity, f) => hasMany(entity.details, f),
         fulfillment: (entity, f) => hasMany(entity.fulfillment, f),
     }
 }
 
-function hasMany(value, f) {
-    return acceptBlank(value, [], _1 =>
-        acceptCommaSeparated(_1, _2 =>
-            acceptArrayOrMap(_2, _3 => _3.forEach(f))));
+function toString(o) {
+    return o.toString();
 }
 
-function optional(result, next) {
+function hasMany(value, f) {
+    return optional(stringList(arrayOrMap(f)), [])(value);
+}
+
+function optional(next, result) {
     return (data) => {
         if (!data) return result;
         return next(data);
     };
 }
 
-function acceptBlank(data, result, next) {
-    if (!data) return result;
-    return next(data);
+function stringList(next) {
+    return (data) => next(isString(data) ? data.split(COMMA_SEPARATED) : data);
 }
 
-function commaSeparated(next) {
-    return (data) => acceptCommaSeparated(data, next);
-}
-
-function acceptCommaSeparated(data, next) {
-    return next(isString(data) ? data.split(COMMA_SEPARATED) : data);
-}
-
-function arrayOnly(message, f) {
+function array(f, message) {
     return (data) => {
-        return onlyAcceptArray(data, message, f);
+        if (!Array.isArray(data)) throw message;
+        return data.map(f);
     }
 }
 
-function onlyAcceptArray(data, message, f) {
-    if (!Array.isArray(data)) throw message;
-    return data.map(f);
-}
+function arrayOrMap(handle) {
+    function toArray(array) {
+        return Object.keys(array).map(function (key) {
+            let result = {};
+            result[key] = array[key];
+            return result;
+        });
+    }
 
-
-function acceptArrayOrMap(data, handle) {
-    if (Array.isArray(data)) return handle(data);
-    handle(Object.keys(data).map(function (key) {
-        let result = {};
-        result[key] = data[key];
-        return result;
-    }));
+    return (data) => (Array.isArray(data) ? data : toArray(data)).forEach(handle);
 }
 
 export default yaml;
