@@ -10,12 +10,11 @@ const yaml = {
     },
     optional: {
         desc: (entity) => optional('', _ => _.toString())(entity.desc),
-        timestamp: (entity) => optional( [], _ => yaml.required.timestamp(entity))(entity.key_timestamps),
-        data: (entity) =>
-            optional([],
-                commaSeparated(
-                    arrayOnly(`${entity.id} have malformed data declaration`,
-                        json.attr.data)))(entity.key_data),
+        timestamp: (entity) => optional([], _ => yaml.required.timestamp(entity))(entity.key_timestamps),
+        data: (entity) => optional([],
+            commaSeparated(
+                arrayOnly(`${entity.id} have malformed data declaration`,
+                    json.attr.data)))(entity.key_data),
         details: (entity, f) => hasMany(entity.details, f),
         fulfillment: (entity, f) => hasMany(entity.fulfillment, f),
     }
@@ -24,8 +23,7 @@ const yaml = {
 function hasMany(value, f) {
     return acceptBlank(value, [], _1 =>
         acceptCommaSeparated(_1, _2 =>
-            acceptArray(_2, _3 => _3.forEach(f), _4 =>
-                acceptMap(_4, _5 => _5.forEach(f)))));
+            acceptArrayOrMap(_2, _3 => _3.forEach(f))));
 }
 
 function optional(result, next) {
@@ -59,13 +57,10 @@ function onlyAcceptArray(data, message, f) {
     return data.map(f);
 }
 
-function acceptArray(data, handle, next) {
-    if (Array.isArray(data)) return handle(data);
-    return next(data);
-}
 
-function acceptMap(data, next) {
-    next(Object.keys(data).map(function (key) {
+function acceptArrayOrMap(data, handle) {
+    if (Array.isArray(data)) return handle(data);
+    handle(Object.keys(data).map(function (key) {
         let result = {};
         result[key] = data[key];
         return result;
