@@ -1,0 +1,8 @@
+contract: Manufacture Order
+key_timestamp:
+  - created_at
+details: Item, Recipe
+
+
+
+

@@ -79,6 +79,7 @@ describe('Contract Declaration', () => {
 
             let models = result.models;
             let relationships = result.relationships;
+
             expect(models.length).toBe(2);
             expect(relationships.length).toBe(1);
 
@@ -90,6 +91,34 @@ describe('Contract Declaration', () => {
             expect(order_order_item.source).toBe('Order');
             expect(order_order_item.target).toBe('Order Item');
             expect(order_order_item.type).toBe('details');
+        });
+
+        test('should accept comma separated details', () => {
+            let result = parse(yml('contract/details/with-comma-separated-details'));
+            let models = result.models;
+            let relationships = result.relationships;
+
+            expect(models.length).toBe(3);
+            expect(relationships.length).toBe(2);
+
+            let item = result.models[1];
+            expect(item.id).toBe('Item');
+            expect(item.attributes.length).toBe(0);
+
+            let recipe = result.models[2];
+            expect(recipe.id).toBe('Recipe');
+            expect(recipe.attributes.length).toBe(0);
+
+            let manufacture_order_item = relationships[0];
+            expect(manufacture_order_item.source).toBe('Manufacture Order');
+            expect(manufacture_order_item.target).toBe('Item');
+            expect(manufacture_order_item.type).toBe('details');
+
+            let manufacture_order_recipe = relationships[1];
+            expect(manufacture_order_recipe.source).toBe('Manufacture Order');
+            expect(manufacture_order_recipe.target).toBe('Recipe');
+            expect(manufacture_order_recipe.type).toBe('details');
+
         });
     });
 });

@@ -33,6 +33,7 @@ function parseContract(context, model) {
 }
 
 function parseContractDetails(context, contract, details) {
+    if (typeof details === 'string' || details instanceof String) details = details.split(/[ ,]+/);
     if (Array.isArray(details)) details.forEach(_ => parseContractDetail(context, contract, _));
 }
 
