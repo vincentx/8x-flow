@@ -3,9 +3,8 @@ import fs from 'fs'
 
 describe('Contract Declaration', () => {
     describe('Basic', () => {
-        test('should with key timestamp', () => {
-            let script = yml('contract/basic/with-key-timestamp');
-            let result = parse(script).models;
+        test('should be defined with key timestamp', () => {
+            let result = parse(yml('contract/basic/with-key-timestamp')).models;
 
             expect(result.length).toBe(1);
 
@@ -19,8 +18,7 @@ describe('Contract Declaration', () => {
         });
 
         test('should accept comma separated timestamps', () => {
-            let script = yml('contract/basic/comma-separated');
-            let result = parse(script).models;
+            let result = parse(yml('contract/basic/with-comma-separated-timestamp')).models;
 
             expect(result.length).toBe(1);
 
@@ -36,8 +34,40 @@ describe('Contract Declaration', () => {
         });
 
         test('should throw exception if no timestamp defined for contract', () => {
-            let script = yml('contract/basic/no-timestamps');
-            expect(() => parse(script)).toThrow('Contract Order must have timestamps');
+            expect(() => parse(yml('contract/basic/no-timestamps'))).toThrow('Contract Order must have timestamps');
+        });
+
+        test('should be defined with key data', () => {
+            let result = parse(yml('contract/basic/with-key-data')).models;
+
+            expect(result.length).toBe(1);
+
+            let order = result[0];
+            expect(order.id).toBe('Order');
+            expect(order.attributes.length).toBe(2);
+
+            let total_price = order.attributes[1];
+            expect(total_price.name).toBe('total_price');
+            expect(total_price.type).toBe('data');
+        });
+
+        test('should accept comma separated key data', () => {
+            let result = parse(yml('contract/basic/with-comma-separated-data')).models;
+
+            expect(result.length).toBe(1);
+
+            let order = result[0];
+            expect(order.id).toBe('Order');
+            expect(order.attributes.length).toBe(3);
+
+            let total_price = order.attributes[1];
+            expect(total_price.name).toBe('total_price');
+            expect(total_price.type).toBe('data');
+
+            let type = order.attributes[2];
+            expect(type.name).toBe('type');
+            expect(type.type).toBe('data');
+
         });
     });
 

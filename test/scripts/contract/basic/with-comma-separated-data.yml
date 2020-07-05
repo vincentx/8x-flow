@@ -1,0 +1,4 @@
+contract: Order
+key_data: total_price, type
+key_timestamp:
+  - created_at
