@@ -42,7 +42,7 @@ function parseContract(context, contract) {
 
     yaml.optional.fulfillment(contract, (fulfillment) => createFulfillment(context, contract, fulfillment));
 
-    yaml.optional.participants(contract, (participant) => linkParticipant(context, contract, participant));
+    yaml.optional.participants(contract, (participant) => createParticipant(context, contract, participant));
 }
 
 function createContractDetail(contract, detail) {
@@ -104,10 +104,15 @@ function createFulfillment(context, contract, fulfillment) {
     } else throw error.message.malformed(contract, 'fulfillment');
 }
 
-function linkParticipant(context, contract, participant) {
-    if (isString(participant)) return context.rel(json.rel.participant(contract, participant));
-    if (Object.keys(participant).length === 1)
-        return context.rel(json.rel.participant(contract, Object.keys(participant)[0]));
+function createParticipant(context, contract, participant) {
+    if (Object.keys(participant).length === 1) participant = Object.keys(participant)[0];
+    if (isString(participant)) {
+        if (participant.match(/^_+.+/))
+            context.model(json.model.role(participant.split(/^_+/)[1]));
+        else
+            context.model(json.model.participant(participant));
+        return context.rel(json.rel.participant(contract, participant));
+    }
     throw error.message.malformed(contract, 'participants');
 }
 
