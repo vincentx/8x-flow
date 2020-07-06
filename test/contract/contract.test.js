@@ -35,9 +35,14 @@ describe('Contract Declaration', () => {
         expect(expired_at.type).toBe('timestamp');
     });
 
-    test('should throw exception if no timestamp defined for contract', () => {
-        expect(() => parse(yml('contract/basic/no-timestamps'))).toThrow('Order must have timestamps');
+    test('should throw exception if malformed timestamp defined for contract', () => {
+        expect(() => parse(yml('contract/basic/malformed-timestamps'))).toThrow('Order has malformed key_timestamps declaration');
     });
+
+    test('should throw exception if no timestamp defined for contract', () => {
+        expect(() => parse(yml('contract/basic/no-timestamps'))).toThrow('Order must have key_timestamps declaration');
+    });
+
 
     test('should be defined with key data', () => {
         let result = parse(yml('contract/basic/with-key-data')).models;

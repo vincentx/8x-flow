@@ -1,14 +1,15 @@
 import json from "./json";
+import error from './error';
 import {COMMA_SEPARATED, isString} from "./utils";
 
 const yaml = {
     required: {
-        timestamp: (entity) => timestamps(entity.id)(entity.key_timestamps)
+        timestamp: (entity) => required(timestamps(entity), error.message.required(entity, 'key_timestamps'))(entity.key_timestamps)
     },
     optional: {
         desc: (entity) => optional(text, '')(entity.desc),
-        timestamp: (entity) => optional(timestamps(entity.id), [])(entity.key_timestamps),
-        data: (entity) => optional(stringList(array(json.attr.data, `${entity.id} have malformed data declaration`)), [])(entity.key_data),
+        timestamp: (entity) => optional(timestamps(entity), [])(entity.key_timestamps),
+        data: (entity) => optional(stringList(array(json.attr.data, error.message.malformed(entity, 'key_data'))), [])(entity.key_data),
         details: (entity, f) => many(entity.details, f),
         fulfillment: (entity, f) => many(entity.fulfillment, f),
     }
@@ -18,12 +19,19 @@ function many(value, f) {
     return optional(stringList(arrayOrMap(f)), [])(value);
 }
 
-function timestamps(id) {
-    return (data) => stringList(array(json.attr.timestamp, `${id} must have timestamps`))(data);
+function timestamps(entity) {
+    return (data) => stringList(array(json.attr.timestamp, error.message.malformed(entity, 'key_timestamps')))(data);
 }
 
 function text(o) {
     return o.toString();
+}
+
+function required(next, message) {
+    return (data) => {
+        if (!data) throw message;
+        return next(data);
+    }
 }
 
 function optional(next, result) {
