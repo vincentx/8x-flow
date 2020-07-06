@@ -69,7 +69,7 @@ describe('Contract Fulfillment Declaration', () => {
         expect(result.relationships.length).toBe(2);
     });
 
-    test('should throw exception if fulfillment with malformed data',() => {
+    test('should throw exception if fulfillment with malformed data', () => {
         expect(() => parse(yml('contract/fulfillment/with-malformed')))
             .toThrow('Order has malformed fulfillment declaration');
         expect(() => parse(yml('contract/fulfillment/with-malformed-map')))
@@ -143,10 +143,20 @@ describe('Contract Fulfillment Declaration', () => {
     });
 
     test('should mark confirmation as role', () => {
-        let result = parse(yml('contract/fulfillment/with-role'));
+        for (let file of ['with-variform', 'with-variform-true']) {
+            let result = parse(yml(`contract/fulfillment/${file}`));
+
+            expect(result.models.length).toBe(3);
+            let order_payment_confirmation = result.models[2];
+            expect(order_payment_confirmation.archetype).toBe('variform');
+        }
+    });
+
+    test('should mark confirmation as role', () => {
+        let result = parse(yml('contract/fulfillment/with-variform-no'));
 
         expect(result.models.length).toBe(3);
         let order_payment_confirmation = result.models[2];
-        expect(order_payment_confirmation.archetype).toBe('variform');
-    })
+        expect(order_payment_confirmation.archetype).toBe('fulfillment');
+    });
 });
