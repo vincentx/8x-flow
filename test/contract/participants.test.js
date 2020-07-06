@@ -30,7 +30,7 @@ describe('Contract Declaration', () => {
         }
     });
 
-    test('should create role along the way', ()=>{
+    test('should create role along the way', () => {
         let result = parse(yml(`contract/participants/with-role`));
 
         expect(result.models.length).toBe(2);
@@ -40,3 +40,15 @@ describe('Contract Declaration', () => {
 
     });
 });
+
+describe('Contract Details Declaration', () => {
+    test('should be linked to participant', () => {
+        let result = parse(yml(`contract/participants/with-details-participants`));
+
+        expect(result.relationships.length).toBe(2);
+        expect(result.relationships[0].source).toBe('Order Items');
+        expect(result.relationships[0].target).toBe('Shop');
+        expect(result.relationships[0].type).toBe('participant');
+    });
+});
+

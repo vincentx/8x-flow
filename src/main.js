@@ -37,21 +37,23 @@ function parseContract(context, contract) {
         yaml.required.timestamp(contract),
         yaml.optional.data(contract)));
 
-    yaml.optional.details(contract, (detail) =>
-        context.rel(json.rel.details(contract, context.model(createContractDetail(contract, detail)))));
+    yaml.optional.details(contract, (detail) => context.rel(json.rel.details(contract, context.model(createContractDetail(context, contract, detail)))));
 
     yaml.optional.fulfillment(contract, (fulfillment) => createFulfillment(context, contract, fulfillment));
 
     yaml.optional.participants(contract, (participant) => createParticipant(context, contract, participant));
 }
 
-function createContractDetail(contract, detail) {
+function createContractDetail(context, contract, detail) {
     if (isString(detail)) return json.model.contractDetails(detail);
 
     if (Object.keys(detail).length === 1) {
         let name = Object.keys(detail)[0];
         if (notObject(detail[name])) throw error.message.malformed(contract, 'details');
         let declaration = withId(detail[name], name);
+
+        yaml.optional.participants(declaration, (participant) => createParticipant(context, declaration, participant));
+
         return json.model.contractDetails(name,
             yaml.optional.desc(declaration),
             yaml.optional.timestamp(declaration),
@@ -94,10 +96,14 @@ function createFulfillment(context, contract, fulfillment) {
             override(declaration.request, name(key, 'Request')),
             yaml.optional.desc(declaration), attr(declaration.request)));
 
+        // yaml.optional.participants(request, (participant) => createParticipant(context, request, participant));
+
         let confirmation = context.model(json.model.fulfillmentConfirmation(
             override(declaration.confirm, name(key, 'Confirmation')),
             declaration.confirm ? yaml.optional.variform(declaration.confirm) : false,
             attr(declaration.confirm)));
+
+        // yaml.optional.participants(confirmation, (participant) => createParticipant(context, confirmation, participant));
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
