@@ -107,10 +107,12 @@ function createFulfillment(context, contract, fulfillment) {
 function createParticipant(context, contract, participant) {
     if (Object.keys(participant).length === 1) participant = Object.keys(participant)[0];
     if (isString(participant)) {
-        if (participant.match(/^_+.+/))
-            context.model(json.model.role(participant.split(/^_+/)[1]));
-        else
+        if (participant.match(/^_+.+/)) {
+            participant = (participant.split(/^_+/)[1]);
+            context.model(json.model.role(participant));
+        } else
             context.model(json.model.participant(participant));
+
         return context.rel(json.rel.participant(contract, participant));
     }
     throw error.message.malformed(contract, 'participants');
