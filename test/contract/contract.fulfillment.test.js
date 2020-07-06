@@ -71,13 +71,13 @@ describe('Contract Fulfillment Declaration', () => {
 
     test('should throw exception if fulfillment with malformed data',() => {
         expect(() => parse(yml('contract/fulfillment/with-malformed')))
-            .toThrow('Order fulfillment has malformed declaration');
+            .toThrow('Order has malformed fulfillment declaration');
         expect(() => parse(yml('contract/fulfillment/with-malformed-map')))
-            .toThrow('Order fulfillment has malformed declaration');
+            .toThrow('Order has malformed fulfillment declaration');
         expect(() => parse(yml('contract/fulfillment/with-malformed-map-list')))
-            .toThrow('Order fulfillment has malformed declaration');
+            .toThrow('Order has malformed fulfillment declaration');
         expect(() => parse(yml('contract/fulfillment/with-malformed-map-num')))
-            .toThrow('Order fulfillment has malformed declaration');
+            .toThrow('Order has malformed fulfillment declaration');
     });
 
     test('should append fulfillment desc to request', () => {

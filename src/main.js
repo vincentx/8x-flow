@@ -1,5 +1,6 @@
 import jsyaml from 'js-yaml';
 import json from './json';
+import error from "./error";
 import yaml from "./yaml";
 import {COMMA_SEPARATED, isString, notObject, withId} from "./utils";
 
@@ -47,7 +48,7 @@ function createContractDetail(contract, detail) {
 
     if (Object.keys(detail).length === 1) {
         let name = Object.keys(detail)[0];
-        if (notObject(detail[name])) throw `${contract.id} details has malformed declaration`;
+        if (notObject(detail[name])) throw error.message.malformed(contract, 'details');
         let declaration = withId(detail[name], name);
         return json.model.contractDetails(name,
             yaml.optional.desc(declaration),
@@ -55,7 +56,7 @@ function createContractDetail(contract, detail) {
             yaml.optional.data(declaration))
     }
 
-    throw `${contract.id} details has malformed declaration`;
+    throw error.message.malformed(contract, 'details');
 }
 
 function createFulfillment(context, contract, fulfillment) {
@@ -70,7 +71,7 @@ function createFulfillment(context, contract, fulfillment) {
     } else if (Object.keys(fulfillment).length === 1) {
         let name = Object.keys(fulfillment)[0];
 
-        if (notObject(fulfillment[name])) throw `${contract.id} fulfillment has malformed declaration`;
+        if (notObject(fulfillment[name])) throw error.message.malformed(contract, 'fulfillment');
 
         let declaration = withId(fulfillment[name], name);
 
@@ -81,6 +82,6 @@ function createFulfillment(context, contract, fulfillment) {
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
-    } else throw `${contract.id} fulfillment has malformed declaration`;
+    } else throw error.message.malformed(contract, 'fulfillment');
 }
 
