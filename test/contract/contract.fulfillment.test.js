@@ -95,7 +95,7 @@ describe('Contract Fulfillment Declaration', () => {
         expect(order_payment_confirmation.desc).toBe('');
     });
 
-    test('should add key_data to require and confirm', () => {
+    test('should add key data to require and confirm', () => {
         let result = parse(yml('contract/fulfillment/with-key-data'));
 
         expect(result.models.length).toBe(3);
@@ -121,6 +121,24 @@ describe('Contract Fulfillment Declaration', () => {
 
         let order_payment_confirmation = result.models[2];
         expect(order_payment_confirmation.id).toBe('Order Payment');
+    });
 
+    test('should add key timestamps to require and confirm', () => {
+        let result = parse(yml('contract/fulfillment/with-key-timestamps'));
+
+        expect(result.models.length).toBe(3);
+        let order_payment_request = result.models[1];
+        expect(order_payment_request.id).toBe('Order Payment Request');
+        expect(order_payment_request.attributes.length).toBe(2);
+        expect(order_payment_request.attributes[0].name).toBe('started_at');
+        expect(order_payment_request.attributes[0].type).toBe('timestamp');
+        expect(order_payment_request.attributes[1].name).toBe('expired_at');
+        expect(order_payment_request.attributes[1].type).toBe('timestamp');
+
+        let order_payment_confirmation = result.models[2];
+        expect(order_payment_confirmation.id).toBe('Order Payment Confirmation');
+        expect(order_payment_confirmation.attributes.length).toBe(1);
+        expect(order_payment_confirmation.attributes[0].name).toBe('confirmed_at');
+        expect(order_payment_confirmation.attributes[0].type).toBe('timestamp');
     });
 });

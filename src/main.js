@@ -72,7 +72,7 @@ function createFulfillment(context, contract, fulfillment) {
 
     function attr(declaration) {
         if (!declaration) return [];
-        return yaml.optional.data(declaration);
+        return  yaml.optional.timestamp(declaration).concat(yaml.optional.data(declaration));
     }
 
     if (isString(fulfillment)) {
@@ -87,7 +87,6 @@ function createFulfillment(context, contract, fulfillment) {
         if (notObject(fulfillment[key])) throw error.message.malformed(contract, 'fulfillment');
 
         let declaration = withId(fulfillment[key], key);
-
 
         let request = context.model(json.model.fulfillmentRequest(
             override(declaration.request, name(key, 'Request')),
