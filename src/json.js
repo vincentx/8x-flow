@@ -25,8 +25,6 @@ function reduce(attributes) {
 }
 
 function model(name, desc, archetype, attributes) {
-    console.log(archetype);
-    console.log(attributes);
     return {
         id: name,
         desc: desc,

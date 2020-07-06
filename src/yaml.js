@@ -7,6 +7,7 @@ const yaml = {
         timestamp: (entity) => required(timestamps(entity), error.message.required(entity, 'key_timestamps'))(entity.key_timestamps)
     },
     optional: {
+        name: (entity) => optional(text, '')(entity.name),
         desc: (entity) => optional(text, '')(entity.desc),
         timestamp: (entity) => optional(timestamps(entity), [])(entity.key_timestamps),
         data: (entity) => optional(stringList(array(json.attr.data, error.message.malformed(entity, 'key_data'))), [])(entity.key_data),

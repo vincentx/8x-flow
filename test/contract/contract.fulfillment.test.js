@@ -111,4 +111,16 @@ describe('Contract Fulfillment Declaration', () => {
         expect(order_payment_confirmation.attributes[0].name).toBe('buyer_account');
         expect(order_payment_confirmation.attributes[0].type).toBe('data');
     });
+
+    test('should use specified name instead of default name', () => {
+        let result = parse(yml('contract/fulfillment/with-customize-name'));
+
+        expect(result.models.length).toBe(3);
+        let order_payment_request = result.models[1];
+        expect(order_payment_request.id).toBe('Buyer Payment Request');
+
+        let order_payment_confirmation = result.models[2];
+        expect(order_payment_confirmation.id).toBe('Order Payment');
+
+    });
 });

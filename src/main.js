@@ -64,6 +64,12 @@ function createFulfillment(context, contract, fulfillment) {
         return fulfillment.split(COMMA_SEPARATED).concat(postfix).join(' ');
     }
 
+    function override(declaration, name) {
+        if (!declaration) return name;
+        let customized = yaml.optional.name(declaration);
+        return !customized ? name : customized;
+    }
+
     function attr(declaration) {
         if (!declaration) return [];
         return yaml.optional.data(declaration);
@@ -82,9 +88,14 @@ function createFulfillment(context, contract, fulfillment) {
 
         let declaration = withId(fulfillment[key], key);
 
-        let request = context.model(json.model.fulfillmentRequest(name(key, 'Request'),
+
+        let request = context.model(json.model.fulfillmentRequest(
+            override(declaration.request, name(key, 'Request')),
             yaml.optional.desc(declaration), attr(declaration.request)));
-        let confirmation = context.model(json.model.fulfillmentConfirmation(name(key, 'Confirmation'),
+
+
+        let confirmation = context.model(json.model.fulfillmentConfirmation(
+            override(declaration.confirm, name(key, 'Confirmation')),
             attr(declaration.confirm)));
 
         context.rel(json.rel.fulfillment(contract, request));
