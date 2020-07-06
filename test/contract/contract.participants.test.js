@@ -16,4 +16,8 @@ describe('Contract Declaration', () => {
 
         }
     });
+
+    test('should throw exception if malformed participant declaration', () => {
+        expect(() => parse(yml('contract/participants/with-malformed'))).toThrow('Order has malformed participants declaration');
+    });
 });

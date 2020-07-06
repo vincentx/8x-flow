@@ -108,6 +108,7 @@ function linkParticipant(context, contract, participant) {
     if (isString(participant)) return context.rel(json.rel.participant(contract, participant));
     if (Object.keys(participant).length === 1)
         return context.rel(json.rel.participant(contract, Object.keys(participant)[0]));
+    throw error.message.malformed(contract, 'participants');
 }
 
 
