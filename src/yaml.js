@@ -15,6 +15,7 @@ const yaml = {
 
         details: (entity, f) => many(entity.details, f),
         fulfillment: (entity, f) => many(entity.fulfillment, f),
+        participants: (entity, f) => many(entity.participants, f),
     }
 }
 

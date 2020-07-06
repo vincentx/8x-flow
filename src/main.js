@@ -41,6 +41,8 @@ function parseContract(context, contract) {
         context.rel(json.rel.details(contract, context.model(createContractDetail(contract, detail)))));
 
     yaml.optional.fulfillment(contract, (fulfillment) => createFulfillment(context, contract, fulfillment));
+
+    yaml.optional.participants(contract, (participant) => linkParticipant(context, contract, participant));
 }
 
 function createContractDetail(contract, detail) {
@@ -100,6 +102,10 @@ function createFulfillment(context, contract, fulfillment) {
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
     } else throw error.message.malformed(contract, 'fulfillment');
+}
+
+function linkParticipant(context, contract, participant) {
+    context.rel(json.rel.participant(contract, participant));
 }
 
 

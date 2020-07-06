@@ -13,6 +13,7 @@ export default {
         details: (source, target) => relationship(source.id, target.id, 'details'),
         fulfillment: (source, target) => relationship(source.id, target.id, 'fulfillment'),
         confirmation: (source, target) => relationship(source.id, target.id, 'confirmation'),
+        participant: (source, target) => relationship(source.id, target, 'participant'),
     }
 };
 
