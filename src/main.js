@@ -72,12 +72,12 @@ function createFulfillment(context, contract, fulfillment) {
 
     function attr(declaration) {
         if (!declaration) return [];
-        return  yaml.optional.timestamp(declaration).concat(yaml.optional.data(declaration));
+        return yaml.optional.timestamp(declaration).concat(yaml.optional.data(declaration));
     }
 
     if (isString(fulfillment)) {
         let request = context.model(json.model.fulfillmentRequest(name(fulfillment, 'Request'), '', []));
-        let confirmation = context.model(json.model.fulfillmentConfirmation(name(fulfillment, 'Confirmation'), []));
+        let confirmation = context.model(json.model.fulfillmentConfirmation(name(fulfillment, 'Confirmation'), false, []));
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
@@ -92,9 +92,9 @@ function createFulfillment(context, contract, fulfillment) {
             override(declaration.request, name(key, 'Request')),
             yaml.optional.desc(declaration), attr(declaration.request)));
 
-
         let confirmation = context.model(json.model.fulfillmentConfirmation(
             override(declaration.confirm, name(key, 'Confirmation')),
+            declaration.confirm ? yaml.optional.variform(declaration.confirm): false,
             attr(declaration.confirm)));
 
         context.rel(json.rel.fulfillment(contract, request));

@@ -7,7 +7,7 @@ export default {
         contract: (name, desc, ...attributes) => model(name, desc, 'contract', reduce(attributes)),
         contractDetails: (name, desc, ...attributes) => model(name, desc || '', 'contract-details', reduce(attributes)),
         fulfillmentRequest: (name, desc, attributes) => model(name, desc, 'fulfillment', attributes),
-        fulfillmentConfirmation: (name, attributes) => model(name, '', 'fulfillment', attributes)
+        fulfillmentConfirmation: (name, variform, attributes) => model(name, '', variform ? 'variform' : 'fulfillment', attributes)
     },
     rel: {
         details: (source, target) => relationship(source.id, target.id, 'details'),

@@ -11,6 +11,8 @@ const yaml = {
         desc: (entity) => optional(text, '')(entity.desc),
         timestamp: (entity) => optional(timestamps(entity), [])(entity.key_timestamps),
         data: (entity) => optional(stringList(array(json.attr.data, error.message.malformed(entity, 'key_data'))), [])(entity.key_data),
+        variform: (entity) => optional(bool, false)(entity.variform),
+
         details: (entity, f) => many(entity.details, f),
         fulfillment: (entity, f) => many(entity.fulfillment, f),
     }
@@ -22,6 +24,11 @@ function many(value, f) {
 
 function timestamps(entity) {
     return (data) => stringList(array(json.attr.timestamp, error.message.malformed(entity, 'key_timestamps')))(data);
+}
+
+function bool(o) {
+    if (typeof o === "boolean") return o;
+    return ['y', 'yes', 'ok', 'sure'].includes(text(o).toLowerCase());
 }
 
 function text(o) {

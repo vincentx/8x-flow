@@ -141,4 +141,12 @@ describe('Contract Fulfillment Declaration', () => {
         expect(order_payment_confirmation.attributes[0].name).toBe('confirmed_at');
         expect(order_payment_confirmation.attributes[0].type).toBe('timestamp');
     });
+
+    test('should mark confirmation as role', () => {
+        let result = parse(yml('contract/fulfillment/with-role'));
+
+        expect(result.models.length).toBe(3);
+        let order_payment_confirmation = result.models[2];
+        expect(order_payment_confirmation.archetype).toBe('variform');
+    })
 });
