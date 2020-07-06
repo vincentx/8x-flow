@@ -96,7 +96,7 @@ function createFulfillment(context, contract, fulfillment) {
 
         let confirmation = context.model(json.model.fulfillmentConfirmation(
             override(declaration.confirm, name(key, 'Confirmation')),
-            declaration.confirm ? yaml.optional.variform(declaration.confirm): false,
+            declaration.confirm ? yaml.optional.variform(declaration.confirm) : false,
             attr(declaration.confirm)));
 
         context.rel(json.rel.fulfillment(contract, request));
@@ -105,7 +105,9 @@ function createFulfillment(context, contract, fulfillment) {
 }
 
 function linkParticipant(context, contract, participant) {
-    context.rel(json.rel.participant(contract, participant));
+    if (isString(participant)) return context.rel(json.rel.participant(contract, participant));
+    if (Object.keys(participant).length === 1)
+        return context.rel(json.rel.participant(contract, Object.keys(participant)[0]));
 }
 
 

@@ -1,0 +1,4 @@
+contract: Order
+key_timestamps: created_at
+participants:
+  - Shop: Shop who proivdes the products
