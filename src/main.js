@@ -2,33 +2,16 @@ import jsyaml from 'js-yaml';
 import json from './json';
 import error from "./error";
 import yaml from "./yaml";
+import context from './context';
 import {COMMA_SEPARATED, isString, notObject, withId} from "./utils";
 
 export function parse(script) {
-    let models = jsyaml.load(script);
-
-    let context = {
-        result: {
-            models: [],
-            relationships: []
-        },
-
-        model: function (model) {
-            context.result.models.push(model);
-            return model;
-        },
-        rel: (_) => context.result.relationships.push(_)
-    }
-
-    if (models === undefined) return context.result;
-
-    parseModel(context, models);
-
-    return context.result;
+    return parseModel(context(), jsyaml.load(script)).result;
 }
 
 function parseModel(context, model) {
     parseContract(context, withId(model, model.contract));
+    return context;
 }
 
 function parseContract(context, contract) {
@@ -38,9 +21,7 @@ function parseContract(context, contract) {
         yaml.optional.data(contract)));
 
     yaml.optional.details(contract, (detail) => context.rel(json.rel.details(contract, context.model(createContractDetail(context, contract, detail)))));
-
     yaml.optional.fulfillment(contract, (fulfillment) => createFulfillment(context, contract, fulfillment));
-
     yaml.optional.participants(contract, (participant) => createParticipant(context, contract, participant));
 }
 
