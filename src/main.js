@@ -96,14 +96,16 @@ function createFulfillment(context, contract, fulfillment) {
             override(declaration.request, name(key, 'Request')),
             yaml.optional.desc(declaration), attr(declaration.request)));
 
-        // yaml.optional.participants(request, (participant) => createParticipant(context, request, participant));
+        if (declaration.request)
+            yaml.optional.participants(declaration.request, (participant) => createParticipant(context, request, participant));
 
         let confirmation = context.model(json.model.fulfillmentConfirmation(
             override(declaration.confirm, name(key, 'Confirmation')),
             declaration.confirm ? yaml.optional.variform(declaration.confirm) : false,
             attr(declaration.confirm)));
 
-        // yaml.optional.participants(confirmation, (participant) => createParticipant(context, confirmation, participant));
+        if (declaration.confirm)
+            yaml.optional.participants(declaration.confirm, (participant) => createParticipant(context, confirmation, participant));
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));

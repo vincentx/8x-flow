@@ -52,3 +52,18 @@ describe('Contract Details Declaration', () => {
     });
 });
 
+describe('Contract Fulfillment Declaration', () => {
+    test('should be linked to participant', () => {
+        let result = parse(yml(`contract/participants/with-fulfillment-participants`));
+
+        expect(result.relationships.length).toBe(4);
+        expect(result.relationships[0].source).toBe('Order Payment Request');
+        expect(result.relationships[0].target).toBe('Account');
+        expect(result.relationships[0].type).toBe('participant');
+
+        expect(result.relationships[1].source).toBe('Order Payment Confirmation');
+        expect(result.relationships[1].target).toBe('Account');
+        expect(result.relationships[1].type).toBe('participant');
+    });
+});
+
