@@ -60,28 +60,36 @@ function createContractDetail(contract, detail) {
 }
 
 function createFulfillment(context, contract, fulfillment) {
-    if (isString(fulfillment)) {
-        let name = fulfillment.split(COMMA_SEPARATED);
+    function name(fulfillment, postfix) {
+        return fulfillment.split(COMMA_SEPARATED).concat(postfix).join(' ');
+    }
 
-        let request = context.model(json.model.fulfillmentRequest(name.concat('Request').join(' ')));
-        let confirmation = context.model(json.model.fulfillmentConfirmation(name.concat('Confirmation').join(' ')));
+    function attr(declaration) {
+        if (!declaration) return [];
+        return yaml.optional.data(declaration);
+    }
+
+    if (isString(fulfillment)) {
+        let request = context.model(json.model.fulfillmentRequest(name(fulfillment, 'Request'), '', []));
+        let confirmation = context.model(json.model.fulfillmentConfirmation(name(fulfillment, 'Confirmation'), []));
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
     } else if (Object.keys(fulfillment).length === 1) {
-        let name = Object.keys(fulfillment)[0];
+        let key = Object.keys(fulfillment)[0];
 
-        if (notObject(fulfillment[name])) throw error.message.malformed(contract, 'fulfillment');
+        if (notObject(fulfillment[key])) throw error.message.malformed(contract, 'fulfillment');
 
-        let declaration = withId(fulfillment[name], name);
+        let declaration = withId(fulfillment[key], key);
 
-        let request = context.model(json.model.fulfillmentRequest(name.split(COMMA_SEPARATED).concat('Request').join(' '),
-            yaml.optional.desc(declaration)));
-        let confirmation = context.model(json.model.fulfillmentConfirmation(name.split(COMMA_SEPARATED)
-            .concat('Confirmation').join(' ')));
+        let request = context.model(json.model.fulfillmentRequest(name(key, 'Request'),
+            yaml.optional.desc(declaration), attr(declaration.request)));
+        let confirmation = context.model(json.model.fulfillmentConfirmation(name(key, 'Confirmation'),
+            attr(declaration.confirm)));
 
         context.rel(json.rel.fulfillment(contract, request));
         context.rel(json.rel.confirmation(request, confirmation));
     } else throw error.message.malformed(contract, 'fulfillment');
 }
+
 
