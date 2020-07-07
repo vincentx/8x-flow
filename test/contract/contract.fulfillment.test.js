@@ -29,28 +29,6 @@ describe('Contract Fulfillment Declaration', () => {
         expect(request_confirmation.type).toBe('confirmation');
     });
 
-    test('should accept comma separated fulfilment', () => {
-        let result = parse(yml('contract/fulfillment/with-comma-separated-fulfillment'));
-
-        expect(result.models.length).toBe(5);
-
-        let order_payment_request = result.models[1];
-        expect(order_payment_request.id).toBe('Order Payment Request');
-        expect(order_payment_request.archetype).toBe('fulfillment');
-
-        let order_payment_confirmation = result.models[2];
-        expect(order_payment_confirmation.id).toBe('Order Payment Confirmation');
-        expect(order_payment_confirmation.archetype).toBe('fulfillment');
-
-        let shipping_request = result.models[3];
-        expect(shipping_request.id).toBe('Shipping Request');
-        expect(shipping_request.archetype).toBe('fulfillment');
-
-        let shipping_confirmation = result.models[4];
-        expect(shipping_confirmation.id).toBe('Shipping Confirmation');
-        expect(shipping_confirmation.archetype).toBe('fulfillment');
-    });
-
     test('should define fulfillment with map', () => {
         let result = parse(yml('contract/fulfillment/with-map-fulfillment'));
 
