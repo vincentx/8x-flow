@@ -7,7 +7,7 @@
     "prepack": "babel src -d lib",
     "test": "jest --coverage"
   },
-  "bin" : {
+  "bin": {
     "8xscript": "./bin/8xscript"
   },
   "author": "Vincent Xu",
@@ -16,6 +16,7 @@
     "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
+    "glob": "^7.1.6",
     "jest": "^26.1.0"
   },
   "dependencies": {

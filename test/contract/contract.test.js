@@ -6,15 +6,12 @@ describe('Contract Declaration', () => {
         let result = parse(yml('contract/basic/with-key-timestamps')).models;
 
         expect(result.length).toBe(1);
-
-        let order = result[0];
-        expect(order.id).toBe('Order');
-        expect(order.archetype).toBe('contract');
-        expect(order.attributes.length).toBe(1);
-
-        let created_at = order.attributes[0];
-        expect(created_at.name).toBe('created_at');
-        expect(created_at.type).toBe('timestamp');
+        expect(result).toContainEqual({
+            id: 'Order',
+            desc: '',
+            archetype: 'contract',
+            attributes: [{name: 'created_at', type: 'timestamp'}]
+        });
     });
 
     test('should accept comma separated timestamps', () => {
@@ -74,17 +71,5 @@ describe('Contract Declaration', () => {
         expect(type.type).toBe('data');
 
     });
-
-    test('should be defined with description', () => {
-        let result = parse(yml('contract/basic/with-desc')).models;
-
-        expect(result.length).toBe(1);
-
-        let order = result[0];
-        expect(order.id).toBe('Order');
-        expect(order.archetype).toBe('contract');
-        expect(order.desc).toBe('Purchard Order Contract');
-        expect(order.attributes.length).toBe(1);
-
-    });
+    
 });

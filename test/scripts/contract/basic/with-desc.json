@@ -1,0 +1,16 @@
+{
+  "models": [
+    {
+      "id": "Order",
+      "desc": "Purchased Order Contract",
+      "archetype": "contract",
+      "attributes": [
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ]
+    }
+  ],
+  "relationships": []
+}

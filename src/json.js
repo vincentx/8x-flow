@@ -30,6 +30,7 @@ export function jsonContext(context) {
     return {
         model: {
             contract: entity('contract'),
+            evidence: entity('evidence'),
             contractDetails: entity('contract-details'),
             fulfillmentRequest: entity('fulfillment'),
             fulfillmentConfirmation: (name, variform, attributes) =>

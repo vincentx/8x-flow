@@ -9,7 +9,9 @@ export function parse(script) {
 }
 
 function parseModel(context, model) {
-    parseContract(context, withId(model, model.contract));
+    if (model.contract) parseContract(context, withId(model, model.contract))
+    else parseEvidence(context, withId(model, model.evidence))
+
     return context;
 }
 
@@ -21,6 +23,12 @@ function parseContract(context, contract) {
     yaml.details(contract, createContractDetail(context));
     yaml.fulfillment(contract, createFulfillment(context));
     yaml.participants(contract, createParticipant(context));
+}
+
+function parseEvidence(context, evidence) {
+    context.model.evidence(evidence.id,
+        yaml.desc(evidence),
+        attrs(yaml.required.timestamp(evidence), yaml.data(evidence)));
 }
 
 function attrs(...attributes) {

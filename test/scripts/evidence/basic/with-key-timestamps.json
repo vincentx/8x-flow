@@ -1,0 +1,16 @@
+{
+  "models": [
+    {
+      "id": "Customs Clearance",
+      "desc": "",
+      "archetype": "evidence",
+      "attributes": [
+        {
+          "name": "received_at",
+          "type": "timestamp"
+        }
+      ]
+    }
+  ],
+  "relationships": []
+}
