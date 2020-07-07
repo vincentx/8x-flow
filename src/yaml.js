@@ -6,17 +6,15 @@ const yaml = {
     required: {
         timestamp: (entity) => required(timestamps(entity), error.message.required(entity, 'key_timestamps'))(entity.key_timestamps)
     },
-    optional: {
-        name: (entity) => optional(text, '')(entity.name),
-        desc: (entity) => optional(text, '')(entity.desc),
-        timestamp: (entity) => optional(timestamps(entity), [])(entity.key_timestamps),
-        data: (entity) => optional(stringList(array(json.attr.data, error.message.malformed(entity, 'key_data'))), [])(entity.key_data),
-        variform: (entity) => optional(bool, false)(entity.variform),
+    name: (entity) => optional(text, '')(entity.name),
+    desc: (entity) => optional(text, '')(entity.desc),
+    timestamp: (entity) => optional(timestamps(entity), [])(entity.key_timestamps),
+    data: (entity) => optional(stringList(array(json.attr.data, error.message.malformed(entity, 'key_data'))), [])(entity.key_data),
+    variform: (entity) => optional(bool, false)(entity.variform),
 
-        details: (entity, f) => many(entity.details, _(f, entity, 'details', isObject)),
-        fulfillment: (entity, f) => many(entity.fulfillment, _(f, entity, 'fulfillment', isObject)),
-        participants: (entity, f) => many(entity.participants, _(f, entity, 'participants', _ => true)),
-    }
+    details: (entity, f) => many(entity.details, _(f, entity, 'details', isObject)),
+    fulfillment: (entity, f) => many(entity.fulfillment, _(f, entity, 'fulfillment', isObject)),
+    participants: (entity, f) => many(entity.participants, _(f, entity, 'participants', _ => true))
 }
 
 function _(f, entity, field, valid) {
