@@ -24,7 +24,7 @@ function relationship(source, target, type) {
 }
 
 function reduce(attributes) {
-    return attributes.length === 0 ? [] : attributes.reduce((acc, cur) => acc.concat(cur));
+    return attributes.reduce((acc, cur) => acc.concat(cur));
 }
 
 function model(name, desc, archetype, attributes) {

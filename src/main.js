@@ -1,9 +1,8 @@
 import jsyaml from 'js-yaml';
 import json from './json';
-import error from "./error";
 import yaml from "./yaml";
 import context from './context';
-import {COMMA_SEPARATED, isString, notObject, withId} from "./utils";
+import {COMMA_SEPARATED, withId} from "./utils";
 
 export function parse(script) {
     return parseModel(context(), jsyaml.load(script)).result;
@@ -20,31 +19,23 @@ function parseContract(context, contract) {
         yaml.required.timestamp(contract),
         yaml.optional.data(contract)));
 
-    yaml.optional.details(contract, (detail) => context.rel(json.rel.details(contract, context.model(createContractDetail(context, contract, detail)))));
-    yaml.optional.fulfillment(contract, (fulfillment) => createFulfillment(context, contract, fulfillment));
-    yaml.optional.participants(contract, (participant) => createParticipant(context, contract, participant));
+    yaml.optional.details(contract, createContractDetail(context));
+    yaml.optional.fulfillment(contract, createFulfillment(context));
+    yaml.optional.participants(contract, createParticipant(context));
 }
 
-function createContractDetail(context, contract, detail) {
-    if (isString(detail)) return json.model.contractDetails(detail);
+function createContractDetail(context) {
+    return function(parent, declaration) {
+        yaml.optional.participants(declaration, createParticipant(context));
 
-    if (Object.keys(detail).length === 1) {
-        let name = Object.keys(detail)[0];
-        if (notObject(detail[name])) throw error.message.malformed(contract, 'details');
-        let declaration = withId(detail[name], name);
-
-        yaml.optional.participants(declaration, (participant) => createParticipant(context, declaration, participant));
-
-        return json.model.contractDetails(name,
+        context.rel(json.rel.details(parent, context.model(json.model.contractDetails(declaration.id,
             yaml.optional.desc(declaration),
             yaml.optional.timestamp(declaration),
-            yaml.optional.data(declaration))
+            yaml.optional.data(declaration)))));
     }
-
-    throw error.message.malformed(contract, 'details');
 }
 
-function createFulfillment(context, contract, fulfillment) {
+function createFulfillment(context) {
     function name(fulfillment, postfix) {
         return fulfillment.split(COMMA_SEPARATED).concat(postfix).join(' ');
     }
@@ -59,52 +50,37 @@ function createFulfillment(context, contract, fulfillment) {
         if (!declaration) return [];
         return yaml.optional.timestamp(declaration).concat(yaml.optional.data(declaration));
     }
-
-    if (isString(fulfillment)) {
-        let request = context.model(json.model.fulfillmentRequest(name(fulfillment, 'Request'), '', []));
-        let confirmation = context.model(json.model.fulfillmentConfirmation(name(fulfillment, 'Confirmation'), false, []));
-
-        context.rel(json.rel.fulfillment(contract, request));
-        context.rel(json.rel.confirmation(request, confirmation));
-    } else if (Object.keys(fulfillment).length === 1) {
-        let key = Object.keys(fulfillment)[0];
-
-        if (notObject(fulfillment[key])) throw error.message.malformed(contract, 'fulfillment');
-
-        let declaration = withId(fulfillment[key], key);
-
+    return function(parent, declaration) {
         let request = context.model(json.model.fulfillmentRequest(
-            override(declaration.request, name(key, 'Request')),
+            override(declaration.request, name(declaration.id, 'Request')),
             yaml.optional.desc(declaration), attr(declaration.request)));
-
         if (declaration.request)
-            yaml.optional.participants(declaration.request, (participant) => createParticipant(context, request, participant));
+            yaml.optional.participants(withId(declaration.request, request.id), createParticipant(context));
 
         let confirmation = context.model(json.model.fulfillmentConfirmation(
-            override(declaration.confirm, name(key, 'Confirmation')),
+            override(declaration.confirm, name(declaration.id, 'Confirmation')),
             declaration.confirm ? yaml.optional.variform(declaration.confirm) : false,
             attr(declaration.confirm)));
 
         if (declaration.confirm)
-            yaml.optional.participants(declaration.confirm, (participant) => createParticipant(context, confirmation, participant));
+            yaml.optional.participants(withId(declaration.confirm, confirmation.id), createParticipant(context));
 
-        context.rel(json.rel.fulfillment(contract, request));
+        context.rel(json.rel.fulfillment(parent, request));
         context.rel(json.rel.confirmation(request, confirmation));
-    } else throw error.message.malformed(contract, 'fulfillment');
+    }
 }
 
-function createParticipant(context, contract, participant) {
-    if (Object.keys(participant).length === 1) participant = Object.keys(participant)[0];
-    if (isString(participant)) {
+function createParticipant(context) {
+    return function (parent, declaration) {
+        let participant = declaration.id;
         if (participant.match(/^_+.+/)) {
             participant = (participant.split(/^_+/)[1]);
             context.model(json.model.role(participant));
         } else
             context.model(json.model.participant(participant));
 
-        return context.rel(json.rel.participant(contract, participant));
+        return context.rel(json.rel.participant(parent, participant));
     }
-    throw error.message.malformed(contract, 'participants');
 }
 
 

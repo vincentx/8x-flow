@@ -1,6 +1,6 @@
 import json from "./json";
 import error from './error';
-import {COMMA_SEPARATED, isString} from "./utils";
+import {COMMA_SEPARATED, isObject, isString, withId} from "./utils";
 
 const yaml = {
     required: {
@@ -13,9 +13,21 @@ const yaml = {
         data: (entity) => optional(stringList(array(json.attr.data, error.message.malformed(entity, 'key_data'))), [])(entity.key_data),
         variform: (entity) => optional(bool, false)(entity.variform),
 
-        details: (entity, f) => many(entity.details, f),
-        fulfillment: (entity, f) => many(entity.fulfillment, f),
-        participants: (entity, f) => many(entity.participants, f),
+        details: (entity, f) => many(entity.details, _(f, entity, 'details', isObject)),
+        fulfillment: (entity, f) => many(entity.fulfillment, _(f, entity, 'fulfillment', isObject)),
+        participants: (entity, f) => many(entity.participants, _(f, entity, 'participants', _ => true)),
+    }
+}
+
+function _(f, entity, field, valid) {
+    return function (value) {
+        if (isString(value)) return f(entity, {id: value});
+        if (Object.keys(value).length === 1) {
+            let name = Object.keys(value)[0];
+            if (!valid(value[name])) throw error.message.malformed(entity, field);
+            return f(entity, withId(value[name], name));
+        }
+        throw error.message.malformed(entity, field);
     }
 }
 
