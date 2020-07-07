@@ -29,6 +29,7 @@ function parseEvidence(context, evidence) {
     context.model.evidence(evidence.id,
         yaml.desc(evidence),
         attrs(yaml.required.timestamp(evidence), yaml.data(evidence)));
+    yaml.details(evidence, createEvidenceDetail(context));
 }
 
 function attrs(...attributes) {
@@ -40,6 +41,17 @@ function createContractDetail(context) {
         yaml.participants(declaration, createParticipant(context));
 
         context.rel.details(parent, context.model.contractDetails(
+            declaration.id,
+            yaml.desc(declaration),
+            attrs(yaml.timestamp(declaration), yaml.data(declaration))
+        ));
+    }
+}
+
+function createEvidenceDetail(context) {
+    return function (parent, declaration) {
+
+        context.rel.details(parent, context.model.evidenceDetails(
             declaration.id,
             yaml.desc(declaration),
             attrs(yaml.timestamp(declaration), yaml.data(declaration))
