@@ -1,11 +1,11 @@
 import jsyaml from 'js-yaml';
-import json from './json';
+import {jsonContext} from './json';
 import yaml from "./yaml";
 import context from './context';
 import {COMMA_SEPARATED, withId} from "./utils";
 
 export function parse(script) {
-    return parseModel(context(), jsyaml.load(script)).result;
+    return parseModel(jsonContext(context()), jsyaml.load(script)).result;
 }
 
 function parseModel(context, model) {
@@ -14,24 +14,28 @@ function parseModel(context, model) {
 }
 
 function parseContract(context, contract) {
-    context.model(json.model.contract(contract.id,
+    context.model.contract(contract.id,
         yaml.desc(contract),
-        yaml.required.timestamp(contract),
-        yaml.data(contract)));
+        attrs(yaml.required.timestamp(contract), yaml.data(contract)));
 
     yaml.details(contract, createContractDetail(context));
     yaml.fulfillment(contract, createFulfillment(context));
     yaml.participants(contract, createParticipant(context));
 }
 
+function attrs(...attributes) {
+    return attributes.reduce((acc, cur) => acc.concat(cur));
+}
+
 function createContractDetail(context) {
-    return function(parent, declaration) {
+    return function (parent, declaration) {
         yaml.participants(declaration, createParticipant(context));
 
-        context.rel(json.rel.details(parent, context.model(json.model.contractDetails(declaration.id,
+        context.rel.details(parent, context.model.contractDetails(
+            declaration.id,
             yaml.desc(declaration),
-            yaml.timestamp(declaration),
-            yaml.data(declaration)))));
+            attrs(yaml.timestamp(declaration), yaml.data(declaration))
+        ));
     }
 }
 
@@ -48,25 +52,28 @@ function createFulfillment(context) {
 
     function attr(declaration) {
         if (!declaration) return [];
-        return yaml.timestamp(declaration).concat(yaml.data(declaration));
+        return attrs(yaml.timestamp(declaration), (yaml.data(declaration)));
     }
-    return function(parent, declaration) {
-        let request = context.model(json.model.fulfillmentRequest(
+
+    return function (parent, declaration) {
+        let request = context.model.fulfillmentRequest(
             override(declaration.request, name(declaration.id, 'Request')),
-            yaml.desc(declaration), attr(declaration.request)));
+            yaml.desc(declaration),
+            attr(declaration.request));
+
         if (declaration.request)
             yaml.participants(withId(declaration.request, request.id), createParticipant(context));
 
-        let confirmation = context.model(json.model.fulfillmentConfirmation(
+        let confirmation = context.model.fulfillmentConfirmation(
             override(declaration.confirm, name(declaration.id, 'Confirmation')),
             declaration.confirm ? yaml.variform(declaration.confirm) : false,
-            attr(declaration.confirm)));
+            attr(declaration.confirm));
 
         if (declaration.confirm)
             yaml.participants(withId(declaration.confirm, confirmation.id), createParticipant(context));
 
-        context.rel(json.rel.fulfillment(parent, request));
-        context.rel(json.rel.confirmation(request, confirmation));
+        context.rel.fulfillment(parent, request);
+        context.rel.confirmation(request, confirmation);
     }
 }
 
@@ -75,11 +82,11 @@ function createParticipant(context) {
         let participant = declaration.id;
         if (participant.match(/^_+.+/)) {
             participant = (participant.split(/^_+/)[1]);
-            context.model(json.model.role(participant));
+            context.model.role(participant);
         } else
-            context.model(json.model.participant(participant));
+            context.model.participant(participant);
 
-        return context.rel(json.rel.participant(parent, participant));
+        context.rel.participant(parent, participant);
     }
 }
 

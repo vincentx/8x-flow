@@ -2,37 +2,48 @@ export default {
     attr: {
         data: (name) => attr(name, 'data'),
         timestamp: (name) => attr(name, 'timestamp')
-    },
-    model: {
-        contract: (name, desc, ...attributes) => model(name, desc, 'contract', reduce(attributes)),
-        contractDetails: (name, desc, ...attributes) => model(name, desc || '', 'contract-details', reduce(attributes)),
-        fulfillmentRequest: (name, desc, attributes) => model(name, desc, 'fulfillment', attributes),
-        fulfillmentConfirmation: (name, variform, attributes) => model(name, '', variform ? 'variform' : 'fulfillment', attributes),
-        participant: (name) => model(name, '', 'participant', []),
-        role: (name) => model(name, '', 'role', [])
-    },
-    rel: {
-        details: (source, target) => relationship(source.id, target.id, 'details'),
-        fulfillment: (source, target) => relationship(source.id, target.id, 'fulfillment'),
-        confirmation: (source, target) => relationship(source.id, target.id, 'confirmation'),
-        participant: (source, target) => relationship(source.id, target, 'participant'),
     }
 };
 
-function relationship(source, target, type) {
-    return {source: source, target: target, type: type};
-}
+export function jsonContext(context) {
+    function entity(archetype) {
+        return function (name, desc, attributes) {
+            return context.model({
+                id: name,
+                desc: desc,
+                archetype: archetype,
+                attributes: attributes
+            });
+        }
+    }
 
-function reduce(attributes) {
-    return attributes.reduce((acc, cur) => acc.concat(cur));
-}
+    function relationship(type) {
+        return function (source, target) {
+            context.rel({
+                source: source.id,
+                target: target.id || target,
+                type: type
+            })
+        }
+    }
 
-function model(name, desc, archetype, attributes) {
     return {
-        id: name,
-        desc: desc,
-        archetype: archetype,
-        attributes: attributes
+        model: {
+            contract: entity('contract'),
+            contractDetails: entity('contract-details'),
+            fulfillmentRequest: entity('fulfillment'),
+            fulfillmentConfirmation: (name, variform, attributes) =>
+                entity(variform ? 'variform' : 'fulfillment')(name, '', attributes),
+            participant: (name) => entity('participant')(name, '', []),
+            role: (name) => entity('role')(name, '', [])
+        },
+        rel: {
+            details: relationship('details'),
+            fulfillment: relationship('fulfillment'),
+            confirmation: relationship('confirmation'),
+            participant: relationship('participant')
+        },
+        result: context.result
     }
 }
 
