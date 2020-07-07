@@ -1,8 +1,0 @@
-contract: Order
-key_timestamps: created_at
-fulfillment:
-  - Order Payment:
-      request:
-        key_data: seller_account
-      confirm:
-        key_data: buyer_account

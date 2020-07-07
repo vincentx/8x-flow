@@ -1,8 +1,0 @@
-contract: Order
-key_timestamps: created_at
-fulfillment:
-  - Order Payment:
-      request:
-        key_timestamps: started_at, expired_at
-      confirm:
-        key_timestamps: confirmed_at
