@@ -1,3 +1,0 @@
-contract: Order
-desc: Purchased Order Contract
-key_timestamps: created_at

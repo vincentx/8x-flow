@@ -7,19 +7,30 @@ describe('Functional Test', () => {
     let cases = yaml.filter((file) => fs.existsSync(`${(file.slice(0, -4))}.json`))
         .map((file) => [file.split(process.cwd())[1], file, `${(file.slice(0, -4))}.json`]);
 
+    let errors = yaml.filter((file) => fs.existsSync(`${(file.slice(0, -4))}.txt`))
+        .map((file) => [file.split(process.cwd())[1], file, `${(file.slice(0, -4))}.txt`]);
+
+
     test.each(cases)('TEST: %s', (_, y, j) => {
-        let result = parse(yml(y));
+        let result = parse(read(y));
         let expected = json(j);
 
         expect(result.models).toEqual(expect.arrayContaining(expected.models));
         expect(result.relationships).toEqual(expect.arrayContaining(expected.relationships));
     });
+
+    test.each(errors)('TEST: %s', (_, y, t)=>{
+        let message = read(t).trim();
+        expect(message.length).toBeGreaterThan(0);
+        expect(() => parse(read(y))).toThrow(message);
+    });
+
+    function read(name) {
+        return fs.readFileSync(name, 'utf8').toString();
+    }
+
+    function json(name) {
+        return JSON.parse(fs.readFileSync(name, 'utf8'));
+    }
 });
 
-export function yml(name) {
-    return fs.readFileSync(name, 'utf8').toString();
-}
-
-export function json(name) {
-    return JSON.parse(fs.readFileSync(name, 'utf8'));
-}

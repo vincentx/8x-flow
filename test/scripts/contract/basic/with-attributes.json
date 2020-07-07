@@ -8,6 +8,10 @@
         {
           "name": "created_at",
           "type": "timestamp"
+        },
+        {
+          "name": "total_price",
+          "type": "data"
         }
       ]
     }
