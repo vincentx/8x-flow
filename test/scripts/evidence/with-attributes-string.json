@@ -2,12 +2,16 @@
   "models": [
     {
       "id": "Customs Clearance",
-      "desc": "",
+      "desc": "Customs Clearance Form",
       "archetype": "evidence",
       "attributes": [
         {
-          "name": "received_at",
+          "name": "created_at",
           "type": "timestamp"
+        },
+        {
+          "name": "total_price",
+          "type": "data"
         }
       ]
     }
