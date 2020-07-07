@@ -14,13 +14,13 @@
     {
       "id": "Item",
       "desc": "",
-      "archetype": "contract-details",
+      "archetype": "details",
       "attributes": []
     },
     {
       "id": "Recipe",
       "desc": "",
-      "archetype": "contract-details",
+      "archetype": "details",
       "attributes": []
     }
   ],

@@ -19,11 +19,7 @@ export function jsonContext(context) {
 
     function relationship(type) {
         return function (source, target) {
-            context.rel({
-                source: source.id,
-                target: target.id || target,
-                type: type
-            })
+            context.rel({source: source.id, target: target.id, type: type});
         }
     }
 
@@ -31,8 +27,8 @@ export function jsonContext(context) {
         model: {
             contract: entity('contract'),
             evidence: entity('evidence'),
-            contractDetails: entity('contract-details'),
-            evidenceDetails: entity('evidence-details'),
+            details: entity('details'),
+            evidenceDetails: entity('details'),
             fulfillmentRequest: entity('fulfillment'),
             fulfillmentConfirmation: (name, variform, attributes) =>
                 entity(variform ? 'variform' : 'fulfillment')(name, '', attributes),

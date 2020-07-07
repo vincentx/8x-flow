@@ -16,46 +16,43 @@ function parseModel(context, model) {
 }
 
 function parseContract(context, contract) {
-    context.model.contract(contract.id,
-        yaml.desc(contract),
-        attrs(yaml.required.timestamp(contract), yaml.data(contract)));
-
-    yaml.details(contract, createContractDetail(context));
+    parseMomentInterval(context, contract, context.model.contract);
     yaml.fulfillment(contract, createFulfillment(context));
-    yaml.participants(contract, createParticipant(context));
 }
 
 function parseEvidence(context, evidence) {
-    context.model.evidence(evidence.id,
-        yaml.desc(evidence),
-        attrs(yaml.required.timestamp(evidence), yaml.data(evidence)));
-    yaml.details(evidence, createEvidenceDetail(context));
+    parseMomentInterval(context, evidence, context.model.evidence);
+}
+
+function parseMomentInterval(context, mi, type) {
+    type(mi.id, yaml.desc(mi), attrs(yaml.required.timestamp(mi), yaml.data(mi)));
+
+    yaml.details(mi, createDetails(context));
+    yaml.participants(mi, createParticipant(context));
 }
 
 function attrs(...attributes) {
     return attributes.reduce((acc, cur) => acc.concat(cur));
 }
 
-function createContractDetail(context) {
+function createDetails(context) {
     return function (parent, declaration) {
-        yaml.participants(declaration, createParticipant(context));
-
-        context.rel.details(parent, context.model.contractDetails(
+        context.rel.details(parent, context.model.details(
             declaration.id,
             yaml.desc(declaration),
             attrs(yaml.timestamp(declaration), yaml.data(declaration))
         ));
+
+        yaml.participants(declaration, createParticipant(context));
     }
 }
 
-function createEvidenceDetail(context) {
+function createParticipant(context) {
     return function (parent, declaration) {
+        let participant = yaml.role.is(declaration.id) ?
+            context.model.role(yaml.role.name(declaration.id)) : context.model.participant(declaration.id);
 
-        context.rel.details(parent, context.model.evidenceDetails(
-            declaration.id,
-            yaml.desc(declaration),
-            attrs(yaml.timestamp(declaration), yaml.data(declaration))
-        ));
+        context.rel.participant(parent, participant);
     }
 }
 
@@ -97,17 +94,5 @@ function createFulfillment(context) {
     }
 }
 
-function createParticipant(context) {
-    return function (parent, declaration) {
-        let participant = declaration.id;
-        if (participant.match(/^_+.+/)) {
-            participant = (participant.split(/^_+/)[1]);
-            context.model.role(participant);
-        } else
-            context.model.participant(participant);
-
-        context.rel.participant(parent, participant);
-    }
-}
 
 

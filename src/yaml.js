@@ -14,7 +14,12 @@ const yaml = {
 
     details: (entity, f) => many(entity.details, _(f, entity, 'details', isObject)),
     fulfillment: (entity, f) => many(entity.fulfillment, _(f, entity, 'fulfillment', isObject)),
-    participants: (entity, f) => many(entity.participants, _(f, entity, 'participants', _ => true))
+    participants: (entity, f) => many(entity.participants, _(f, entity, 'participants', _ => true)),
+
+    role: {
+        is: (_) => _.match(/^_+.+/),
+        name: (_) => _.split(/^_+/)[1]
+    }
 }
 
 function _(f, entity, field, valid) {

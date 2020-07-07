@@ -18,7 +18,7 @@
     {
       "id": "Clearance Item",
       "desc": "",
-      "archetype": "evidence-details",
+      "archetype": "details",
       "attributes": []
     }
   ],

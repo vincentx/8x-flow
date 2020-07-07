@@ -14,7 +14,7 @@
     {
       "id": "Order Item",
       "desc": "",
-      "archetype": "contract-details",
+      "archetype": "details",
       "attributes": []
     },
     {
