@@ -1,0 +1,28 @@
+{
+  "models": [
+    {
+      "id": "Order",
+      "desc": "",
+      "archetype": "contract",
+      "attributes": [
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ]
+    },
+    {
+      "id": "Order Item",
+      "desc": "",
+      "archetype": "contract-details",
+      "attributes": []
+    }
+  ],
+  "relationships": [
+    {
+      "source": "Order",
+      "target": "Order Item",
+      "type": "details"
+    }
+  ]
+}

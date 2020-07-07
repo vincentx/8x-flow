@@ -16,7 +16,9 @@ describe('Functional Test', () => {
         let expected = json(j);
 
         expect(result.models).toEqual(expect.arrayContaining(expected.models));
+        expect(result.models.length).toEqual(expected.models.length);
         expect(result.relationships).toEqual(expect.arrayContaining(expected.relationships));
+        expect(result.relationships.length).toEqual(expected.relationships.length);
     });
 
     test.each(errors)('TEST: %s', (_, y, t)=>{
