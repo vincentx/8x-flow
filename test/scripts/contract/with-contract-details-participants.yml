@@ -1,6 +1,6 @@
 contract: Order
 key_timestamps: created_at
 details:
-  Order Items:
+  Order Item:
     participants:
       Shop: Shop who proivdes the products
