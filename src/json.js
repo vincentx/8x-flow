@@ -28,7 +28,6 @@ export function jsonContext(context) {
             contract: entity('contract'),
             evidence: entity('evidence'),
             details: entity('details'),
-            evidenceDetails: entity('details'),
             fulfillmentRequest: entity('fulfillment'),
             fulfillmentConfirmation: (name, variform, attributes) =>
                 entity(variform ? 'variform' : 'fulfillment')(name, '', attributes),
