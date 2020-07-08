@@ -84,26 +84,26 @@ function createFulfillment(context) {
         return attrs(yaml.timestamp(declaration), (yaml.data(declaration)));
     }
 
+    function parse(context, parent, declaration) {
+        if (!declaration) return;
+        yaml.participants(withId(declaration, parent.id), createParticipant(context));
+        yaml.evidences(declaration, createEvidence(context));
+        yaml.plays(declaration, createPlayAsRole(context));
+    }
+
     return function (parent, declaration) {
         let request = context.model.fulfillmentRequest(
             override(declaration.request, name(declaration.id, 'Request')),
             yaml.desc(declaration),
             attr(declaration.request));
 
-        if (declaration.request) {
-            yaml.participants(withId(declaration.request, request.id), createParticipant(context));
-            yaml.evidences(declaration.request, createEvidence(context));
-        }
-
         let confirmation = context.model.fulfillmentConfirmation(
             override(declaration.confirm, name(declaration.id, 'Confirmation')),
             declaration.confirm ? yaml.variform(declaration.confirm) : false,
             attr(declaration.confirm));
 
-        if (declaration.confirm) {
-            yaml.participants(withId(declaration.confirm, confirmation.id), createParticipant(context));
-            yaml.evidences(declaration.confirm, createEvidence(context));
-        }
+        parse(context, request, declaration.request);
+        parse(context, confirmation, declaration.confirm);
 
         context.rel.fulfillment(parent, request);
         context.rel.confirmation(request, confirmation);
