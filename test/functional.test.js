@@ -56,6 +56,25 @@ describe('Functional Test', () => {
         });
     });
 
+
+    describe("Participants", () => {
+        describe.each([
+            ['party'],
+            ['place'],
+            ['thing']
+        ])('%s declaration', (mi) => {
+
+            test.each(cases('participant'))('TEST: %s', (_, y, j) => {
+                expectMatch(parse(require(y).yaml({type: mi})), require(j).json(mi));
+            });
+
+            // test.each(errors('participant'))('TEST: %s', (_, y, t) => {
+            //     expectError(read(t).trim(), () => parse(require(y).yaml({type: mi})))
+            // });
+        });
+    });
+
+
     function cases(folder) {
         let yaml = glob.sync(`${process.cwd()}/test/scripts/${folder}/**/*.yml.js`);
         return yaml.filter((file) => fs.existsSync(`${(file.slice(0, -7))}.json.js`))

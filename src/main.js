@@ -15,15 +15,15 @@ export function parse(script) {
 
 function parseModel(context, model) {
     ["contract", "rfp", "proposal", "evidence", "agreement"]
-        .filter(type => model[type] !== undefined)
+        .filter(type => model[type])
         .forEach((type) => parseMomentInterval(context, withId(model, model[type]), context.model[type]));
+
+    ["party","place","thing"]
+        .filter(type => model[type])
+        .forEach((type) => parseParticipant(context, withId(model, model[type]), context.model[type]));
 
     if (model["contract"]) parseFulfillment(context, withId(model, model.contract))
     if (model["agreement"]) parseFulfillment(context, withId(model, model.agreement))
-}
-
-function parseFulfillment(context, contract) {
-    yaml.fulfillment(contract, createFulfillment(context));
 }
 
 function parseMomentInterval(context, mi, type) {
@@ -37,6 +37,14 @@ function parseMomentIntervalAssoc(context, mi) {
     yaml.plays(mi, createPlayAsRole(context));
     yaml.participants(mi, createParticipant(context));
     yaml.evidences(mi, createEvidence(context));
+}
+
+function parseParticipant(context, mi, type) {
+    type(mi.id, yaml.desc(mi), yaml.data(mi));
+}
+
+function parseFulfillment(context, contract) {
+    yaml.fulfillment(contract, createFulfillment(context));
 }
 
 function createDetails(context) {
