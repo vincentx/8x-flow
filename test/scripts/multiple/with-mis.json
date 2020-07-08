@@ -1,0 +1,49 @@
+{
+  "models": [
+    {
+      "archetype": "rfp",
+      "attributes": [
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ],
+      "desc": "",
+      "id": "Price Request"
+    },
+    {
+      "archetype": "proposal",
+      "attributes": [
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ],
+      "desc": "",
+      "id": "Price Proposal"
+    },
+    {
+      "archetype": "contract",
+      "attributes": [
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ],
+      "desc": "",
+      "id": "Order"
+    },
+    {
+      "archetype": "evidence",
+      "attributes": [
+        {
+          "name": "created_at",
+          "type": "timestamp"
+        }
+      ],
+      "desc": "",
+      "id": "Shipping Order"
+    }
+  ],
+  "relationships": []
+}

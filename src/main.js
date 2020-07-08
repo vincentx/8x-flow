@@ -5,7 +5,11 @@ import context from './context';
 import {COMMA_SEPARATED, withId} from "./utils";
 
 export function parse(script) {
-    return parseModel(jsonContext(context()), jsyaml.load(script)).result;
+    let model = jsyaml.load(script);
+    let ctx = jsonContext(context());
+    if (Array.isArray(model)) model.forEach((_) => parseModel(ctx, _))
+    else parseModel(ctx, model);
+    return ctx.result;
 }
 
 function parseModel(context, model) {
@@ -14,7 +18,6 @@ function parseModel(context, model) {
         .forEach((type) => parseMomentInterval(context, withId(model, model[type]), context.model[type]));
 
     if (model["contract"]) parseContract(context, withId(model, model.contract))
-    return context;
 }
 
 function parseContract(context, contract) {

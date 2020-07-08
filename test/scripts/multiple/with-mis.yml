@@ -1,0 +1,11 @@
+- rfp: Price Request
+  key_timestamps: created_at
+
+- proposal: Price Proposal
+  key_timestamps: created_at
+
+- contract: Order
+  key_timestamps: created_at
+
+- evidence: Shipping Order
+  key_timestamps: created_at
