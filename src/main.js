@@ -28,6 +28,10 @@ function parseContract(context, contract) {
 function parseMomentInterval(context, mi, type) {
     type(mi.id, yaml.desc(mi), attrs(yaml.required.timestamp(mi), yaml.data(mi)));
 
+    parseMomentIntervalAssoc(context, mi);
+}
+
+function parseMomentIntervalAssoc(context, mi) {
     yaml.details(mi, createDetails(context));
     yaml.plays(mi, createPlayAsRole(context));
     yaml.participants(mi, createParticipant(context));
@@ -86,9 +90,8 @@ function createFulfillment(context) {
 
     function parse(context, parent, declaration) {
         if (!declaration) return;
-        yaml.participants(withId(declaration, parent.id), createParticipant(context));
-        yaml.evidences(declaration, createEvidence(context));
-        yaml.plays(declaration, createPlayAsRole(context));
+
+        parseMomentIntervalAssoc(context, withId(declaration, parent.id));
     }
 
     return function (parent, declaration) {
