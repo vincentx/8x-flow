@@ -18,7 +18,7 @@ function parseModel(context, model) {
         .filter(type => model[type])
         .forEach((type) => parseMomentInterval(context, withId(model, model[type]), context.model[type]));
 
-    ["party","place","thing"]
+    ["party", "place", "thing"]
         .filter(type => model[type])
         .forEach((type) => parseParticipant(context, withId(model, model[type]), context.model[type]));
 
@@ -41,6 +41,7 @@ function parseMomentIntervalAssoc(context, mi) {
 
 function parseParticipant(context, mi, type) {
     type(mi.id, yaml.desc(mi), yaml.data(mi));
+    yaml.relates(mi, createRelates(context));
     yaml.plays(mi, createPlayAsRole(context));
 }
 
@@ -73,6 +74,12 @@ function createPlayAsRole(context) {
     return function (parent, declaration) {
         if (!yaml.role.is(declaration.id)) throw error.message.roleRequired(parent);
         context.rel.plays(parent, context.model.role(yaml.role.name(declaration.id)));
+    }
+}
+
+function createRelates(context) {
+    return function (parent, declaration) {
+        context.rel.relates(parent, declaration);
     }
 }
 

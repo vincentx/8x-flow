@@ -16,6 +16,7 @@ const yaml = {
     fulfillment: (entity, f) => many(entity.fulfillment, _(f, entity, 'fulfillment', isObject)),
     participants: (entity, f) => many(entity.participants, _(f, entity, 'participants', _ => true)),
     plays: (entity, f) => many(entity.plays, _(f, entity, 'plays', _ => true)),
+    relates: (entity, f) => many(entity.relates, _(f, entity, 'relates', _ => true)),
     evidences: (entity, f) => many(entity.evidences, _(f, entity, 'evidences', _ => true)),
 
     role: {

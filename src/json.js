@@ -48,6 +48,7 @@ export function jsonContext(context) {
             confirmation: relationship('confirmation'),
             participant: relationship('participant'),
             plays: relationship('plays'),
+            relates: relationship('relates'),
             evidence: relationship('as-evidence')
         },
         result: context.result
