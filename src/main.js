@@ -88,7 +88,9 @@ function createPlayAsRole(context) {
 
 function createRelates(context) {
     return function (parent, declaration) {
-        context.rel.relates(parent, declaration);
+        if (yaml.role.is(declaration.id))
+            context.rel.relates(parent, context.model.role(yaml.role.name(declaration.id)));
+        else context.rel.relates(parent, declaration);
     }
 }
 
