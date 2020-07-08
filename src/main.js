@@ -22,6 +22,10 @@ function parseModel(context, model) {
         .filter(type => model[type])
         .forEach((type) => parseParticipant(context, withId(model, model[type]), context.model[type]));
 
+    ["role", "domain", "system"]
+        .filter(type => model[type])
+        .forEach((type) => parseRole(context, withId(model, model[type]), context.model[type]));
+
     if (model["contract"]) parseFulfillment(context, withId(model, model.contract))
     if (model["agreement"]) parseFulfillment(context, withId(model, model.agreement))
 }
@@ -39,10 +43,15 @@ function parseMomentIntervalAssoc(context, mi) {
     yaml.evidences(mi, createEvidence(context));
 }
 
-function parseParticipant(context, mi, type) {
-    type(mi.id, yaml.desc(mi), yaml.data(mi));
-    yaml.relates(mi, createRelates(context));
-    yaml.plays(mi, createPlayAsRole(context));
+function parseParticipant(context, participant, type) {
+    type(participant.id, yaml.desc(participant), yaml.data(participant));
+    yaml.relates(participant, createRelates(context));
+    yaml.plays(participant, createPlayAsRole(context));
+}
+
+function parseRole(context, role, type) {
+    type(role.id, yaml.desc(role));
+    yaml.relates(role, createRelates(context));
 }
 
 function parseFulfillment(context, contract) {

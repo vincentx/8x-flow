@@ -36,4 +36,8 @@ describe("Parsing Context", () => {
 
         expect(ctx.result.models[0].desc).toBe('desc');
     });
+
+    // test("should not merge specific role with general one", () => {
+    //
+    // });
 });

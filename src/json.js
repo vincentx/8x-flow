@@ -35,12 +35,15 @@ export function jsonContext(context) {
             place: entity('place'),
             thing: entity('thing'),
 
+            role: (name, desc) => entity('role')(name, desc || '', []),
+            domain: (name, desc) => entity('domain')(name, desc || '', []),
+            system: (name, desc) => entity('system')(name, desc || '', []),
+
             details: entity('details'),
             fulfillmentRequest: entity('fulfillment'),
             fulfillmentConfirmation: (name, variform, attributes) =>
                 entity(variform ? 'variform' : 'fulfillment')(name, '', attributes),
-            participant: (name) => entity('participant')(name, '', []),
-            role: (name) => entity('role')(name, '', [])
+            participant: (name) => entity('participant')(name, '', [])
         },
         rel: {
             details: relationship('has-details'),
