@@ -10,6 +10,11 @@
   "bin": {
     "8xscript": "./bin/8xscript"
   },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "test"
+    ]
+  },
   "author": "Vincent Xu",
   "license": "MIT",
   "devDependencies": {

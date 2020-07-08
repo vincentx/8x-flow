@@ -31,10 +31,6 @@ function parseMomentInterval(context, mi, type) {
     yaml.participants(mi, createParticipant(context));
 }
 
-function attrs(...attributes) {
-    return attributes.reduce((acc, cur) => acc.concat(cur));
-}
-
 function createDetails(context) {
     return function (parent, declaration) {
         context.rel.details(parent, context.model.details(
@@ -92,6 +88,10 @@ function createFulfillment(context) {
         context.rel.fulfillment(parent, request);
         context.rel.confirmation(request, confirmation);
     }
+}
+
+function attrs(...attributes) {
+    return attributes.reduce((acc, cur) => acc.concat(cur));
 }
 
 

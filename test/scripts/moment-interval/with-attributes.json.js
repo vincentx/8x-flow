@@ -1,9 +1,11 @@
-{
+import template from "../../template";
+
+export const json = template`{
   "models": [
     {
       "id": "Order",
       "desc": "Purchased Order Contract",
-      "archetype": "contract",
+      "archetype": "${'type'}",
       "attributes": [
         {
           "name": "created_at",
@@ -18,3 +20,4 @@
   ],
   "relationships": []
 }
+`;

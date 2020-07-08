@@ -14,7 +14,19 @@
           "type": "data"
         }
       ]
+    },
+    {
+      "id": "Clearance Item",
+      "desc": "",
+      "archetype": "details",
+      "attributes": []
     }
   ],
-  "relationships": []
+  "relationships": [
+    {
+      "source": "Customs Clearance",
+      "target": "Clearance Item",
+      "type": "details"
+    }
+  ]
 }
