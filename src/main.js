@@ -41,6 +41,7 @@ function parseMomentIntervalAssoc(context, mi) {
 
 function parseParticipant(context, mi, type) {
     type(mi.id, yaml.desc(mi), yaml.data(mi));
+    yaml.plays(mi, createPlayAsRole(context));
 }
 
 function parseFulfillment(context, contract) {

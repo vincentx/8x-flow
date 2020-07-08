@@ -68,9 +68,9 @@ describe('Functional Test', () => {
                 expectMatch(parse(require(y).yaml({type: mi})), require(j).json(mi));
             });
 
-            // test.each(errors('participant'))('TEST: %s', (_, y, t) => {
-            //     expectError(read(t).trim(), () => parse(require(y).yaml({type: mi})))
-            // });
+            test.each(errors('participant'))('TEST: %s', (_, y, t) => {
+                expectError(read(t).trim(), () => parse(require(y).yaml({type: mi})))
+            });
         });
     });
 
