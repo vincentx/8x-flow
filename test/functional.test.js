@@ -32,7 +32,7 @@ describe('Functional Test', () => {
         ])('%s declaration', (mi) => {
 
             test.each(cases())('TEST: %s', (_, y, j) => {
-                expectMatch(parse(require(y).yaml({type: mi})), JSON.parse(require(j).json({type: mi})));
+                expectMatch(parse(require(y).yaml({type: mi})), require(j).json(mi));
             });
 
             test.each(errors())('TEST: %s', (_, y, t) => {
