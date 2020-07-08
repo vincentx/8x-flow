@@ -23,7 +23,7 @@ export const json = function (type) {
             {
                 "source": "Order",
                 "target": "Order Item",
-                "type": "as-details"
+                "type": "has-details"
             }
         ]
     }

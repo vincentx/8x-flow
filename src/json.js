@@ -37,7 +37,7 @@ export function jsonContext(context) {
             role: (name) => entity('role')(name, '', [])
         },
         rel: {
-            details: relationship('as-details'),
+            details: relationship('has-details'),
             fulfillment: relationship('fulfillment'),
             confirmation: relationship('confirmation'),
             participant: relationship('participant'),
