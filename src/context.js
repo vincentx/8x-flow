@@ -12,13 +12,12 @@ export default function context() {
         ["party", "participant"],
         ["place", "participant"],
         ["thing", "participant"],
-        ["contract"],
-        ["agreement"],
-        ["evidence"],
-        ["proposal"],
-        ["rfp"],
-        ["fulfillment"],
-        ["variform"],
+        ["contract", "evidence"],
+        ["agreement", "evidence"],
+        ["proposal", "evidence"],
+        ["rfp", "evidence"],
+        ["fulfillment", "evidence"],
+        ["variform", "evidence"],
     ];
 
     let models = {};

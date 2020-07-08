@@ -1,6 +1,6 @@
 {
   "name": "@8x-flow/yaml-script",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A YAML DSL for 8X flow business object models",
   "main": "lib/main.js",
   "scripts": {
@@ -22,13 +22,19 @@
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "glob": "^7.1.6",
-    "jest": "^26.1.0"
+    "jest": "^26.1.0",
+    "yargs": "^15.4.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
     "js-yaml": "^3.14.0",
     "yargs": "^15.4.0"
   },
+  "files": [
+    "lib/",
+    "bin/",
+    "package.json"
+  ],
   "directories": {
     "lib": "lib",
     "test": "test"
