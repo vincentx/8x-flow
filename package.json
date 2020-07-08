@@ -8,7 +8,7 @@
     "test": "jest --coverage"
   },
   "bin": {
-    "8xscript": "./bin/8xscript"
+    "8xscript": "bin/8xscript"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
@@ -28,5 +28,17 @@
     "@babel/polyfill": "^7.10.4",
     "js-yaml": "^3.14.0",
     "yargs": "^15.4.0"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincentx/8x-flow-yaml-script.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vincentx/8x-flow-yaml-script/issues"
+  },
+  "homepage": "https://github.com/vincentx/8x-flow-yaml-script#readme"
 }
