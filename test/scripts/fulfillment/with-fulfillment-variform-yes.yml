@@ -1,6 +1,0 @@
-contract: Order
-key_timestamps: created_at
-fulfillment:
-  Order Payment:
-    confirm:
-      variform: yes

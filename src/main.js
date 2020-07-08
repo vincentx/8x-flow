@@ -14,14 +14,15 @@ export function parse(script) {
 }
 
 function parseModel(context, model) {
-    ["contract", "rfp", "proposal", "evidence"]
+    ["contract", "rfp", "proposal", "evidence", "agreement"]
         .filter(type => model[type] !== undefined)
         .forEach((type) => parseMomentInterval(context, withId(model, model[type]), context.model[type]));
 
-    if (model["contract"]) parseContract(context, withId(model, model.contract))
+    if (model["contract"]) parseFulfillment(context, withId(model, model.contract))
+    if (model["agreement"]) parseFulfillment(context, withId(model, model.agreement))
 }
 
-function parseContract(context, contract) {
+function parseFulfillment(context, contract) {
     yaml.fulfillment(contract, createFulfillment(context));
 }
 

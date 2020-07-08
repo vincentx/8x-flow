@@ -29,6 +29,7 @@ export function jsonContext(context) {
             proposal: entity('proposal'),
             contract: entity('contract'),
             evidence: entity('evidence'),
+            agreement: entity('agreement'),
             details: entity('details'),
             fulfillmentRequest: entity('fulfillment'),
             fulfillmentConfirmation: (name, variform, attributes) =>

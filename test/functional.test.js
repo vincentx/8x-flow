@@ -8,10 +8,6 @@ describe('Functional Test', () => {
             expectMatch(parse(read(y)), json(j));
         });
 
-        test.each(errors())('TEST: %s', (_, y, t) => {
-            expectError(read(t).trim(), () => parse(read(y)));
-        });
-
         function cases() {
             let yaml = glob.sync(`${process.cwd()}/test/scripts/**/*.yml`);
             return yaml.filter((file) => fs.existsSync(`${(file.slice(0, -4))}.json`))
@@ -31,30 +27,46 @@ describe('Functional Test', () => {
             ['proposal'],
             ['contract'],
             ['evidence'],
+            ['agreement']
         ])('%s declaration', (mi) => {
 
-            test.each(cases())('TEST: %s', (_, y, j) => {
+            test.each(cases('moment-interval'))('TEST: %s', (_, y, j) => {
                 expectMatch(parse(require(y).yaml({type: mi})), require(j).json(mi));
             });
 
-            test.each(errors())('TEST: %s', (_, y, t) => {
+            test.each(errors('moment-interval'))('TEST: %s', (_, y, t) => {
                 expectError(read(t).trim(), () => parse(require(y).yaml({type: mi})))
             });
         });
-
-        function cases() {
-            let yaml = glob.sync(`${process.cwd()}/test/scripts/moment-interval/**/*.yml.js`);
-            return yaml.filter((file) => fs.existsSync(`${(file.slice(0, -7))}.json.js`))
-                .map((file) => [file.split(process.cwd())[1], file, `${(file.slice(0, -7))}.json.js`]);
-        }
-
-        function errors() {
-            let yaml = glob.sync(`${process.cwd()}/test/scripts/moment-interval/**/*.yml.js`);
-            return yaml.filter((file) => fs.existsSync(`${(file.slice(0, -7))}.txt`))
-                .map((file) => [file.split(process.cwd())[1], file, `${(file.slice(0, -7))}.txt`]);
-        }
     });
 
+    describe("Declarations with fulfillment", () => {
+        describe.each([
+            ['contract'],
+            ['agreement']
+        ])('%s declaration', (mi) => {
+
+            test.each(cases('fulfillment'))('TEST: %s', (_, y, j) => {
+                expectMatch(parse(require(y).yaml({type: mi})), require(j).json(mi));
+            });
+
+            test.each(errors('fulfillment'))('TEST: %s', (_, y, t) => {
+                expectError(read(t).trim(), () => parse(require(y).yaml({type: mi})))
+            });
+        });
+    });
+
+    function cases(folder) {
+        let yaml = glob.sync(`${process.cwd()}/test/scripts/${folder}/**/*.yml.js`);
+        return yaml.filter((file) => fs.existsSync(`${(file.slice(0, -7))}.json.js`))
+            .map((file) => [file.split(process.cwd())[1], file, `${(file.slice(0, -7))}.json.js`]);
+    }
+
+    function errors(folder) {
+        let yaml = glob.sync(`${process.cwd()}/test/scripts/${folder}/**/*.yml.js`);
+        return yaml.filter((file) => fs.existsSync(`${(file.slice(0, -7))}.txt`))
+            .map((file) => [file.split(process.cwd())[1], file, `${(file.slice(0, -7))}.txt`]);
+    }
 
     function expectMatch(result, expected) {
         expect(result.models).toEqual(expect.arrayContaining(expected.models));
