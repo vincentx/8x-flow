@@ -32,7 +32,7 @@ export const json = function (type) {
             {
                 "source": "Order",
                 "target": "Order Item",
-                "type": "details"
+                "type": "as-details"
             }
         ]
     }

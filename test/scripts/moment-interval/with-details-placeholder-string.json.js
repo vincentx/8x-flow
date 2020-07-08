@@ -29,12 +29,12 @@ export const json = function (type) {
             {
                 "source": "Manufacture Order",
                 "target": "Item",
-                "type": "details"
+                "type": "as-details"
             },
             {
                 "source": "Manufacture Order",
                 "target": "Recipe",
-                "type": "details"
+                "type": "as-details"
             }
         ]
     }

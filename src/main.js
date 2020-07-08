@@ -29,6 +29,7 @@ function parseMomentInterval(context, mi, type) {
 
     yaml.details(mi, createDetails(context));
     yaml.participants(mi, createParticipant(context));
+    yaml.evidences(mi, createEvidence(context));
 }
 
 function createDetails(context) {
@@ -49,6 +50,12 @@ function createParticipant(context) {
             context.model.role(yaml.role.name(declaration.id)) : context.model.participant(declaration.id);
 
         context.rel.participant(parent, participant);
+    }
+}
+
+function createEvidence(context) {
+    return function (parent, declaration) {
+        context.rel.evidence(parent, context.model.evidence(declaration.id));
     }
 }
 

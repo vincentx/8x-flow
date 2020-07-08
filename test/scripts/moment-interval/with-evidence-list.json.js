@@ -2,7 +2,7 @@ export const json = function (type) {
     return {
         "models": [
             {
-                "id": "Order",
+                "id": "Service Fee",
                 "desc": "",
                 "archetype": type,
                 "attributes": [
@@ -13,17 +13,15 @@ export const json = function (type) {
                 ]
             },
             {
-                "id": "Order Item",
-                "desc": "",
-                "archetype": "details",
-                "attributes": []
+                "id": "Clearance Form",
+                "archetype": "evidence"
             }
         ],
         "relationships": [
             {
-                "source": "Order",
-                "target": "Order Item",
-                "type": "as-details"
+                "source": "Service Fee",
+                "target": "Clearance Form",
+                "type": "as-evidence"
             }
         ]
     }
