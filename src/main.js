@@ -3,6 +3,7 @@ import {jsonContext} from './json';
 import yaml from "./yaml";
 import context from './context';
 import {COMMA_SEPARATED, withId} from "./utils";
+import error from "./error";
 
 export function parse(script) {
     let model = jsyaml.load(script);
@@ -28,6 +29,7 @@ function parseMomentInterval(context, mi, type) {
     type(mi.id, yaml.desc(mi), attrs(yaml.required.timestamp(mi), yaml.data(mi)));
 
     yaml.details(mi, createDetails(context));
+    yaml.plays(mi, createPlayAsRole(context));
     yaml.participants(mi, createParticipant(context));
     yaml.evidences(mi, createEvidence(context));
 }
@@ -50,6 +52,13 @@ function createParticipant(context) {
             context.model.role(yaml.role.name(declaration.id)) : context.model.participant(declaration.id);
 
         context.rel.participant(parent, participant);
+    }
+}
+
+function createPlayAsRole(context) {
+    return function (parent, declaration) {
+        if (!yaml.role.is(declaration.id)) throw error.message.roleRequired(parent);
+        context.rel.plays(parent, context.model.role(yaml.role.name(declaration.id)));
     }
 }
 
