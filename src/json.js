@@ -25,6 +25,8 @@ export function jsonContext(context) {
 
     return {
         model: {
+            rfp: entity('rfp'),
+            proposal: entity('proposal'),
             contract: entity('contract'),
             evidence: entity('evidence'),
             details: entity('details'),

@@ -27,8 +27,10 @@ describe('Functional Test', () => {
 
     describe("Moment Interval Declarations", () => {
         describe.each([
+            ['rfp'],
+            ['proposal'],
             ['contract'],
-            ['evidence']
+            ['evidence'],
         ])('%s declaration', (mi) => {
 
             test.each(cases())('TEST: %s', (_, y, j) => {

@@ -9,19 +9,16 @@ export function parse(script) {
 }
 
 function parseModel(context, model) {
-    if (model.contract) parseContract(context, withId(model, model.contract))
-    else parseEvidence(context, withId(model, model.evidence))
+    ["contract", "rfp", "proposal", "evidence"]
+        .filter(type => model[type] !== undefined)
+        .forEach((type) => parseMomentInterval(context, withId(model, model[type]), context.model[type]));
 
+    if (model["contract"]) parseContract(context, withId(model, model.contract))
     return context;
 }
 
 function parseContract(context, contract) {
-    parseMomentInterval(context, contract, context.model.contract);
     yaml.fulfillment(contract, createFulfillment(context));
-}
-
-function parseEvidence(context, evidence) {
-    parseMomentInterval(context, evidence, context.model.evidence);
 }
 
 function parseMomentInterval(context, mi, type) {
