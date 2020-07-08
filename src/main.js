@@ -81,16 +81,20 @@ function createFulfillment(context) {
             yaml.desc(declaration),
             attr(declaration.request));
 
-        if (declaration.request)
+        if (declaration.request) {
             yaml.participants(withId(declaration.request, request.id), createParticipant(context));
+            yaml.evidences(declaration.request, createEvidence(context));
+        }
 
         let confirmation = context.model.fulfillmentConfirmation(
             override(declaration.confirm, name(declaration.id, 'Confirmation')),
             declaration.confirm ? yaml.variform(declaration.confirm) : false,
             attr(declaration.confirm));
 
-        if (declaration.confirm)
+        if (declaration.confirm) {
             yaml.participants(withId(declaration.confirm, confirmation.id), createParticipant(context));
+            yaml.evidences(declaration.confirm, createEvidence(context));
+        }
 
         context.rel.fulfillment(parent, request);
         context.rel.confirmation(request, confirmation);

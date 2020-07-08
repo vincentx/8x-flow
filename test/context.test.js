@@ -30,7 +30,7 @@ describe("Parsing Context", () => {
 
     test("should not merge desc ''", () => {
         let ctx = context();
-        
+
         ctx.model({id: 'Order', desc: 'desc'});
         ctx.model({id: 'Order'});
 
