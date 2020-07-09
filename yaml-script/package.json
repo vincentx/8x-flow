@@ -22,8 +22,7 @@
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "glob": "^7.1.6",
-    "jest": "^26.1.0",
-    "yargs": "^15.4.0"
+    "jest": "^26.1.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
@@ -41,10 +40,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vincentx/8x-flow-yaml-script.git"
+    "url": "git+https://github.com/vincentx/8x-flow.git"
   },
   "bugs": {
-    "url": "https://github.com/vincentx/8x-flow-yaml-script/issues"
+    "url": "https://github.com/vincentx/8x-flow/issues"
   },
-  "homepage": "https://github.com/vincentx/8x-flow-yaml-script#readme"
+  "homepage": "https://github.com/vincentx/8x-flow#readme"
 }

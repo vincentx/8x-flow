@@ -1,7 +1,7 @@
 import context from "../src/context";
 
 describe("Parsing Context", () => {
-    test("should not create duplicated model", () => {
+    test("should not create duplicated object", () => {
         let ctx = context();
 
         ctx.model({id: 'Order', 'archetype': 'contract'});

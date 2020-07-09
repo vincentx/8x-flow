@@ -1,0 +1,32 @@
+{
+  "name": "@8x-flow/d3-chart",
+  "version": "1.0.0",
+  "description": "D3js visualization for 8X flow models",
+  "main": "index.js",
+  "scripts": {
+    "prepack": "babel src -d lib",
+    "test": "jest --coverage"
+  },
+  "author": "Vincent Xu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincentx/8x-flow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vincentx/8x-flow/issues"
+  },
+  "homepage": "https://github.com/vincentx/8x-flow#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "jsdom": "^16.2.2",
+    "jest": "^26.1.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.10.4",
+    "d3-selection": "^1.4.1",
+    "d3plus-text": "^0.9.52"
+  }
+}
