@@ -6,7 +6,7 @@ export function attrs(target, expected) {
     }
 }
 
-function attr(target, name) {
+export function attr(target, name) {
     return target.attributes.getNamedItem(name).value;
 }
 

@@ -1,7 +1,6 @@
 import merge from "lodash-es/merge";
 
 export default function (chart, relationships, config) {
-
     return chart
         .append("g")
         .selectAll("line")

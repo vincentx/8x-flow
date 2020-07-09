@@ -7,7 +7,8 @@ export default function (config) {
                 shape: {
                     width: 400,
                     height: 300,
-                    corner_radius: 10
+                    corner_radius: 10,
+                    scale: 0.2
                 },
                 archetype: {
                     color: 'white',
@@ -75,8 +76,11 @@ export default function (config) {
                 width: 1,
                 opacity: 0.6,
             }
+        },
+
+        view: {
+            width: 1000,
+            height: 1000
         }
-
-
     }, config || {});
 }
