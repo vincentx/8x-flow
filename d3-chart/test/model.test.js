@@ -2,6 +2,7 @@ import {JSDOM} from "jsdom";
 import * as d3 from "d3-selection";
 import model from "../src/model";
 import config from "../src/config";
+import {dom, attrs} from "./utils";
 
 describe("Model rendering", () => {
 
@@ -137,16 +138,3 @@ function positions(elements) {
     return result;
 }
 
-function attrs(target, expected) {
-    for (let name of Object.keys(expected)) {
-        expect(attr(target, name.toString())).toBe(expected[name].toString());
-    }
-}
-
-function attr(target, name) {
-    return target.attributes.getNamedItem(name).value
-}
-
-function dom(html) {
-    return (new JSDOM(html || "")).window.document;
-}
