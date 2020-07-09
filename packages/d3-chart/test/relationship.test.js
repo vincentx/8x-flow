@@ -32,6 +32,24 @@ describe("Relationship rendering", () => {
         attrs(rel[0], {"stroke-width": width, "stroke": color, "stroke-opacity": opacity});
     });
 
+    test("should render color correctly for multi relationships", () => {
+        let document = dom();
+        relationship(d3.select(document.body), [{
+            source: 'Order',
+            target: 'Items',
+            type: 'plays'
+        }, {
+            source: 'Order',
+            target: 'Items',
+            type: 'has-details'
+        }], config());
+
+        let rel = document.querySelectorAll("g > line");
+
+        attrs(rel[0], {"stroke": plays});
+        attrs(rel[1], {"stroke": momentIntervalRel});
+    });
+
     test("Plays should be render with dash", () => {
         let document = dom();
 

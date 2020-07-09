@@ -42,11 +42,14 @@ describe("Model rendering", () => {
             let boxes = document.querySelectorAll(".contract > .d3plus-textBox");
 
             expect(boxes.length).toBe(3);
-            positions(boxes).reduce((acc, cur) => {
+            let pos = positions(boxes);
+            pos.reduce((acc, cur) => {
                 expect(cur[0]).toBe(acc[0]);
                 expect(cur[1]).toBeGreaterThan(acc[1]);
                 return cur;
             }, [0, 0]);
+
+            expect(pos[0][1]).toBe(32);
         });
     });
 
@@ -80,6 +83,24 @@ describe("Model rendering", () => {
         let background = document.querySelector(`.${archetype} > .background`);
 
         attrs(background, {fill: color});
+
+    });
+
+    test("should render color correctly for multi models", () => {
+        let document = dom();
+        model(d3.select(document.body), [{
+            id: "Order",
+            archetype: "participant",
+            attributes: [{"name": "created_at", "type": "timestamp"}]
+        }, {
+            id: "Order",
+            archetype: "proposal",
+            attributes: [{"name": "created_at", "type": "timestamp"}]
+        }], config());
+
+        let backgrounds = document.querySelectorAll(`.background`);
+        attrs(backgrounds[0], {fill: participant});
+        attrs(backgrounds[1], {fill: mi});
 
     });
 

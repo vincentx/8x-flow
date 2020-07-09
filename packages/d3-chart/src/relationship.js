@@ -13,6 +13,5 @@ export default function (chart, relationships, config) {
 }
 
 function findConfig(rel, config) {
-    return merge(config.relationships.defaults,
-        config.relationships[rel.type] || {});
+    return merge({}, config.relationships.defaults, config.relationships[rel.type] || {});
 }

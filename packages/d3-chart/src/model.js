@@ -4,10 +4,11 @@ import merge from "lodash-es/merge";
 
 export default function (chart, models, cfg) {
     return chart
-        .selectAll("g")
+        .selectAll("g.model")
         .data(models)
         .join("g").each(render(cfg))
-        .attr("class", _ => `model ${_.archetype}`);
+        .attr("class", _ => `model ${_.archetype}`)
+        .attr("id", _ => _.id);
 }
 
 function render(cfg) {
@@ -29,7 +30,7 @@ function renderTextBoxes(container, model, config) {
         .fontFamily(_ => _.font.family)
         .verticalAlign('middle')
         .textAnchor('middle')
-        .y((d, i) => i * config.shape.height / 3)
+        .y((d, i) => (i - 1) * config.shape.height / 3)
         .select(container)
         .render();
 }
@@ -56,6 +57,5 @@ function renderBackground(container, model, config) {
 }
 
 function findConfig(model, config) {
-    return merge(config.models.defaults,
-        config.models[model.archetype] || {});
+    return merge({}, config.models.defaults, config.models[model.archetype] || {});
 }
