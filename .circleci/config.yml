@@ -9,7 +9,7 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: cd yaml-script
+            - run: cd packages/yaml-script
             - run: npm install
             - run: npm test
   build-d3-chart:
@@ -19,7 +19,7 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: cd d3-chart
+            - run: cd packages/d3-chart
             - run: npm install
             - run: npm test
 
