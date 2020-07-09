@@ -110,7 +110,6 @@ describe("Model rendering", () => {
                         }
                     }
                 }
-
             })));
 
         test("should change shape and corner radius", () => {

@@ -11,7 +11,8 @@ export default function (chart, relationships, cfg) {
         .join("line")
         .attr("stroke", (_) => findConfig(_, c).color)
         .attr("stroke-width", (_) => findConfig(_, c).width)
-        .attr("stroke-opacity", (_) => findConfig(_, c).opacity);
+        .attr("stroke-opacity", (_) => findConfig(_, c).opacity)
+        .attr("stroke-dasharray", (_) => findConfig(_, c).dash);
 }
 
 function findConfig(rel, config) {

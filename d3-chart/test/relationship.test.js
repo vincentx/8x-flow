@@ -1,6 +1,7 @@
 import * as d3 from "d3-selection";
 import relationship from "../src/relationship";
-import {dom, attrs} from "./utils";
+import {attrs, dom} from "./utils";
+import config from "../src/config";
 
 describe("Relationship rendering", () => {
 
@@ -31,4 +32,40 @@ describe("Relationship rendering", () => {
         attrs(rel[0], {"stroke-width": width, "stroke": color, "stroke-opacity": opacity});
     });
 
+    test("Plays should be render with dash", () => {
+        let document = dom();
+
+        relationship(d3.select(document.body), [{
+            source: 'Order',
+            target: 'Items',
+            type: 'plays'
+        }]);
+
+        let rel = document.querySelectorAll("g > line");
+
+        expect(rel.length).toBe(1);
+        attrs(rel[0], {"stroke-dasharray": "10,10"});
+    });
+
+    test("Render single model with config", () => {
+        let document = dom();
+
+        relationship(d3.select(document.body), [{
+            source: 'Order',
+            target: 'Items',
+            type: 'confirmation'
+        }], config({
+            relationships: {
+                defaults: {
+                    width: 15,
+                    opacity: 0.1
+                }
+            }
+        }));
+
+        let rel = document.querySelectorAll("g > line");
+
+        expect(rel.length).toBe(1);
+        attrs(rel[0], {"stroke-width": 15, "stroke-opacity": 0.1});
+    });
 });
