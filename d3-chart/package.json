@@ -38,5 +38,13 @@
     "transformIgnorePatterns": [
       "node_modules/(?!lodash-es)"
     ]
+  },
+  "files": [
+    "lib/",
+    "package.json"
+  ],
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
