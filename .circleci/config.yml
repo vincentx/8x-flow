@@ -5,7 +5,7 @@ jobs:
   build-yaml-script:
     executor:
       name: node/default
-    working_directory: ~/yaml-script
+    working_directory: ./yaml-script
     steps:
       - checkout
       - node/with-cache:
