@@ -28,6 +28,15 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
     "d3-selection": "^1.4.1",
-    "d3plus-text": "^0.9.52"
+    "d3plus-text": "^0.9.52",
+    "lodash-es": "^4.17.15"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "test"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!lodash-es)"
+    ]
   }
 }

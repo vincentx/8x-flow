@@ -1,12 +1,20 @@
 import * as d3 from "d3-selection";
 import * as d3plus from "d3plus-text";
+import config from "./config";
 
-export default function (chart, models, config) {
+export default function (chart, models, cfg) {
     return chart
         .selectAll("g")
         .data(models)
-        .join("g").each(render)
+        .join("g").each(render(config(cfg)))
         .attr("class", _ => `model ${_.archetype}`);
+}
+
+function render(config) {
+    return function (model) {
+        renderBackground(this, model, config);
+        renderTextBoxes(this, model, config);
+    }
 }
 
 const momentInterval = "rgb(229, 59, 112)";
@@ -19,55 +27,41 @@ const fills = [
     [['domain', 'system', 'role'], role]
 ];
 
-function render(model) {
-    renderBackground(this, model);
-    renderTextBoxes(this, model);
-}
-
-function renderTextBoxes(container, model) {
+function renderTextBoxes(container, model, config) {
     new d3plus.TextBox()
-        .data(texts(model))
-        .height(100)
-        .width(400)
+        .data(texts(model, config))
+        .width(config.shape.width)
+        .height(config.shape.height)
+        .fontResize(_ => _.resize)
+        .fontColor(_ => _.font.color)
+        .fontSize(_ => _.font.size)
+        .fontFamily(_ => _.font.family)
         .verticalAlign('middle')
         .textAnchor('middle')
-        .fontResize(d => d.resize)
-        .fontColor('white')
-        .fontSize(d => d.font.size)
-        .fontFamily(d => d.font.family)
-        .y((d, i) => i * 100)
+        .y((d, i) => i * config.shape.height / 3)
         .select(container)
         .render();
 }
 
-function texts(model) {
+function texts(model, config) {
     return [
-        {
-            text: ['<', model.archetype, '>'].join(' '), resize: false,
-            font: {family: '"Helvetica", sans-serif', size: 25}
-        },
-        {
-            text: model.id, resize: true,
-            font: {family: '"Helvetica", sans-serif', weight: 'bold', size: 40}
-        },
-        {
-            text: model.attributes.map(_ => _.name).join(' '), resize: false,
-            font: {family: '"Helvetica", sans-serif', size: 25}
-        }
+        {text: ['<', model.archetype, '>'].join(' '), resize: false, font: config.archetype},
+        {text: model.id, resize: true, font: config.name},
+        {text: model.attributes.map(_ => _.name).join(' '), resize: false, font: config.attributes}
     ];
 }
 
-function renderBackground(container, model) {
+function renderBackground(container, model, config) {
     let color = fills.find((f) => f[0].includes(model.archetype))[1];
 
     d3.select(container)
         .append('rect')
         .attr('class', 'background')
-        .attr('width', 400)
-        .attr('height', 300)
         .attr('x', 0)
         .attr('y', 0)
-        .attr('rx', 10)
-        .attr('ry', 10)
+        .attr('width', config.shape.width)
+        .attr('height', config.shape.height)
+        .attr('rx', config.shape.corner_radius)
+        .attr('ry', config.shape.corner_radius)
         .attr('fill', color);
 }

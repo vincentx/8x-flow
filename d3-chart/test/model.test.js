@@ -1,6 +1,7 @@
 import {JSDOM} from "jsdom";
 import * as d3 from "d3-selection";
 import model from "../src/model";
+import config from "../src/config";
 
 describe("Model rendering", () => {
 
@@ -80,6 +81,49 @@ describe("Model rendering", () => {
 
         attrs(background, {fill: color});
 
+    });
+
+    describe("Render single model with config", () => {
+        let document = dom();
+
+        beforeAll(() =>
+            model(d3.select(document.body), [{
+                id: "Order",
+                archetype: "contract",
+                attributes: [{"name": "created_at", "type": "timestamp"}, {"name": "total_price", "type": "data"}]
+            }], config({
+                shape: {
+                    width: 480,
+                    height: 360,
+                    corner_radius: 15
+                },
+                archetype: {
+                    color: 'red'
+                },
+                name: {
+                    color: 'green'
+                },
+                attributes: {
+                    color: 'blue'
+                }
+
+            })));
+
+        test("should change shape and corner radius", () => {
+            let background = document.querySelectorAll(".contract > .background");
+
+            expect(background.length).toBe(1);
+            attrs(background[0], {x: 0, y: 0, rx: 15, ry: 15, width: 480, height: 360});
+        });
+
+        test("text box should has same width and height of background", () => {
+            let texts = document.querySelectorAll(".contract > .d3plus-textBox > text");
+            expect(texts.length).toBe(3);
+
+            attrs(texts[0], {fill: "red"});
+            attrs(texts[1], {fill: "green"});
+            attrs(texts[2], {fill: "blue"});
+        });
     });
 });
 
