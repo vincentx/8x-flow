@@ -1,8 +1,7 @@
-import {JSDOM} from "jsdom";
 import * as d3 from "d3-selection";
 import model from "../src/model";
 import config from "../src/config";
-import {dom, attrs} from "./utils";
+import {attrs, dom} from "./utils";
 
 describe("Model rendering", () => {
 
@@ -93,19 +92,23 @@ describe("Model rendering", () => {
                 archetype: "contract",
                 attributes: [{"name": "created_at", "type": "timestamp"}, {"name": "total_price", "type": "data"}]
             }], config({
-                shape: {
-                    width: 480,
-                    height: 360,
-                    corner_radius: 15
-                },
-                archetype: {
-                    color: 'red'
-                },
-                name: {
-                    color: 'green'
-                },
-                attributes: {
-                    color: 'blue'
+                models: {
+                    defaults: {
+                        shape: {
+                            width: 480,
+                            height: 360,
+                            corner_radius: 15
+                        },
+                        archetype: {
+                            color: 'red'
+                        },
+                        name: {
+                            color: 'green'
+                        },
+                        attributes: {
+                            color: 'blue'
+                        }
+                    }
                 }
 
             })));

@@ -1,6 +1,7 @@
 import * as d3 from "d3-selection";
 import * as d3plus from "d3plus-text";
 import config from "./config";
+import merge from "lodash-es/merge";
 
 export default function (chart, models, cfg) {
     return chart
@@ -10,22 +11,13 @@ export default function (chart, models, cfg) {
         .attr("class", _ => `model ${_.archetype}`);
 }
 
-function render(config) {
+function render(cfg) {
     return function (model) {
+        let config = findConfig(model, cfg);
         renderBackground(this, model, config);
         renderTextBoxes(this, model, config);
     }
 }
-
-const momentInterval = "rgb(229, 59, 112)";
-const role = "rgb(254, 180, 63)";
-const participant = "rgb(103, 157, 52)";
-
-const fills = [
-    [['rfp', 'proposal', 'contract', 'agreement', 'fulfillment', 'evidence', 'variform'], momentInterval],
-    [['party', 'place', 'thing', 'participant'], participant],
-    [['domain', 'system', 'role'], role]
-];
 
 function renderTextBoxes(container, model, config) {
     new d3plus.TextBox()
@@ -52,8 +44,6 @@ function texts(model, config) {
 }
 
 function renderBackground(container, model, config) {
-    let color = fills.find((f) => f[0].includes(model.archetype))[1];
-
     d3.select(container)
         .append('rect')
         .attr('class', 'background')
@@ -63,5 +53,10 @@ function renderBackground(container, model, config) {
         .attr('height', config.shape.height)
         .attr('rx', config.shape.corner_radius)
         .attr('ry', config.shape.corner_radius)
-        .attr('fill', color);
+        .attr('fill', config.fill);
+}
+
+function findConfig(model, config) {
+    return merge(config.models.defaults,
+        config.models[model.archetype] || {});
 }
