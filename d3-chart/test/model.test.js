@@ -13,7 +13,7 @@ describe("Model rendering", () => {
                 id: "Order",
                 archetype: "contract",
                 attributes: [{"name": "created_at", "type": "timestamp"}, {"name": "total_price", "type": "data"}]
-            }]));
+            }], config()));
 
         test("should render all contents", () => {
             let content = document.querySelectorAll(".contract > .d3plus-textBox > text");
@@ -75,7 +75,7 @@ describe("Model rendering", () => {
             id: "Order",
             archetype: archetype,
             attributes: [{"name": "created_at", "type": "timestamp"}]
-        }]);
+        }], config());
 
         let background = document.querySelector(`.${archetype} > .background`);
 

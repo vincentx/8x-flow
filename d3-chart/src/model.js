@@ -1,13 +1,12 @@
 import * as d3 from "d3-selection";
 import * as d3plus from "d3plus-text";
-import config from "./config";
 import merge from "lodash-es/merge";
 
 export default function (chart, models, cfg) {
     return chart
         .selectAll("g")
         .data(models)
-        .join("g").each(render(config(cfg)))
+        .join("g").each(render(cfg))
         .attr("class", _ => `model ${_.archetype}`);
 }
 

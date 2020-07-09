@@ -24,7 +24,7 @@ describe("Relationship rendering", () => {
             source: 'Order',
             target: 'Items',
             type: t
-        }]);
+        }], config());
 
         let rel = document.querySelectorAll("g > line");
 
@@ -39,7 +39,7 @@ describe("Relationship rendering", () => {
             source: 'Order',
             target: 'Items',
             type: 'plays'
-        }]);
+        }], config());
 
         let rel = document.querySelectorAll("g > line");
 
