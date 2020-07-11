@@ -1,7 +1,7 @@
 import config from "./config";
 import model from "./model";
 import relationship from './relationship';
-import merge from "lodash-es/merge";
+import merge from "lodash/merge";
 
 export default function (container, data, opts) {
     let options = config(opts);

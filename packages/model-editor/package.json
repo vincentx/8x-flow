@@ -8,9 +8,14 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
+    "@8x-flow/d3-chart": "file:../d3-chart",
+    "@8x-flow/yaml-script": "file:../yaml-script",
     "bulma": "^0.9.0",
     "codemirror": "^5.55.0",
     "core-js": "^3.6.5",
+    "d3-drag": "^1.2.5",
+    "d3-force": "^2.0.1",
+    "d3-selection": "^1.4.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {
@@ -19,6 +24,7 @@
     "@vue/cli-plugin-unit-jest": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
     "@vue/test-utils": "^1.0.3",
+    "canvas": "^2.6.1",
     "chromedriver": "83",
     "geckodriver": "^1.19.1",
     "vue-template-compiler": "^2.6.11"

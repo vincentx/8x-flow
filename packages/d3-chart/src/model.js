@@ -1,6 +1,6 @@
 import * as d3 from "d3-selection";
 import * as d3plus from "d3plus-text";
-import merge from "lodash-es/merge";
+import merge from "lodash/merge";
 
 export default function (chart, models, cfg) {
     return chart

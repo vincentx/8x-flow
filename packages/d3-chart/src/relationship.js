@@ -1,4 +1,4 @@
-import merge from "lodash-es/merge";
+import merge from "lodash/merge";
 
 export default function (chart, relationships, config) {
     return chart

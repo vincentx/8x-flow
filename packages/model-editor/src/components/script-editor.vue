@@ -23,7 +23,8 @@
                 mode: "text/yaml",
                 theme: "ambiance",
                 lineNumbers: true,
-                line: true
+                line: true,
+                tabSize: 2
             });
 
             this.editor.setValue(this.script);
@@ -35,3 +36,12 @@
         }
     }
 </script>
+
+<style>
+    .script-editor {
+        height: 100%;
+    }
+    .CodeMirror {
+        height: 100%;
+    }
+</style>
