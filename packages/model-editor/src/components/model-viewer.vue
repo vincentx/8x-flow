@@ -9,6 +9,7 @@
     import {event, select} from "d3-selection";
     import {drag} from "d3-drag"
     import {forceCenter, forceLink, forceManyBody, forceSimulation} from "d3-force";
+    import {handleDrag} from "./_handle_drag";
 
     export default {
         name: 'model-viewer',
@@ -39,21 +40,7 @@
                         .force("center", forceCenter(options.view.width / 2, options.view.height / 2))
                         .on("tick", tick);
 
-                    nodes.call(drag()
-                        .on("start", function (d) {
-                            if (!event.active) force.alphaTarget(0.3).restart();
-                            d.fx = d.x;
-                            d.fy = d.y;
-                        })
-                        .on("drag", function (d) {
-                            d.fx = event.x;
-                            d.fy = event.y;
-                        })
-                        .on("end", function (d) {
-                            if (!event.active) force.alphaTarget(0);
-                            d.fx = null;
-                            d.fy = null;
-                        }));
+                    nodes.call(handleDrag(force));
                 }
             });
         }

@@ -22,4 +22,5 @@ describe("ModelViewer", () => {
         expect(component.querySelectorAll(".model").length).toBe(2);
         expect(component.querySelectorAll("g > line").length).toBe(1);
     });
+
 });
