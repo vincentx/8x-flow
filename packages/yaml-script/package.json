@@ -1,14 +1,13 @@
 {
   "name": "@8x-flow/yaml-script",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A YAML DSL for 8X flow business object models",
-  "main": "lib/main.js",
+  "main": "dist/8x-flow.yaml-script.esm.js",
+  "module": "dist/8x-flow.yaml-script.esm.js",
+  "unpkg": "dist/8x-flow.yaml-script.full.js",
   "scripts": {
-    "prepack": "babel src -d lib",
+    "prepack": "rollup -c",
     "test": "jest --coverage"
-  },
-  "bin": {
-    "8xscript": "bin/8xscript"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
@@ -21,21 +20,23 @@
     "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
+    "@rollup/plugin-babel": "^5.0.4",
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-node-resolve": "^8.1.0",
     "glob": "^7.1.6",
-    "jest": "^26.1.0"
+    "jest": "^26.1.0",
+    "rollup": "^2.21.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
-    "js-yaml": "^3.14.0",
-    "yargs": "^15.4.0"
+    "js-yaml": "^3.14.0"
   },
   "files": [
-    "lib/",
-    "bin/",
+    "dist/",
     "package.json"
   ],
   "directories": {
-    "lib": "lib",
+    "lib": "dist",
     "test": "test"
   },
   "repository": {
