@@ -28,6 +28,11 @@ export default function (container, data, opts) {
 
                 return `translate(${node.x - dx}, ${node.y - dy}) scale(${cfg.shape.scale}, ${cfg.shape.scale})`
             });
+        },
+
+        remove: function () {
+            nodes.remove();
+            links.remove();
         }
     }
 }

@@ -1,7 +1,6 @@
-import {attrs, attr, dom} from "./utils";
+import {attr, attrs, dom} from "./utils";
 import * as d3 from "d3-selection";
 import presenter from "../src/presenter.js";
-import {render} from "../src/main";
 
 describe("Chart rendering", () => {
     let document = dom();
@@ -72,5 +71,13 @@ describe("Chart rendering", () => {
         let result = transform.match(/scale\(([0-9\.]+),\s+([0-9\.]+)\)/);
         expect(result[1]).toBe("0.2");
         expect(result[2]).toBe("0.2");
+    });
+
+    test("should remove all", () => {
+        chart.remove();
+        expect(document.querySelectorAll("svg > .contract").length).toBe(0);
+        expect(document.querySelectorAll("svg > .details").length).toBe(0);
+        expect(document.querySelectorAll("svg > g > line").length).toBe(0);
+
     })
 });
