@@ -2,9 +2,11 @@
   "name": "@8x-flow/d3-chart",
   "version": "1.0.0",
   "description": "D3js visualization for 8X flow models",
-  "main": "lib/main.js",
+  "main": "dist/8x-flow.d3-chart.esm.js",
+  "module": "dist/8x-flow.d3-chart.esm.js",
+  "unpkg": "dist/8x-flow.d3-chart.full.js",
   "scripts": {
-    "prepack": "babel src -d lib",
+    "prepack": "rollup -c",
     "test": "jest --coverage"
   },
   "author": "Vincent Xu",
@@ -21,9 +23,14 @@
     "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
+    "@rollup/plugin-babel": "^5.0.4",
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^8.1.0",
     "canvas": "^2.6.1",
     "jest": "^26.1.0",
-    "jsdom": "^16.2.2"
+    "jsdom": "^16.2.2",
+    "rollup": "^2.21.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
@@ -40,11 +47,11 @@
     ]
   },
   "files": [
-    "lib/",
+    "dist/",
     "package.json"
   ],
   "directories": {
-    "lib": "lib",
+    "lib": "dist",
     "test": "test"
   }
 }

@@ -1,6 +1,7 @@
 import {attrs, attr, dom} from "./utils";
 import * as d3 from "d3-selection";
-import * as x from "../src/main.js";
+import presenter from "../src/presenter.js";
+import {render} from "../src/main";
 
 describe("Chart rendering", () => {
     let document = dom();
@@ -28,8 +29,7 @@ describe("Chart rendering", () => {
     let chart;
 
     beforeAll(() => {
-        chart = x.chart(d3.select(document.body), data);
-
+        chart = presenter(d3.select(document.body), data);
     });
 
     test("should render all models and relationships", () => {
