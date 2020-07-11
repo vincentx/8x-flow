@@ -1,6 +1,14 @@
 module.exports = {
-  testMatch: [
-    "**/test/unit/**/*.test.[jt]s?(x)"
-  ],
-  preset: '@vue/cli-plugin-unit-jest'
+    testMatch: [
+        "**/test/unit/**/*.test.[jt]s?(x)"
+    ],
+    moduleNameMapper: {
+        "^.+\\.(css|less)$": '<rootDir>/test/unit/stub.css'
+    },
+    collectCoverage: true,
+    collectCoverageFrom: [
+        'src/**/*.{js,vue}',
+        '!src/main.js',
+    ],
+    preset: '@vue/cli-plugin-unit-jest'
 }
