@@ -14,6 +14,7 @@ export function parse(script) {
 }
 
 function parseModel(context, model) {
+    if (!model) return;
     ["contract", "rfp", "proposal", "evidence", "agreement"]
         .filter(type => model[type])
         .forEach((type) => parseMomentInterval(context, withId(model, model[type]), context.model[type]));

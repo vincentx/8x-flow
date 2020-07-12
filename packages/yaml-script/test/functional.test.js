@@ -84,13 +84,8 @@ describe('Functional Test', () => {
             test.each(cases('role'))('TEST: %s', (_, y, j) => {
                 expectMatch(parse(require(y).yaml({type: mi})), require(j).json(mi));
             });
-
-            // test.each(errors('role'))('TEST: %s', (_, y, t) => {
-            //     expectError(read(t).trim(), () => parse(require(y).yaml({type: mi})))
-            // });
         });
     });
-
 
     function cases(folder) {
         let yaml = glob.sync(`${process.cwd()}/test/scripts/${folder}/**/*.yml.js`);
