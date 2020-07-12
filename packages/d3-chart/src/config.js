@@ -49,6 +49,10 @@ export default function (config) {
             },
             role: {
                 fill: 'rgb(254, 180, 63)'
+            },
+
+            variform: {
+                fill: 'rgb(254, 180, 63)'
             }
         },
 

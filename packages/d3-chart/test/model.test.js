@@ -63,7 +63,7 @@ describe("Model rendering", () => {
         ['rfp', mi],
         ['proposal', mi],
         ['agreement', mi],
-        ['variform', mi],
+        ['variform', role],
         ['evidence', mi],
         ['participant', participant],
         ['party', participant],
