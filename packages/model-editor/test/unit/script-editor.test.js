@@ -1,6 +1,8 @@
 import {shallowMount} from '@vue/test-utils'
 
+import CodeMirror from 'codemirror';
 import ScriptEditor from '../../src/components/script-editor';
+import {parse} from "../../src/components/script-editor.lint";
 
 document.body.createTextRange = function () {
     return {
@@ -21,14 +23,18 @@ describe("ScriptEditor", () => {
     });
 
     test("should pass code to code mirror via data", () => {
-        let component = shallowMount(ScriptEditor, {data: () => {return {script: "contract: Order"}}});
+        let component = shallowMount(ScriptEditor, {
+            data: () => {
+                return {script: "contract: Order"}
+            }
+        });
         let editor = component.vm.$root.$children[0].editor;
 
         expect(editor.getValue()).toBe("contract: Order");
     });
 
     test("should pass code to code mirror via yaml", () => {
-        let component = shallowMount(ScriptEditor, {propsData:  {yaml: "contract: Order"}});
+        let component = shallowMount(ScriptEditor, {propsData: {yaml: "contract: Order"}});
         let editor = component.vm.$root.$children[0].editor;
 
         expect(editor.getValue()).toBe("contract: Order");
@@ -53,6 +59,13 @@ describe("ScriptEditor", () => {
 
         expect(component.emitted().input.length).toBe(1);
         expect(component.emitted().input[0][0]).toBe("contract: Purchase Order");
+    });
+
+    test("should mount lint to code mirror", () => {
+        let component = shallowMount(ScriptEditor, {propsData: {yaml: "contract: Order"}});
+        let editor = component.vm.$root.$children[0].editor;
+
+        expect(editor.getHelper(CodeMirror.Pos(0, 0), "lint")).toBe(parse);
     });
 
 });

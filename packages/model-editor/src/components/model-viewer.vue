@@ -33,13 +33,6 @@
         methods: {
             render(data) {
                 this.chart = d3chart.render(select(this.$refs.container), {
-                    options: {
-                        models: {
-                            defaults: {
-                                shape: {scale: 0.4}
-                            }
-                        }
-                    },
                     data: data,
                     view: function (nodes, links, options, tick) {
                         let force = forceSimulation(nodes.data())

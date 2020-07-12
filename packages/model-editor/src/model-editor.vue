@@ -13,16 +13,6 @@
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-
-            <div id="model-editor-menu" class="navbar-menu">
-                <div class="navbar-start">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <button class="button is-link" v-on:click="refresh">Refresh</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </nav>
 
         <div class="columns">
@@ -62,15 +52,11 @@
         },
         computed: {
             graph: function () {
-                if (this.stop) return this.cached_graph;
-                this.cached_graph = dsl.parse(this.yaml);
-                this.stop = true;
+                try {
+                    this.cached_graph = dsl.parse(this.yaml);
+                } catch (e) {
+                }
                 return this.cached_graph;
-            }
-        },
-        methods: {
-            refresh: function () {
-                this.stop = false;
             }
         }
     }

@@ -18,23 +18,11 @@ describe("ModelEditor", () => {
         expect(editor.props("yaml")).toBe(undefined);
     });
 
-    test("should not update graph based on yaml if not refresh", () => {
+    test("should update graph based on yaml", () => {
         let component = shallowMount(ModelEditor, {});
         component.setData({
             yaml: "role: Buyer"
         });
-
-        expect(component.vm.graph.models.length).toBe(0);
-        expect(component.vm.graph.relationships.length).toBe(0);
-    });
-
-    test("should update graph based on yaml if refresh", () => {
-        let component = shallowMount(ModelEditor, {});
-        component.setData({
-            yaml: "role: Buyer"
-        });
-
-        component.vm.refresh();
 
         expect(component.vm.graph.models.length).toBe(1);
         expect(component.vm.graph.relationships.length).toBe(0);
