@@ -2,6 +2,8 @@ package-lock.json
 node_modules
 .idea
 lib
+dist
 coverage
+spike
 .DS_Store
 *.tgz
