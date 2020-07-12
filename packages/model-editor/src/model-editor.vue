@@ -19,7 +19,7 @@
             <div class="column is-one-third has-background-dark">
                 <script-editor v-model="yaml"></script-editor>
             </div>
-            <div class="column is-two-thirds has-background-primary-light">
+            <div class="column is-two-thirds has-background-white-ter">
                 <model-viewer v-bind:graph="graph"></model-viewer>
             </div>
         </div>
