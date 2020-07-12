@@ -12,12 +12,12 @@ export default function (config) {
                 },
                 archetype: {
                     color: 'white',
-                    family: '"Helvetica", sans-serif',
+                    family: '"Arial Black", sans-serif',
                     size: 25
                 },
                 name: {
                     color: 'white',
-                    family: '"Helvetica", sans-serif',
+                    family: 'Impact, sans-serif',
                     size: 40,
                 },
                 attributes: {
