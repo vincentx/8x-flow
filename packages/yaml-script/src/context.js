@@ -9,6 +9,7 @@ export default function context() {
     let archetype = [
         ["system", "role"],
         ["domain", "role"],
+        ["role", "participant"],
         ["party", "participant"],
         ["place", "participant"],
         ["thing", "participant"],
