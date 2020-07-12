@@ -19,6 +19,7 @@ jobs:
               -
             - run: cd packages/model-editor && npm install
             - run: cd packages/model-editor && npm run test:unit
+
 workflows:
     build-and-test:
       jobs:
