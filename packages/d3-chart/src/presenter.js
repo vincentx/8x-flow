@@ -31,8 +31,7 @@ export default function (container, data, opts) {
         },
 
         remove: function () {
-            nodes.remove();
-            links.remove();
+            svg.remove();
         }
     }
 }

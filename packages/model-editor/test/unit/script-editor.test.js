@@ -27,6 +27,13 @@ describe("ScriptEditor", () => {
         expect(editor.getValue()).toBe("contract: Order");
     });
 
+    test("should pass code to code mirror via yaml", () => {
+        let component = shallowMount(ScriptEditor, {propsData:  {yaml: "contract: Order"}});
+        let editor = component.vm.$root.$children[0].editor;
+
+        expect(editor.getValue()).toBe("contract: Order");
+    });
+
     test("should bind changes back to script", () => {
         let data = {script: "contract: Order"};
         let component = shallowMount(ScriptEditor, {data: () => data});

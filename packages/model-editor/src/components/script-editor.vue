@@ -9,7 +9,7 @@
     import "codemirror/mode/yaml/yaml";
 
     import "codemirror/lib/codemirror.css"
-    import "codemirror/theme/ambiance.css";
+    import "codemirror/theme/panda-syntax.css";
 
     export default {
         name: 'script-editor',
@@ -18,16 +18,17 @@
                 script: ""
             }
         },
+        props: ["yaml"],
         mounted() {
             this.editor = CodeMirror.fromTextArea(this.$refs.textarea, {
                 mode: "text/yaml",
-                theme: "ambiance",
+                theme: "panda-syntax",
                 lineNumbers: true,
                 line: true,
                 tabSize: 2
             });
 
-            this.editor.setValue(this.script);
+            this.editor.setValue(this.yaml || this.script);
 
             this.editor.on("change", (script) => {
                 this.script = script.getValue();
@@ -41,6 +42,7 @@
     .script-editor {
         height: 100%;
     }
+
     .CodeMirror {
         height: 100%;
     }
