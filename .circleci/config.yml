@@ -16,7 +16,7 @@ jobs:
             - run: cd packages/d3-chart && npm install
             - run: cd packages/d3-chart && npm test
             - run: cd packages/d3-chart && npm pack
-              -
+              
             - run: cd packages/model-editor && npm install
             - run: cd packages/model-editor && npm run test:unit
 
