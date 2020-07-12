@@ -76,4 +76,8 @@
     .columns {
         height: 100%;
     }
+
+    .column {
+        height: 100%;
+    }
 </style>

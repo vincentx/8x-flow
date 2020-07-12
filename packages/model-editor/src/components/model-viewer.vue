@@ -37,7 +37,7 @@
                     view: function (nodes, links, options, tick) {
                         let force = forceSimulation(nodes.data())
                             .force("link", forceLink(links.data()).id(d => d.id).distance(90))
-                            .force("charge", forceManyBody().strength(-400))
+                            .force("charge", forceManyBody().strength(-300))
                             .force("center", forceCenter(options.view.width / 2, options.view.height / 2))
                             .on("tick", tick);
 
@@ -48,3 +48,10 @@
         }
     }
 </script>
+
+<style>
+    .model-viewer {
+        height: 100%;
+        overflow: auto
+    }
+</style>
