@@ -25,30 +25,31 @@ describe("Chart rendering", () => {
             }
         ]
     };
-    let view = {};
+    let presenter = {};
 
     beforeAll(() => {
         render(d3.select(document.body), {
             data: data,
-            view: function (nodes, links, options, tick) {
-                view.nodes = nodes;
-                view.links = links;
-                view.options = options;
-                view.tick = tick;
+            view: function (p) {
+                presenter = p
             }
         })
     });
 
+    test("should pass svg to view", () => {
+        expect(presenter.svg._groups[0][0].tagName).toBe("svg");
+    });
+
     test("should pass nodes to view", () => {
-        expect(view.nodes._groups[0].length).toBe(2);
+        expect(presenter.nodes._groups[0].length).toBe(2);
     });
 
     test("should pass links to view", () => {
-        expect(view.links._groups[0].length).toBe(1);
+        expect(presenter.links._groups[0].length).toBe(1);
     });
 
     test("should pass options to view", () => {
-        expect(view.options.models).toBeTruthy();
+        expect(presenter.options.models).toBeTruthy();
     });
 
     test("should tick function to view", () => {
@@ -58,7 +59,7 @@ describe("Chart rendering", () => {
         data.relationships[0].target = {
             x: 3, y: 4
         };
-        view.tick();
+        presenter.tick();
 
         attrs(document.querySelectorAll("svg > g > line")[0], {x1: 1, y1: 2, x2: 3, y2: 4});
     });

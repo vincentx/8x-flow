@@ -11,9 +11,9 @@ export default function (container, data, opts) {
     let nodes = model(svg, data.models, options);
 
     return {
+        svg: svg,
         nodes: nodes,
         links: links,
-
         options: options,
 
         tick: function () {
