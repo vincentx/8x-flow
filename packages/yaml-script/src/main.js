@@ -68,6 +68,7 @@ function createDetails(context) {
         ));
 
         yaml.participants(declaration, createParticipant(context));
+        yaml.evidences(declaration, createEvidence(context));
     }
 }
 
