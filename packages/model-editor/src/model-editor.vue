@@ -7,27 +7,42 @@
                 </a>
 
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                   data-target="model-editor-menu">
+                   data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
+
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button" id="download-script" @click="downloadScript">
+                                Save Script
+                            </a>
+                            <a class="button" id="download-graph" @click="downloadGraph">
+                                Save Graph
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </nav>
+
 
         <div class="columns">
             <div class="column is-one-third has-background-dark">
                 <script-editor v-model="yaml"></script-editor>
             </div>
             <div class="column is-two-thirds has-background-white-ter">
-                <model-viewer v-bind:graph="graph"></model-viewer>
+                <model-viewer v-bind:graph="graph" ref="viewer"></model-viewer>
             </div>
         </div>
     </section>
 </template>
 
 <script>
-
     import 'bulma/css/bulma.css';
     import logo from './assets/8x-flow-logo.png';
 
@@ -35,6 +50,7 @@
     import ModelViewer from "./components/model-viewer";
 
     import * as dsl from "@8x-flow/yaml-script";
+    import {saveAs} from "file-saver";
 
     export default {
         name: 'model-editor',
@@ -58,6 +74,15 @@
                 }
                 return this.cached_graph;
             }
+        },
+        methods: {
+            downloadScript() {
+                saveAs(new Blob([this.yaml], {type: "text/plain;charset=utf-8"}), "models.yaml");
+            },
+            downloadGraph() {
+                let svg = `<?xml version="1.0" standalone="no"?>\r\n${this.$refs.viewer.$el.querySelector("svg").outerHTML}`;
+                saveAs(new Blob([svg], {type: "image/svg+xml;charset=utf-8"}), "models.svg");
+            }
         }
     }
 </script>
@@ -79,5 +104,15 @@
 
     .column {
         height: 100%;
+    }
+
+    #download-script {
+        color: white;
+        background-color: rgb(216, 83, 43);
+    }
+
+    #download-graph {
+        color: white;
+        background-color: rgb(226, 125, 45);
     }
 </style>

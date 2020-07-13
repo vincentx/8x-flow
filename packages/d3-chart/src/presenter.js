@@ -6,7 +6,9 @@ import merge from "lodash/merge";
 export default function (container, data, opts) {
     let options = config(opts);
 
-    let svg = container.append("svg").attr("viewBox", [0, 0, options.view.width, options.view.height]);
+    let svg = container.append("svg").attr("viewBox", [0, 0, options.view.width, options.view.height])
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .attr("xmlns:xlink", "http://www.w3.org/1999/xlink");
     let g = svg.append("g");
     let links = relationship(g, data.relationships, options);
     let nodes = model(g, data.models, options);
