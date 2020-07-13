@@ -61,6 +61,6 @@ describe("Chart rendering", () => {
         };
         presenter.tick();
 
-        attrs(document.querySelectorAll("svg > g > line")[0], {x1: 1, y1: 2, x2: 3, y2: 4});
+        attrs(document.querySelectorAll("svg > g > g > line")[0], {x1: 1, y1: 2, x2: 3, y2: 4});
     });
 });

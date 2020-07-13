@@ -32,9 +32,9 @@ describe("Chart rendering", () => {
     });
 
     test("should render all models and relationships", () => {
-        expect(document.querySelectorAll("svg > .contract").length).toBe(1);
-        expect(document.querySelectorAll("svg > .details").length).toBe(1);
-        expect(document.querySelectorAll("svg > g > line").length).toBe(1);
+        expect(document.querySelectorAll("svg > g > .contract").length).toBe(1);
+        expect(document.querySelectorAll("svg > g >.details").length).toBe(1);
+        expect(document.querySelectorAll("svg > g > g > line").length).toBe(1);
     });
 
     test("should change link position when tick", () => {
@@ -46,7 +46,7 @@ describe("Chart rendering", () => {
         };
         chart.tick();
 
-        attrs(document.querySelectorAll("svg > g > line")[0], {x1: 1, y1: 2, x2: 3, y2: 4});
+        attrs(document.querySelectorAll("svg > g > g > line")[0], {x1: 1, y1: 2, x2: 3, y2: 4});
     });
 
     test("should move model to center", () => {
@@ -54,7 +54,7 @@ describe("Chart rendering", () => {
         data.models[0].y = 500;
         chart.tick();
 
-        let transform = attr(document.querySelectorAll("svg > .contract")[0], "transform");
+        let transform = attr(document.querySelectorAll("svg > g > .contract")[0], "transform");
 
         let result = transform.match(/translate\(([0-9]+),\s+([0-9]+)\)/);
         expect(result[1]).toBe("460");
@@ -66,7 +66,7 @@ describe("Chart rendering", () => {
         data.models[0].y = 500;
         chart.tick();
 
-        let transform = attr(document.querySelectorAll("svg > .contract")[0], "transform");
+        let transform = attr(document.querySelectorAll("svg > g > .contract")[0], "transform");
 
         let result = transform.match(/scale\(([0-9\.]+),\s+([0-9\.]+)\)/);
         expect(result[1]).toBe("0.2");
@@ -75,9 +75,9 @@ describe("Chart rendering", () => {
 
     test("should remove all", () => {
         chart.remove();
-        expect(document.querySelectorAll("svg > .contract").length).toBe(0);
-        expect(document.querySelectorAll("svg > .details").length).toBe(0);
-        expect(document.querySelectorAll("svg > g > line").length).toBe(0);
+        expect(document.querySelectorAll("svg > g > .contract").length).toBe(0);
+        expect(document.querySelectorAll("svg > g > .details").length).toBe(0);
+        expect(document.querySelectorAll("svg > g > g > line").length).toBe(0);
 
     })
 });

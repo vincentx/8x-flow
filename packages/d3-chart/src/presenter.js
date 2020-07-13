@@ -7,11 +7,13 @@ export default function (container, data, opts) {
     let options = config(opts);
 
     let svg = container.append("svg").attr("viewBox", [0, 0, options.view.width, options.view.height]);
-    let links = relationship(svg, data.relationships, options);
-    let nodes = model(svg, data.models, options);
+    let g = svg.append("g");
+    let links = relationship(g, data.relationships, options);
+    let nodes = model(g, data.models, options);
 
     return {
         svg: svg,
+        group: g,
         nodes: nodes,
         links: links,
         options: options,
