@@ -8,7 +8,8 @@
     import * as d3chart from "@8x-flow/d3-chart";
     import {select} from "d3-selection";
     import {forceCenter, forceLink, forceManyBody, forceSimulation} from "d3-force";
-    import {handleDrag} from "./_handle_drag";
+    import {zoom} from "d3-zoom";
+    import {handleDrag, handleZoom} from "./_handle_evnets";
 
     export default {
         name: 'model-viewer',
@@ -34,14 +35,19 @@
             render(data) {
                 this.chart = d3chart.render(select(this.$refs.container), {
                     data: data,
-                    view: function (nodes, links, options, tick) {
-                        let force = forceSimulation(nodes.data())
-                            .force("link", forceLink(links.data()).id(d => d.id).distance(90))
+                    view: function (presenter) {
+                        let force = forceSimulation(presenter.nodes.data())
+                            .force("link", forceLink(presenter.links.data()).id(d => d.id).distance(90))
                             .force("charge", forceManyBody().strength(-300))
-                            .force("center", forceCenter(options.view.width / 2, options.view.height / 2))
-                            .on("tick", tick);
+                            .force("center", forceCenter(presenter.options.view.width / 2, presenter.options.view.height / 2))
+                            .on("tick", presenter.tick);
 
-                        nodes.call(handleDrag(force));
+                        presenter.nodes.call(handleDrag(force));
+
+                        presenter.svg.call(zoom()
+                            .extent([[0, 0], [presenter.options.view.width, presenter.options.view.height]])
+                            .scaleExtent([0.025, 2.5])
+                            .on("zoom", handleZoom(presenter)));
                     }
                 })
             }

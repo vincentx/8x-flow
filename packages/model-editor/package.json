@@ -16,6 +16,7 @@
     "d3-drag": "^1.2.5",
     "d3-force": "^2.0.1",
     "d3-selection": "^1.4.1",
+    "d3-zoom": "^1.8.3",
     "vue": "^2.6.11"
   },
   "devDependencies": {

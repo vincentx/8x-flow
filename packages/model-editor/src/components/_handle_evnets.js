@@ -18,3 +18,7 @@ export function handleDrag(force) {
             d.fy = null;
         });
 }
+
+export function handleZoom(presenter) {
+    return () => presenter.group.attr("transform", event.transform);
+}
