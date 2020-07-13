@@ -56,7 +56,6 @@ describe("Parsing Context", () => {
         ["fulfillment", "evidence"],
         ["variform", "evidence"],
         ["details", "evidence"],
-
         ["contract", "participant"],
         ["agreement", "participant"],
         ["proposal", "participant"],
@@ -65,11 +64,10 @@ describe("Parsing Context", () => {
         ["variform", "participant"],
         ["evidence", "participant"],
         ["details", "participant"],
-
         ["system", "participant"],
         ["domain", "participant"],
         ["role", "participant"],
-
+        ["variform", "role"],
         ["party", "participant"],
         ["place", "participant"],
         ["thing", "participant"]])("should use specific %s over %s", (specific, general) => {

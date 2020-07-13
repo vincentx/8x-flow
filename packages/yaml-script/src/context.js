@@ -15,8 +15,9 @@ export default function context() {
         ["rfp", "evidence"],
         ["fulfillment", "evidence"],
         ["variform", "evidence"],
-
         ["details", "evidence"],
+
+        ["variform", "role"],
 
         ["contract", "participant"],
         ["agreement", "participant"],
