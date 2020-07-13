@@ -1,0 +1,14 @@
+cd yaml-script
+npm install
+npm test
+npm pack
+
+cd ../d3-chart
+npm install
+npm test
+npm pack
+
+cd ../model-editor
+npm install
+npm run test:unit
+npm run build
