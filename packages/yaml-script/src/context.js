@@ -16,6 +16,8 @@ export default function context() {
         ["fulfillment", "evidence"],
         ["variform", "evidence"],
 
+        ["details", "evidence"],
+
         ["contract", "participant"],
         ["agreement", "participant"],
         ["proposal", "participant"],
@@ -23,6 +25,7 @@ export default function context() {
         ["fulfillment", "participant"],
         ["variform", "participant"],
         ["evidence", "participant"],
+        ["details", "participant"],
 
         ["system", "participant"],
         ["domain", "participant"],
@@ -48,6 +51,7 @@ export default function context() {
 
         function mergeArchetype() {
             if (!rhs.archetype) return;
+            if (rhs.archetype === lhs.archetype) return;
             let found = archetype.filter((level) => level.includes(lhs.archetype) && level.includes(rhs.archetype));
 
             if (found.length === 0) throw error.message.mismatchArchetype(lhs, rhs);

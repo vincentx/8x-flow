@@ -46,6 +46,41 @@ describe("Parsing Context", () => {
         expect(ctx.result.models[0].archetype).toBe('domain');
     });
 
+
+    test.each([["system", "role"],
+        ["domain", "role"],
+        ["contract", "evidence"],
+        ["agreement", "evidence"],
+        ["proposal", "evidence"],
+        ["rfp", "evidence"],
+        ["fulfillment", "evidence"],
+        ["variform", "evidence"],
+        ["details", "evidence"],
+
+        ["contract", "participant"],
+        ["agreement", "participant"],
+        ["proposal", "participant"],
+        ["rfp", "participant"],
+        ["fulfillment", "participant"],
+        ["variform", "participant"],
+        ["evidence", "participant"],
+        ["details", "participant"],
+
+        ["system", "participant"],
+        ["domain", "participant"],
+        ["role", "participant"],
+
+        ["party", "participant"],
+        ["place", "participant"],
+        ["thing", "participant"]])("should use specific %s over %s", (specific, general) => {
+        let ctx = context();
+
+        ctx.model({id: 'Buyer', desc: 'desc', 'archetype': general});
+        ctx.model({id: 'Buyer', desc: 'desc', 'archetype': specific});
+
+        expect(ctx.result.models[0].archetype).toBe(specific);
+    })
+
     test("should not merge specific role with general one", () => {
         let ctx = context();
 
@@ -54,6 +89,16 @@ describe("Parsing Context", () => {
 
         expect(ctx.result.models[0].archetype).toBe('domain');
     });
+
+    test("should merge same archetype", () => {
+        let ctx = context();
+
+        ctx.model({id: 'Buyer', desc: 'desc', 'archetype': 'details'});
+        ctx.model({id: 'Buyer', desc: 'desc', 'archetype': 'details'});
+
+        expect(ctx.result.models[0].archetype).toBe('details');
+    });
+
 
     test("should not redefined with incompatible archetype", () => {
         let ctx = context();
