@@ -26,11 +26,15 @@ export const json = function (type) {
             },
             {
                 "id": "Invoice",
-                "archetype": "evidence"
+                "archetype": "evidence",
+                "desc": "",
+                "attributes": []
             },
             {
                 "id": "Receipt",
-                "archetype": "evidence"
+                "archetype": "evidence",
+                "desc": "",
+                "attributes": []
             }
         ],
         "relationships": [

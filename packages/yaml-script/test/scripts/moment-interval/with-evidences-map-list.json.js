@@ -14,7 +14,9 @@ export const json = function (type) {
             },
             {
                 "id": "Clearance Form",
-                "archetype": "evidence"
+                "archetype": "evidence",
+                "desc": "",
+                "attributes": []
             }
         ],
         "relationships": [

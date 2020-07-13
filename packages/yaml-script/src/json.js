@@ -10,9 +10,9 @@ export function jsonContext(context) {
         return function (name, desc, attributes) {
             return context.model({
                 id: name,
-                desc: desc,
+                desc: desc || "",
                 archetype: archetype,
-                attributes: attributes
+                attributes: attributes || []
             });
         }
     }
