@@ -58,8 +58,8 @@ describe("Parsing Context", () => {
     test("should not redefined with incompatible archetype", () => {
         let ctx = context();
 
-        ctx.model({id: 'Buyer', desc: 'desc', 'archetype': 'participant'});
-        expect(() => ctx.model({id: 'Buyer', desc: 'desc', 'archetype': 'domain'}))
-            .toThrow("Buyer can not be redefined as 'domain'");
+        ctx.model({id: 'Buyer', desc: 'desc', 'archetype': 'domain'});
+        expect(() => ctx.model({id: 'Buyer', desc: 'desc', 'archetype': 'contract'}))
+            .toThrow("Buyer can not be redefined as 'contract'");
     });
 });

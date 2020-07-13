@@ -6,6 +6,13 @@ export const json = function (type) {
                 "desc": "",
                 "archetype": type,
                 "attributes": []
+            },
+
+            {
+                "id": "Account",
+                "desc": "",
+                "archetype": "participant",
+                "attributes": []
             }
         ],
         "relationships": [

@@ -9,16 +9,28 @@ export default function context() {
     let archetype = [
         ["system", "role"],
         ["domain", "role"],
-        ["role", "participant"],
-        ["party", "participant"],
-        ["place", "participant"],
-        ["thing", "participant"],
         ["contract", "evidence"],
         ["agreement", "evidence"],
         ["proposal", "evidence"],
         ["rfp", "evidence"],
         ["fulfillment", "evidence"],
         ["variform", "evidence"],
+
+        ["contract", "participant"],
+        ["agreement", "participant"],
+        ["proposal", "participant"],
+        ["rfp", "participant"],
+        ["fulfillment", "participant"],
+        ["variform", "participant"],
+        ["evidence", "participant"],
+
+        ["system", "participant"],
+        ["domain", "participant"],
+        ["role", "participant"],
+
+        ["party", "participant"],
+        ["place", "participant"],
+        ["thing", "participant"],
     ];
 
     let models = {};
