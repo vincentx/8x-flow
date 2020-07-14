@@ -1,0 +1,59 @@
+# Personal Shop
+# Personal shop is a simple e-shop which does not
+# involve complicated backend systems.
+# The overall procedure starts with a customer
+# placed on the website. The owner of the shop
+# will check the inventory to see if any of the
+# purchased items are out of stock. If so, the
+# owner will put these items into a separated back
+# order. And ask the customer to accept back orders.
+# After the customer paid. The owner will shop
+# out the in-stock items. And later the back orders.
+
+- rfp: Order Request
+  key_timestamps: placed_at
+  participants: _Customers
+  details:
+    Order Item:
+      key_data: amount
+      evidences: SKU
+
+- proposal: Order Proposal
+  key_timestamps: proposed_at
+  evidences: Order Request
+  participants: _Inventory Manager
+  details:
+    - Order Item
+    - Back Order Item:
+        key_data: amount
+        evidences: SKU
+
+- contract: Order
+  key_timestamps: placed_at
+  participants: _Customers, Account, Address
+  details:
+    - Order Item
+    - Back Order Item
+  fulfillment:
+    - Order Payment:
+        request:
+          participants: Account
+    - Shipment:
+        request:
+          participants: Address
+        confirm:
+          evidences: Shipment
+
+- evidence: Shipment
+  key_timestamps: shipped_at
+  details:
+    - Shipment Item:
+        key_data: amount
+        participants: Product
+
+- thing: Product
+  relates: SKU
+
+- evidence: SKU
+  key_timestamps: shelved_at
+  key_data: price

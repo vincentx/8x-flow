@@ -1,0 +1,5 @@
+{
+  "E-Shop Rudimentary": "/8x-flows/examples/personal-shop/01.rudimentary.yaml",
+  "E-Shop Payments": "/8x-flows/examples/personal-shop/01.payments.yaml",
+  "E-Shop Shipments": "/8x-flows/examples/personal-shop/01.shipments.yaml"
+}

@@ -1,0 +1,76 @@
+# Personal Shop
+# Pretty much same with the rudimentary personal shop
+# But this one support online and offline payment.
+
+
+- rfp: Order Request
+  key_timestamps: placed_at
+  participants: _Customers
+  details:
+    Order Item:
+      key_data: amount
+      evidences: SKU
+
+- proposal: Order Proposal
+  key_timestamps: proposed_at
+  evidences: Order Request
+  participants: _Inventory Manager
+  details:
+    - Order Item
+    - Back Order Item:
+        key_data: amount
+        evidences: SKU
+
+- contract: Order
+  key_timestamps: placed_at
+  participants: _Customer, Account, Address
+  details:
+    - Order Item
+    - Back Order Item
+  fulfillment:
+    - Order Payment:
+        request:
+          participants: Account
+        confirm:
+          variform: yes
+    - Shipment:
+        request:
+          participants: Address
+        confirm:
+          evidences: Shipment
+
+- evidence: Shipment
+  key_timestamps: shipped_at
+  details:
+    - Shipment Item:
+        key_data: amount
+        participants: Product
+
+- evidence: Transaction
+  key_timestamps: confirmed_at
+  key_data: total
+  plays: _Order Payment Confirmation
+  participants: Customer, Account
+
+- evidence: Online Payment Request
+  key_timestamps: requested_at
+  key_data: total
+  participants: Customer
+
+- evidence: Online Payment Confirmation
+  evidences: Online Payment Request
+  key_timestamps: confirmed_at
+  key_data: total
+  participants: _Online Payment
+  plays: _Order Payment Confirmation
+
+- thing: Product
+  relates: SKU
+
+- evidence: SKU
+  key_timestamps: shelved_at
+  key_data: price
+
+- system: Online Payment
+
+
