@@ -69,11 +69,13 @@ describe("ModelEditor", () => {
         expect(component.vm.$data.yaml).toBe("role: Buyer");
     });
 
-    test("should load example list from server", async () => {
-        let component = await shallowMount(ModelEditor);
-        let examples = await component.vm.examples;
-        expect(examples.length).toBe(1);
-        expect(examples[0].name).toBe("name");
-        expect(examples[0].uri).toBe("uri");
+    test("should load example list from server",  async () => {
+        let component = shallowMount(ModelEditor);
+
+        await component.vm.loadExamples();
+
+        expect(component.vm.$data.examples.length).toBe(1);
+        expect(component.vm.$data.examples[0].name).toBe("name");
+        expect(component.vm.$data.examples[0].uri).toBe("uri");
     });
 });

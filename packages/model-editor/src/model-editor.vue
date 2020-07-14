@@ -27,6 +27,7 @@
                                 <div class="dropdown-content">
                                     <a href="#" class="dropdown-item"
                                        v-for="example in examples"
+                                       v-bind:key="example.name"
                                        @click="loadExample(example.uri)">
                                         {{example.name}}
                                     </a>
@@ -86,8 +87,8 @@
                 examples: []
             }
         },
-        mounted() {
-            fetch("/8x-flow/examples/index.json").then(_ => this.examples = _.json());
+        beforeMount() {
+            this.loadExamples();
         },
         computed: {
             graph: function () {
@@ -107,7 +108,13 @@
                 saveAs(new Blob([svg], {type: "image/svg+xml;charset=utf-8"}), "models.svg");
             },
             async loadExample(uri) {
-                this.yaml = await fetch(uri).then(_ => _.text());
+                let response = await fetch(uri);
+                this.yaml = await response.text();
+            },
+
+            async loadExamples() {
+                let response = await fetch("/8x-flow/examples/index.json");
+                this.examples = await response.json();
             }
         }
     }
