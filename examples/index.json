@@ -1,5 +1,14 @@
-{
-  "E-Shop Rudimentary": "/8x-flows/examples/personal-shop/01.rudimentary.yaml",
-  "E-Shop Payments": "/8x-flows/examples/personal-shop/01.payments.yaml",
-  "E-Shop Shipments": "/8x-flows/examples/personal-shop/01.shipments.yaml"
-}
+[
+  {
+    "name": "E-Shop Rudimentary",
+    "uri": "/8x-flows/examples/personal-shop/01.rudimentary.yaml"
+  },
+  {
+    "name": "E-Shop Payments",
+    "uri": "/8x-flows/examples/personal-shop/02.payments.yaml"
+  },
+  {
+    "name": "E-Shop Shipments",
+    "uri": "/8x-flows/examples/personal-shop/03.shipments.yaml"
+  }
+]
