@@ -15,6 +15,9 @@ export function parse(script) {
 
 function parseModel(context, model) {
     if (!model) return;
+
+     if (!["contract", "rfp", "proposal", "evidence", "agreement", "party", "place", "thing", "role", "domain", "system"].includes(Object.keys(model)[0])) throw error.message.unknownType(Object.keys(model)[0]);
+
     ["contract", "rfp", "proposal", "evidence", "agreement"]
         .filter(type => model[type])
         .forEach((type) => parseMomentInterval(context, withId(model, model[type]), context.model[type]));
