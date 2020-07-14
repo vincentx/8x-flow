@@ -16,17 +16,23 @@ export function parse(script) {
 function parseModel(context, model) {
     if (!model) return;
 
-     if (!["contract", "rfp", "proposal", "evidence", "agreement", "party", "place", "thing", "role", "domain", "system"].includes(Object.keys(model)[0])) throw error.message.unknownType(Object.keys(model)[0]);
+    let contractTypes = ["contract", "rfp", "proposal", "evidence", "agreement"];
+    let participantTypes = ["party", "place", "thing"];
+    let roleTypes = ["role", "domain", "system"];
+    let validTypes = contractTypes.concat(participantTypes).concat(roleTypes);
 
-    ["contract", "rfp", "proposal", "evidence", "agreement"]
+    let modelType = Object.keys(model)[0];
+    if (!validTypes.includes(modelType)) throw error.message.unknownType(modelType);
+
+    contractTypes
         .filter(type => model[type])
         .forEach((type) => parseMomentInterval(context, withId(model, model[type]), context.model[type]));
 
-    ["party", "place", "thing"]
+    participantTypes
         .filter(type => model[type])
         .forEach((type) => parseParticipant(context, withId(model, model[type]), context.model[type]));
 
-    ["role", "domain", "system"]
+    roleTypes
         .filter(type => model[type])
         .forEach((type) => parseRole(context, withId(model, model[type]), context.model[type]));
 
