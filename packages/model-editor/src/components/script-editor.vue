@@ -42,6 +42,12 @@
                 this.editor.performLint();
                 this.$emit('input', this.script);
             });
+        },
+        watch: {
+            yaml(value) {
+                this.editor.setValue(value);
+                this.editor.performLint();
+            }
         }
     }
 </script>

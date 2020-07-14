@@ -68,4 +68,13 @@ describe("ScriptEditor", () => {
         expect(editor.getHelper(CodeMirror.Pos(0, 0), "lint")).toBe(parse);
     });
 
+    test("should refresh content when yaml changes",() => {
+        let component = shallowMount(ScriptEditor);
+
+        component.vm.$options.watch.yaml.call(component.vm, "contract: Order");
+
+        let editor = component.vm.$root.$children[0].editor;
+        expect(editor.getValue()).toBe("contract: Order");
+    });
+
 });
