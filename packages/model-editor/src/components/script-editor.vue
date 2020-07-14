@@ -23,7 +23,7 @@
                 script: ""
             }
         },
-        props: ["yaml"],
+        props: ["value"],
         mounted() {
             this.editor = CodeMirror.fromTextArea(this.$refs.textarea, {
                 mode: "text/yaml",
@@ -35,7 +35,7 @@
                 lint: true
             });
 
-            this.editor.setValue(this.yaml || this.script);
+            this.editor.setValue(this.value || this.script);
 
             this.editor.on("change", (script) => {
                 this.script = script.getValue();
@@ -44,8 +44,9 @@
             });
         },
         watch: {
-            yaml(value) {
-                this.editor.setValue(value);
+            value(val) {
+                this.script = val;
+                this.editor.setValue(val);
                 this.editor.performLint();
             }
         }

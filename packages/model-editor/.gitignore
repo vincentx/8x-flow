@@ -25,3 +25,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+public/8x-flow

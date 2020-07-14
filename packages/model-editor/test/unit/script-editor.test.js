@@ -34,7 +34,7 @@ describe("ScriptEditor", () => {
     });
 
     test("should pass code to code mirror via yaml", () => {
-        let component = shallowMount(ScriptEditor, {propsData: {yaml: "contract: Order"}});
+        let component = shallowMount(ScriptEditor, {propsData: {value: "contract: Order"}});
         let editor = component.vm.$root.$children[0].editor;
 
         expect(editor.getValue()).toBe("contract: Order");
@@ -62,7 +62,7 @@ describe("ScriptEditor", () => {
     });
 
     test("should mount lint to code mirror", () => {
-        let component = shallowMount(ScriptEditor, {propsData: {yaml: "contract: Order"}});
+        let component = shallowMount(ScriptEditor, {propsData: {value: "contract: Order"}});
         let editor = component.vm.$root.$children[0].editor;
 
         expect(editor.getHelper(CodeMirror.Pos(0, 0), "lint")).toBe(parse);
@@ -71,7 +71,7 @@ describe("ScriptEditor", () => {
     test("should refresh content when yaml changes",() => {
         let component = shallowMount(ScriptEditor);
 
-        component.vm.$options.watch.yaml.call(component.vm, "contract: Order");
+        component.vm.$options.watch.value.call(component.vm, "contract: Order");
 
         let editor = component.vm.$root.$children[0].editor;
         expect(editor.getValue()).toBe("contract: Order");
