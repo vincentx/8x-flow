@@ -82,8 +82,12 @@
                 cached_graph: {
                     models: [],
                     relationships: []
-                }
+                },
+                examples: []
             }
+        },
+        mounted() {
+            fetch("/8x-flow/examples/index.json").then(_ => this.examples = _.json());
         },
         computed: {
             graph: function () {
@@ -93,9 +97,6 @@
                 }
                 return this.cached_graph;
             },
-            examples: async function () {
-                return await fetch("/8x-flow/examples/index.json").then(_ => _.json());
-            }
         },
         methods: {
             downloadScript() {

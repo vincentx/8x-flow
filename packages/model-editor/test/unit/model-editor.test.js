@@ -11,7 +11,10 @@ import fetchMock from "jest-fetch-mock";
 fetchMock.enableMocks();
 
 describe("ModelEditor", () => {
-    beforeEach(() => fetchMock.resetMocks())
+    beforeEach(() => {
+        fetchMock.resetMocks();
+        fetchMock.mockResponse(JSON.stringify([{name: "name", uri: "uri"}]));
+    });
 
     test("should init editor and viewer with empty data", () => {
         let component = shallowMount(ModelEditor, {});
@@ -67,10 +70,7 @@ describe("ModelEditor", () => {
     });
 
     test("should load example list from server", async () => {
-        fetchMock.mockResponse(JSON.stringify([{name: "name", uri: "uri"}]));
-
-        let component = shallowMount(ModelEditor);
-
+        let component = await shallowMount(ModelEditor);
         let examples = await component.vm.examples;
         expect(examples.length).toBe(1);
         expect(examples[0].name).toBe("name");
