@@ -15,6 +15,26 @@
             </div>
 
             <div class="navbar-menu">
+                <div class="navbar-start">
+                    <div class="navbar-item">
+                        <div class="dropdown is-hoverable">
+                            <div class="dropdown-trigger">
+                                <button class="button" aria-haspopup="true" aria-controls="examples">
+                                    <span>Examples</span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="examples" role="menu">
+                                <div class="dropdown-content">
+                                    <a href="#" class="dropdown-item"
+                                       v-for="example in examples"
+                                       @click="loadExample(example.uri)">
+                                        {{example.name}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
@@ -59,7 +79,6 @@
             return {
                 logo: logo,
                 yaml: "",
-                stop: true,
                 cached_graph: {
                     models: [],
                     relationships: []
@@ -73,6 +92,9 @@
                 } catch (e) {
                 }
                 return this.cached_graph;
+            },
+            examples: async function () {
+                return await fetch("/8x-flow/examples/index.json").then(_ => _.json());
             }
         },
         methods: {
@@ -82,6 +104,9 @@
             downloadGraph() {
                 let svg = `<?xml version="1.0" standalone="no"?>\r\n${this.$refs.viewer.$el.querySelector("svg").outerHTML}`;
                 saveAs(new Blob([svg], {type: "image/svg+xml;charset=utf-8"}), "models.svg");
+            },
+            async loadExample(uri) {
+                this.yaml = await fetch(uri).then(_ => _.text());
             }
         }
     }

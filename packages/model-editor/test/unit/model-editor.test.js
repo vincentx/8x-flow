@@ -6,8 +6,13 @@ import ScriptEditor from '../../src/components/script-editor';
 jest.mock("file-saver", () => ({saveAs: jest.fn()}));
 
 import {saveAs} from "file-saver";
+import fetchMock from "jest-fetch-mock";
+
+fetchMock.enableMocks();
 
 describe("ModelEditor", () => {
+    beforeEach(() => fetchMock.resetMocks())
+
     test("should init editor and viewer with empty data", () => {
         let component = shallowMount(ModelEditor, {});
 
@@ -51,5 +56,24 @@ describe("ModelEditor", () => {
 
         component.vm.downloadGraph();
         expect(saveAs).toHaveBeenCalledWith(new Blob([svg], {type: "image/svg+xml;charset=utf-8"}), "models.svg");
+    });
+
+    test("should load example file from uri", async () => {
+        fetchMock.mockResponse("role: Buyer");
+
+        let component = shallowMount(ModelEditor);
+        await component.vm.loadExample("uri");
+        expect(component.vm.$data.yaml).toBe("role: Buyer");
+    });
+
+    test("should load example list from server", async () => {
+        fetchMock.mockResponse(JSON.stringify([{name: "name", uri: "uri"}]));
+
+        let component = shallowMount(ModelEditor);
+
+        let examples = await component.vm.examples;
+        expect(examples.length).toBe(1);
+        expect(examples[0].name).toBe("name");
+        expect(examples[0].uri).toBe("uri");
     });
 });
