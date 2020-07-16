@@ -68,7 +68,7 @@ describe("ScriptEditor", () => {
         expect(editor.getHelper(CodeMirror.Pos(0, 0), "lint")).toBe(parse);
     });
 
-    test("should refresh content when yaml changes",() => {
+    test("should refresh content when yaml changes", () => {
         let component = shallowMount(ScriptEditor);
 
         component.vm.$options.watch.value.call(component.vm, "contract: Order");
@@ -77,4 +77,14 @@ describe("ScriptEditor", () => {
         expect(editor.getValue()).toBe("contract: Order");
     });
 
+
+    test("should not refresh content when yaml not changes", () => {
+        let component = shallowMount(ScriptEditor);
+
+        component.vm.$data.script = "contract: Order";
+        component.vm.$options.watch.value.call(component.vm, "contract: Order");
+
+        let editor = component.vm.$root.$children[0].editor;
+        expect(editor.getValue()).toBe("");
+    });
 });

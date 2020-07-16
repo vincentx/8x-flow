@@ -45,9 +45,11 @@
         },
         watch: {
             value(val) {
-                this.script = val;
-                this.editor.setValue(val);
-                this.editor.performLint();
+                if (this.script !== val) {
+                    this.script = val;
+                    this.editor.setValue(val);
+                    this.editor.performLint();
+                }
             }
         }
     }
