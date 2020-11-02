@@ -2,8 +2,9 @@
 
 
 ## 注意事项
-1. 8X-Flow 首先是基于yaml 文件的，所以，yaml 文件必须正确，可以通过 yaml 验证器，验证 yaml 文件正确
+1. 8X-Flow 首先是基于yaml 文件的，所以，yaml 文件必须正确，可以通过 [yaml 验证器](https://codebeautify.org/yaml-validator) ，验证 yaml 文件正确
 2. 建议小步迭代，每写一个部分，就在 [模型查看器](https://vincentx.github.io/8x-flow/#) 验证，然后下一部分，比如说，第一步 RFP；第二步 Proposal；第三步 Contract
+3. 如果想看更加细节的 DSL 实现，可以 [参考源码](https://github.com/vincentx/8x-flow/tree/master/packages/yaml-script/src) ，具体的模型定义 [可以参考](https://github.com/vincentx/8x-flow/blob/master/packages/yaml-script/src/json.js)
 
 ## DSL Overview
 本质上，yaml 文件声明各种模型和关系，比如拿最简单的合同来说
